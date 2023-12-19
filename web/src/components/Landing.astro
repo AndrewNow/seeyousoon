@@ -1,0 +1,275 @@
+---
+import { Image } from "astro:assets";
+import image1 from "../assets/landing/landing1.png";
+import image2 from "../assets/landing/landing2.png";
+import image3 from "../assets/landing/landing3.png";
+import image4 from "../assets/landing/landing4.png";
+import star from "../assets/star.png";
+---
+
+<div class="wrapper" id="wrapper">
+  <Image src={image1} alt="image 1" quality={100} id="image1" />
+  <Image src={image2} alt="image 2" quality={100} id="image2" />
+  <Image src={image3} alt="image 3" quality={100} id="image3" />
+  <Image src={image4} alt="image 4" quality={100} id="image4" />
+  <Image src={star} alt="star" quality={100} id="star1" />
+  <Image src={star} alt="star" quality={100} id="star2" />
+  <Image src={star} alt="star" quality={100} id="star3" />
+  <Image src={star} alt="star" quality={100} id="star4" />
+</div>
+
+<style lang="scss">
+  .wrapper {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    background: var(--beige);
+    overflow: hidden;
+  }
+
+  #image1,
+  #image2,
+  #image3,
+  #image4 {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #image1 {
+    transform: translate(-50%, -50%) rotate(3deg);
+  }
+  #image2 {
+    transform: translate(-50%, -50%) rotate(-3deg);
+  }
+  #image3 {
+    transform: translate(-50%, -50%) rotate(5deg);
+  }
+  #image4 {
+    transform: translate(-50%, -50%) rotate(3deg);
+  }
+  #star1,
+  #star2,
+  #star3,
+  #star4 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+  }
+</style>
+
+<script>
+  import { animate } from "motion";
+
+  const wrapper = document.getElementById("wrapper");
+
+  const image1 = document.getElementById("image1");
+  const image2 = document.getElementById("image2");
+  const image3 = document.getElementById("image3");
+  const image4 = document.getElementById("image4");
+
+  const star1 = document.getElementById("star1");
+  const star2 = document.getElementById("star2");
+  const star3 = document.getElementById("star3");
+  const star4 = document.getElementById("star4");
+
+  animate(
+    image1,
+    {
+      transform: `translate(-275%, -50%) rotate(0deg)`,
+    },
+    {
+      delay: 1,
+      duration: 1.85,
+      easing: [0.215, 0.61, 0.355, 1],
+    }
+  ).finished.then(() => {
+    animate(
+      image1,
+      {
+        transform: `translate(-275%, 250%) rotate(6deg)`,
+      },
+      {
+        delay: 0.1,
+        duration: 0.75,
+        easing: [0.7, 0, 0.84, 0],
+      }
+    );
+  });
+  animate(
+    image2,
+    {
+      transform: `translate(-125%, -50%) rotate(0deg)`,
+    },
+    {
+      delay: 1,
+      duration: 1.85,
+      easing: [0.215, 0.61, 0.355, 1],
+    }
+  ).finished.then(() => {
+    animate(
+      image2,
+      {
+        transform: `translate(-125%, 250%) rotate(-30deg)`,
+      },
+      {
+        delay: 0.1,
+        duration: 0.75,
+        easing: [0.7, 0, 0.84, 0],
+      }
+    );
+  });
+  animate(
+    image3,
+    {
+      transform: `translate(25%, -50%) rotate(0deg)`,
+    },
+    {
+      delay: 1,
+      duration: 1.85,
+      easing: [0.215, 0.61, 0.355, 1],
+    }
+  ).finished.then(() => {
+    animate(
+      image3,
+      {
+        transform: `translate(25%, 250%) rotate(50deg)`,
+      },
+      {
+        delay: 0.12,
+        duration: 0.75,
+        easing: [0.7, 0, 0.84, 0],
+      }
+    );
+  });
+  animate(
+    image4,
+    {
+      transform: `translate(175%, -50%) rotate(0deg)`,
+    },
+    {
+      delay: 1,
+      duration: 1.85,
+      easing: [0.215, 0.61, 0.355, 1],
+    }
+  ).finished.then(() => {
+    animate(
+      image4,
+      {
+        transform: `translate(175%, 250%) rotate(-20deg)`,
+      },
+      {
+        delay: 0.1,
+        duration: 0.75,
+        easing: [0.7, 0, 0.84, 0],
+      }
+    );
+  });
+
+  // stars
+  animate(
+    star1,
+    {
+      transform: `translate(375%, 200%)`,
+    },
+    {
+      delay: 1,
+      duration: 1.85,
+      easing: [0.215, 0.61, 0.355, 1],
+    }
+  ).finished.then(() => {
+    animate(
+      star1,
+      {
+        transform: `translate(375%, 500%)`,
+      },
+      {
+        delay: 0.1,
+        duration: 0.75,
+        easing: [0.7, 0, 0.84, 0],
+      }
+    );
+  });
+  animate(
+    star2,
+    {
+      transform: `translate(-305%, 100%)`,
+    },
+    {
+      delay: 1,
+      duration: 1.85,
+      easing: [0.215, 0.61, 0.355, 1],
+    }
+  ).finished.then(() => {
+    animate(
+      star2,
+      {
+        transform: `translate(-305%, 500%)`,
+      },
+      {
+        delay: 0.1,
+        duration: 0.75,
+        easing: [0.7, 0, 0.84, 0],
+      }
+    );
+  });
+  animate(
+    star3,
+    {
+      transform: `translate(-405%, -300%)`,
+    },
+    {
+      delay: 1,
+      duration: 1.85,
+      easing: [0.215, 0.61, 0.355, 1],
+    }
+  ).finished.then(() => {
+    animate(
+      star3,
+      {
+        transform: `translate(-305%, 500%)`,
+      },
+      {
+        delay: 0.1,
+        duration: 0.75,
+        easing: [0.7, 0, 0.84, 0],
+      }
+    );
+  });
+  animate(
+    star4,
+    {
+      transform: `translate(215%, -300%)`,
+    },
+    {
+      delay: 1.1,
+      duration: 1.85,
+      easing: [0.215, 0.61, 0.355, 1],
+    }
+  ).finished.then(() => {
+    animate(
+      star4,
+      {
+        transform: `translate(215%, 500%)`,
+      },
+      {
+        delay: 0.1,
+        duration: 0.75,
+        easing: [0.7, 0, 0.84, 0],
+      }
+    ).finished.then(() => {
+      animate(wrapper, {
+        opacity: 0,
+        display: "none",
+      });
+    });
+  });
+</script>
