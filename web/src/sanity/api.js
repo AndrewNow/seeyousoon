@@ -1,4 +1,4 @@
-import { useSanityClient, groq } from 'astro-sanity';
+// import { useSanityClient, groq } from 'astro-sanity';
 // import { createClient } from '@sanity/client'
 
 // const client = createClient ({
@@ -8,8 +8,10 @@ import { useSanityClient, groq } from 'astro-sanity';
 //   apiVersion: '2024-01-22',
 // })
 
+import { sanityClient } from 'sanity:client'
+
 export async function getPastEvents() {
-  const pastEvents = await useSanityClient().fetch(
+  const pastEvents = await sanityClient.fetch(
     `*[_type == "pastEvents"]{
     _id,
     title,
