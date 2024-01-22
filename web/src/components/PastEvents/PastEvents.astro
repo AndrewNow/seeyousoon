@@ -1,0 +1,123 @@
+---
+import PastEventEntry from './PastEventEntry.astro'
+import sample from '../../assets/pastEvents/sample.png'
+
+const eventData = [
+  {
+    title: "Eastroom Rooftop w/ Kotn",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sapien augue, dapibus in sagittis nec, pretium quis ipsum. Aenean vitae fermentum augue, sit amet congue ipsum.",
+    where: "Toronto, CA",
+    when: "02.12.2023",
+    images: [
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+
+    ],
+  },
+  {
+    title: "Eastroom Rooftop w/ Kotn",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sapien augue, dapibus in sagittis nec, pretium quis ipsum. Aenean vitae fermentum augue, sit amet congue ipsum.",
+    where: "Toronto, CA",
+    when: "02.12.2023",
+    images: [
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+    ],
+  },
+  {
+    title: "Eastroom Rooftop w/ Kotn",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sapien augue, dapibus in sagittis nec, pretium quis ipsum. Aenean vitae fermentum augue, sit amet congue ipsum.",
+    where: "Toronto, CA",
+    when: "02.12.2023",
+    images: [
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+      {
+        src: sample,
+      },
+    ],
+  },
+];
+---
+
+<div class="wrapper">
+  <h1>Past Events</h1>
+  {
+    eventData.map((event) => {
+      return (
+        <div class="pastevent-entry-wrapper">
+          <PastEventEntry eventData={event} />
+        </div>  
+      )
+    })
+  }
+</div>
+
+
+<style lang='scss'>
+  .wrapper {
+    width: 98%;
+    margin: 0 auto;
+    background: var(--brown-bg);
+    
+
+    h1 {
+      color: white;
+      text-align: center;
+    }
+  }
+
+  .pastevent-entry-wrapper {
+    margin: 5rem auto;
+    // width: 95%;
+    // border-top: 1px solid grey;
+  }
+</style>

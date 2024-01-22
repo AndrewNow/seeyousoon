@@ -1,0 +1,95 @@
+---
+import { Image } from "astro:assets";
+const { eventData } = Astro.props;
+---
+
+<div class="event-text-wrapper">
+  <div class="title-area">
+    <h4>
+      {eventData.title}
+    </h4>
+    <p>{eventData.description}</p>
+  </div>
+  <div class="details-area">
+    <div>
+      Where <br />
+      {eventData.where}
+    </div>
+    <div>
+      When <br />
+      {eventData.when}
+    </div>
+  </div>
+</div>
+<div id="marquee">
+  <div class="image-wrapper">
+    {
+      eventData.images.map((img) => {
+        return <Image src={img.src} alt="image of the event" />;
+      })
+    }
+  </div>
+</div>
+
+<style lang="scss">
+  #marquee {
+    width: 100%;
+    overflow: hidden;
+  }
+  .event-text-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    width: 95%;
+    margin: 5rem auto;
+    h4,
+    p {
+      color: white;
+    }
+  }
+
+  .title-area {
+    flex: 1.5;
+    max-width: 50%;
+    p {
+      width: 65%;
+    }
+  }
+  .details-area {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+  }
+
+  .image-wrapper {
+    display: flex;
+    // overflow-x: auto; /* Enable horizontal scrolling */
+    // cursor: grab; /* Set cursor to grab for better user experience */
+    // scroll-behavior: smooth; /* Enable smooth scrolling */
+    // white-space: nowrap; /* Prevent images from wrapping to the next line */
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-right: 10px; /* Adjust margin between images */
+    }
+  }
+</style>
+
+<script>
+  import marquee from "vanilla-marquee";
+
+  const marquees = document.querySelectorAll("#marquee");
+
+  marquees.forEach((el) => {
+    new marquee(el, {
+      duplicated: true,
+      gap: 0,
+      speed: 50,
+      // pauseOnHover: true,
+      startVisible: true,
+      recalcResize: true,
+    });
+  });
+</script>

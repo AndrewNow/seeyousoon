@@ -1,0 +1,218 @@
+---
+import { Image } from "astro:assets";
+import image1 from "../assets/landing/sys1.png";
+import image2 from "../assets/landing/sys2.png";
+import image3 from "../assets/landing/sys3.png";
+import image4 from "../assets/landing/sys4.png";
+---
+
+<div class="cursor-container">
+  <Image
+    class="landing-image"
+    src={image1}
+    alt="image1"
+    quality={100}
+    id="image1"
+  />
+  <Image
+    class="landing-image"
+    src={image2}
+    alt="image2"
+    quality={100}
+    id="image2"
+  />
+  <Image
+    class="landing-image"
+    src={image3}
+    alt="image3"
+    quality={100}
+    id="image3"
+  />
+  <Image
+    class="landing-image"
+    src={image4}
+    alt="image4"
+    quality={100}
+    id="image4"
+  />
+</div>
+
+<style lang="scss">
+  .cursor-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1738/1232;
+    /* border: 1px solid; */
+    width: 50%;
+    height: auto;
+    // overflow: hidden;
+  }
+
+  .landing-image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+</style>
+
+<script>
+  // declare lerp function
+  const lerp = (current, target, factor) =>
+    current * (1 - factor) + target * factor;
+
+  // grab mouse pos
+  let mousePosition = { x: 0, y: 0 };
+
+  const cursorContainer = document.getElementById("magneticHero-wrapper");
+
+  // Variable to track whether the cursor is inside the container
+  let isCursorInsideContainer = false;
+
+  // Event listener for mouseenter
+  cursorContainer.addEventListener("mouseenter", () => {
+    isCursorInsideContainer = true;
+  });
+
+  // Event listener for mouseleave
+  cursorContainer.addEventListener("mouseleave", () => {
+    isCursorInsideContainer = false;
+  });
+
+  // update mouse pos
+  // window.addEventListener("mousemove", (e) => {
+  //   mousePosition.x = e.pageX;
+  //   mousePosition.y = e.pageY;
+  // });
+
+  cursorContainer.addEventListener("mousemove", (e) => {
+    mousePosition.x = e.pageX;
+    mousePosition.y = e.pageY;
+  });
+
+  // calculate distance
+  const calculateDistance = (x1, y1, x2, y2) => {
+    return Math.hypot(x1 - x2, y1 - y2);
+  };
+
+  // create a magnetic object
+  class MagneticObject {
+    constructor(domElement, { lerp, recenterLerp }) {
+      this.imageElement = domElement;
+      this.boundingClientRect = this.imageElement.getBoundingClientRect();
+      this.triggerArea = 2000;
+      this.lerpFactor = lerp;
+      this.recenterLerpFactor = recenterLerp;
+
+      this.lerpingData = {
+        x: { current: 0, target: 0 },
+        y: { current: 0, target: 0 },
+      };
+
+      this.resizeObserver = new ResizeObserver(() => {
+        this.boundingClientRect = this.imageElement.getBoundingClientRect();
+      });
+
+      this.render();
+      this.resize();
+    }
+
+    resize() {
+      this.resizeObserver.observe(this.imageElement);
+    }
+
+    render() {
+      const distanceFromMouseToCenter = calculateDistance(
+        mousePosition.x,
+        mousePosition.y,
+        this.boundingClientRect.left + this.boundingClientRect.width / 2,
+        this.boundingClientRect.top + this.boundingClientRect.height / 2
+      );
+
+      let targetHolder = { x: 0, y: 0 };
+
+      // if cursor is inside container, use standard lerp. if cursor is outside container, that means animation is resetting, so use recenterLerpFactor value.
+      let LERP_FACTOR = isCursorInsideContainer
+        ? this.lerpFactor
+        : this.recenterLerpFactor;
+
+      // CHECK IF CURSOR IS INSIDE CONTAINER
+      // CHECK IF CURSOR IS INSIDE CONTAINER
+      // CHECK IF CURSOR IS INSIDE CONTAINER
+      if (
+        isCursorInsideContainer &&
+        distanceFromMouseToCenter < this.triggerArea
+      ) {
+        // IF CURSOR IS INSIDE CONTAINER, LERP IT TO MOUSE TARGET
+        // IF CURSOR IS INSIDE CONTAINER, LERP IT TO MOUSE TARGET
+        // IF CURSOR IS INSIDE CONTAINER, LERP IT TO MOUSE TARGET
+
+        this.imageElement.classList.add("focus");
+
+        // get target horizontal position
+        targetHolder.x =
+          (mousePosition.x -
+            (this.boundingClientRect.left +
+              this.boundingClientRect.width / 2)) *
+          0.2;
+
+        // get target vertical position
+        targetHolder.y =
+          (mousePosition.y -
+            (this.boundingClientRect.top +
+              this.boundingClientRect.height / 2)) *
+          0.2;
+      } else {
+        // IF CURSOR IS OUTSIDE CONTAINER, RESET TO CENTER COORDS
+        // IF CURSOR IS OUTSIDE CONTAINER, RESET TO CENTER COORDS
+        // IF CURSOR IS OUTSIDE CONTAINER, RESET TO CENTER COORDS
+
+        this.imageElement.classList.remove("focus");
+
+        // Set targetHolder to move back to the center
+        targetHolder.x = 0;
+        targetHolder.y = 0;
+      }
+
+      // Update target values with the regular interpolation factor for magnetic effect
+      this.lerpingData["x"].target = targetHolder.x;
+      this.lerpingData["y"].target = targetHolder.y;
+
+      for (const item in this.lerpingData) {
+        this.lerpingData[item].current = lerp(
+          this.lerpingData[item].current,
+          this.lerpingData[item].target,
+          LERP_FACTOR
+        );
+      }
+
+      // APPLY THE TRANSFORMATION
+      const { x, y } = this.lerpingData;
+      this.imageElement.style.transform = `translate(${x.current}px, ${y.current}px)`;
+
+      // Continue observing for resize changes if still inside the container
+      if (isCursorInsideContainer) {
+        this.resizeObserver.observe(this.imageElement);
+      }
+
+      // Continue rendering
+      this.animationFrameId = window.requestAnimationFrame(() => this.render());
+    }
+  }
+
+  const img1 = document.getElementById("image1");
+  const img2 = document.getElementById("image2");
+  const img3 = document.getElementById("image3");
+  const img4 = document.getElementById("image4");
+
+  // don't run this on mobile
+  if (window.innerWidth > 576) {
+    new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.05 });
+    new MagneticObject(img2, { lerp: 0.05, recenterLerp: 0.05 });
+    new MagneticObject(img3, { lerp: 0.5, recenterLerp: 0.05 });
+    new MagneticObject(img4, { lerp: 0.1, recenterLerp: 0.05 });
+  }
+</script>
