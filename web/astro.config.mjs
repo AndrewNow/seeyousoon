@@ -5,7 +5,12 @@ import vercel from '@astrojs/vercel/serverless';
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: false,
+    },
+    maxDuration: 8
+  }),
   integrations: [
     sanityIntegration({
       projectId: 'gt0shs9f',
