@@ -1,8 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-// import { Image } from "astro:assets";
 import MagneticHero from "../components/MagneticHero.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
+
+import { getPastEvents } from "../sanity/api";
+
+const pastEventsData = await getPastEvents();
 ---
 
 <Layout title="Welcome to Astro.">
@@ -10,7 +13,7 @@ import PastEvents from "../components/PastEvents/PastEvents.astro";
     <MagneticHero />
   </section>
   <section class="past-events">
-    <PastEvents />
+    <PastEvents data={pastEventsData} />
   </section>
 </Layout>
 

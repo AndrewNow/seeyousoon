@@ -1,10 +1,15 @@
 import { defineConfig } from 'astro/config';
-// import sanity from "astro-sanity";
-// import vercel from '@astrojs/vercel/serverless';
-
-import sanity from "astro-sanity";
+import { sanityIntegration } from "@sanity/astro";
+import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [sanity()]
+  output: 'server',
+  adapter: vercel(),
+  integrations: [sanityIntegration({
+    projectId: 'gt0shs9f',
+    dataset: 'production',
+    apiVersion: '2023-11-07',
+    useCdn: true,
+  })]
 });

@@ -13,11 +13,11 @@ const { eventData } = Astro.props;
   <div class="details-area">
     <div>
       Where <br />
-      {eventData.where}
+      {eventData.location}
     </div>
     <div>
       When <br />
-      {eventData.when}
+      {eventData.date}
     </div>
   </div>
 </div>
@@ -25,7 +25,15 @@ const { eventData } = Astro.props;
   <div class="image-wrapper">
     {
       eventData.images.map((img) => {
-        return <Image src={img.src} alt="image of the event" />;
+        return (
+          <Image
+            src={img.imageSrc}
+            alt={img.altText}
+            width="300"
+            height="375"
+            quality={90}
+          />
+        );
       })
     }
   </div>

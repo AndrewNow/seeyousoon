@@ -89,8 +89,8 @@ import image4 from "../assets/landing/sys4.png";
   // });
 
   cursorContainer.addEventListener("mousemove", (e) => {
-    mousePosition.x = e.pageX;
-    mousePosition.y = e.pageY;
+    mousePosition.x = e.clientX;
+    mousePosition.y = e.clientY;
   });
 
   // calculate distance
