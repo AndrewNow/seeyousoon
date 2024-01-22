@@ -1,11 +1,14 @@
 import { defineConfig } from 'astro/config';
 import { sanityIntegration } from "@sanity/astro";
-import vercelServerless from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  adapter: vercelServerless(),
+  output: 'hybrid',
+  adapter: vercel({
+    edgeMiddleware: true,
+    maxDuration: 8
+  }),
   integrations: [
     sanityIntegration({
       projectId: 'gt0shs9f',
