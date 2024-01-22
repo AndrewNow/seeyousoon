@@ -11,7 +11,7 @@
 import { sanityClient } from 'sanity:client'
 
 export async function getPastEvents() {
-  const pastEvents = await sanityClient.fetch(
+  const pastEvents = await useSanityClient().fetch(
     `*[_type == "pastEvents"]{
     _id,
     title,
