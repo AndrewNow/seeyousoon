@@ -1,6 +1,94 @@
 @import url("./reset.css");
 
+
 :root {
   --beige: #F9F8F3;
-  --brown-bg: #14100E;
+  
+  --beige-300: #F9F8F3;
+  --beige-200: #FBFBF9;
+  --beige-100: #FFFFFD;
+  
+  --brown-400: #100D0B;
+  --brown-300: #1E1510;
+  --brown-200: #433E3A;
+  --brown-100: #6C645D;
+  
+  --grey-300: #8D8D8D;
+  --grey-200: #9F9F9F;
+  --grey-100: #D8D8D8;
+}
+
+@font-face {
+  font-family: "Bradford-Light";
+  src: url("../fonts/Bradford-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Bradford-Book";
+  src: url("../fonts/Bradford-Book.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Denim-Regular";
+  src: url("../fonts/Denim-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Denim-Medium";
+  src: url("../fonts/Denim-Medium.woff2") format("woff2");
+}
+h1, h2, h3, h4, h5, h6, p, small {
+  font-weight: 100;
+}
+
+h1 {
+  font-size: 64px;
+  line-height: 130%;
+  letter-spacing: -0.02rem;
+  font-family: "Bradford-Light";
+}
+
+h2 {
+  font-size: 96px;
+  line-height: 130%;
+  letter-spacing: -0.02rem;
+  font-family: "Bradford-Light";
+}
+
+h3 {
+  font-size: 48px;
+  line-height: 130%;
+  letter-spacing: -0.02rem;
+  font-family: "Denim-Medium";
+}
+
+h4 {
+  font-size: 36px;
+  line-height: 130%;
+  letter-spacing: 0.01rem;
+  font-family: "Bradford-Book";
+}
+
+h5 {
+  font-size: 28px;
+  line-height: 130%;
+  letter-spacing: -0.02rem;
+  font-family: "Bradford-Light";
+}
+
+h6 {
+  font-size: 24px;
+  line-height: 130%;
+  letter-spacing: 0.01rem;
+  font-family: "Denim-Regular";
+}
+
+p {
+  font-size: 22px;
+  line-height: 130%;
+  font-family: "Denim-Regular";
+}
+
+small {
+  font-size: 18px;
+  line-height: 130%;
+  letter-spacing: 0.01rem;
+  font-family: "Denim-Regular";
 }

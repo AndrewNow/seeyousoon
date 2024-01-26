@@ -1,23 +1,63 @@
 ---
 import { Image } from "astro:assets";
 const { eventData } = Astro.props;
+
+function convertDateFormat(inputDate) {
+  // Parse the input date string in the "YYYY-MM-DD" format
+  const parts = inputDate.split("-");
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10);
+  const day = parseInt(parts[2], 10);
+
+  // Create a Date object
+  const dateObject = new Date(year, month - 1, day);
+
+  // Format the date in the "DD-MM-YYYY" format
+  const formattedDate = `${dateObject.getDate().toString().padStart(2, "0")}.${(
+    dateObject.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, "0")}.${dateObject.getFullYear()}`;
+
+  return formattedDate;
+}
+
+const convertedDate = convertDateFormat(eventData.date);
 ---
 
 <div class="event-text-wrapper">
-  <div class="title-area">
-    <h4>
-      {eventData.title}
-    </h4>
-    <p>{eventData.description}</p>
-  </div>
-  <div class="details-area">
-    <div>
-      Where <br />
-      {eventData.location}
+  <div class="event-text-inner">
+    <div class="title-area">
+      <h4>
+        {eventData.title}
+      </h4>
+      <p>
+        <small class="description">
+          {eventData.description}
+        </small>
+      </p>
     </div>
-    <div>
-      When <br />
-      {eventData.date}
+    <div class="details-area">
+      <div>
+        <p>
+          <small>
+            Where <br />
+          </small>
+        </p>
+        <small>
+          {eventData.location}
+        </small>
+      </div>
+      <div>
+        <p>
+          <small>
+            When <br />
+          </small>
+        </p>
+        <small>
+          {convertedDate}
+        </small>
+      </div>
     </div>
   </div>
 </div>
@@ -45,13 +85,25 @@ const { eventData } = Astro.props;
     overflow: hidden;
   }
   .event-text-wrapper {
-    display: flex;
-    justify-content: flex-start;
     width: 95%;
     margin: 5rem auto;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--brown-100);
+
+    .event-text-inner {
+      width: 97.5%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-start;
+    }
+
     h4,
     p {
-      color: white;
+      color: var(--beige-300);
+    }
+
+    p > small {
+      color: var(--grey-300);
     }
   }
 
@@ -72,15 +124,12 @@ const { eventData } = Astro.props;
 
   .image-wrapper {
     display: flex;
-    // overflow-x: auto; /* Enable horizontal scrolling */
-    // cursor: grab; /* Set cursor to grab for better user experience */
-    // scroll-behavior: smooth; /* Enable smooth scrolling */
-    // white-space: nowrap; /* Prevent images from wrapping to the next line */
 
     img {
+      border-radius: 2px;
       max-width: 100%;
       height: auto;
-      margin-right: 10px; /* Adjust margin between images */
+      margin-right: 1.5rem;
     }
   }
 </style>

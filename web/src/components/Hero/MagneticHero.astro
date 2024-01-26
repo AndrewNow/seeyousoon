@@ -1,12 +1,13 @@
 ---
 import { Image } from "astro:assets";
-import image1 from "../assets/landing/sys1.png";
-import image2 from "../assets/landing/sys2.png";
-import image3 from "../assets/landing/sys3.png";
-import image4 from "../assets/landing/sys4.png";
+import image1 from "../../assets/landing/sys1.png";
+import image2 from "../../assets/landing/sys2.png";
+import image3 from "../../assets/landing/sys3.png";
+import image4 from "../../assets/landing/sys4.png";
 ---
 
 <div class="cursor-container">
+  <slot />
   <Image
     class="landing-image"
     src={image1}
@@ -66,7 +67,7 @@ import image4 from "../assets/landing/sys4.png";
 
   const cursorContainer = document.getElementById("magneticHero-wrapper");
 
-  let isCursorInsideContainer = false;
+  let isCursorInsideContainer = true;
   // Event listener for mouseenter
   cursorContainer.addEventListener("mouseenter", () => {
     isCursorInsideContainer = true;
@@ -81,8 +82,8 @@ import image4 from "../assets/landing/sys4.png";
 
   // update mouse pos
   window.addEventListener("mousemove", (e) => {
-    mousePosition.x = e.pageX;
-    mousePosition.y = e.pageY;
+    mousePosition.x = e.clientX;
+    mousePosition.y = e.clientY;
   });
 
   // cursorContainer.addEventListener("mousemove", (e) => {

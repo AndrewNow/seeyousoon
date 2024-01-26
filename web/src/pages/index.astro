@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import MagneticHero from "../components/MagneticHero.astro";
+import MagneticHero from "../components/Hero/MagneticHero.astro";
+import HeroContent from "../components/Hero/HeroContent.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
 
 import { getPastEvents } from "../sanity/api";
@@ -10,6 +11,7 @@ const pastEventsData = await getPastEvents();
 
 <Layout title="Welcome to Astro.">
   <section class="hero" id="magneticHero-wrapper">
+    <HeroContent />
     <MagneticHero />
   </section>
   <section class="past-events">

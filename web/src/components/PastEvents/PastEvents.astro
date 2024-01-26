@@ -3,89 +3,6 @@ import PastEventEntry from "./PastEventEntry.astro";
 import sample from "../../assets/pastEvents/sample.png";
 
 const { data } = Astro.props;
-// const eventData = [
-//   {
-//     title: "Eastroom Rooftop w/ Kotn",
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sapien augue, dapibus in sagittis nec, pretium quis ipsum. Aenean vitae fermentum augue, sit amet congue ipsum.",
-//     where: "Toronto, CA",
-//     when: "02.12.2023",
-//     images: [
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//     ],
-//   },
-//   {
-//     title: "Eastroom Rooftop w/ Kotn",
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sapien augue, dapibus in sagittis nec, pretium quis ipsum. Aenean vitae fermentum augue, sit amet congue ipsum.",
-//     where: "Toronto, CA",
-//     when: "02.12.2023",
-//     images: [
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//     ],
-//   },
-//   {
-//     title: "Eastroom Rooftop w/ Kotn",
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sapien augue, dapibus in sagittis nec, pretium quis ipsum. Aenean vitae fermentum augue, sit amet congue ipsum.",
-//     where: "Toronto, CA",
-//     when: "02.12.2023",
-//     images: [
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//       {
-//         src: sample,
-//       },
-//     ],
-//   },
-// ];
 ---
 
 <div class="wrapper">
@@ -105,17 +22,18 @@ const { data } = Astro.props;
   .wrapper {
     width: 98%;
     margin: 0 auto;
-    background: var(--brown-bg);
+    background: var(--brown-400);
+    border-radius: 8px;
+    overflow: hidden;
 
     h1 {
-      color: white;
+      color: var(--beige-300);
       text-align: center;
+      margin-top: 5rem;
     }
   }
 
   .pastevent-entry-wrapper {
     margin: 5rem auto;
-    // width: 95%;
-    // border-top: 1px solid grey;
   }
 </style>
