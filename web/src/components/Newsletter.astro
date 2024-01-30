@@ -1,0 +1,200 @@
+<!-- Begin Mailchimp Signup Form -->
+<section id="mc_embed_signup" class="newsletter-wrapper">
+  <form
+    action=""
+    method="post"
+    id="mc-embedded-subscribe-form"
+    name="mc-embedded-subscribe-form"
+    class="validate"
+    target="_blank"
+    novalidate
+  >
+    <div id="mc_embed_signup_scroll">
+      <h2>Missed an event?</h2>
+      <p>
+        No bullshit, no spam, just updates about where we're at and things we'd
+        like to share!
+      </p>
+      <div class="mc-field-group">
+        <div class="input-container">
+          <div class="text-input-wrapper">
+            <label for="mce-EMAIL" class="hidden-label">Email address:</label>
+            <input
+              class="email-input"
+              type="email"
+              value=""
+              name="EMAIL"
+              placeholder="test"
+              id="mce-EMAIL"
+              required
+            />
+            <span id="mce-EMAIL-HELPERTEXT" class="helperText"></span>
+          </div>
+          <div class="subscribe-btn-wrapper">
+            <label for="mc-embedded-subscribe" class="subscribe-btn-label"
+              >Sign me up!</label
+            >
+            <input
+              type="submit"
+              value=""
+              name="subscribe"
+              id="mc-embedded-subscribe"
+              class="subscribe-btn"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div id="mce-responses" class="clear foot">
+        <div class="response" id="mce-error-response" style="display:none">
+        </div>
+        <div class="response" id="mce-success-response" style="display:none">
+        </div>
+      </div>
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true">
+        <input
+          type="text"
+          name="b_f12a49713f2b8fffa5a2a5870_113a135fd8"
+          tabindex="-1"
+          value=""
+        />
+      </div>
+    </div>
+  </form>
+</section>
+
+<style lang="scss">
+  .newsletter-wrapper {
+    padding: 10rem 0;
+    margin: 0 auto;
+    text-align: center;
+    h2 {
+      color: var(--brown-300);
+      margin-bottom: 2rem;
+    }
+    p {
+      max-width: 480px;
+      margin: 0 auto;
+      margin-bottom: 4rem;
+      color: var(--grey-300);
+    }
+  }
+
+  .input-container {
+    max-width: 550px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    outline: 1px solid var(--grey-100);
+    background: var(--beige-100);
+    .text-input-wrapper {
+      width: 100%;
+      position: relative;
+      // outline: 1px solid red;
+      .hidden-label {
+        position: absolute;
+        left: -500vw;
+        width: 0px;
+      }
+
+      .email-input {
+        font-family: "Denim-Regular";
+        width: calc(
+          100% - 140px - 2rem - 20px
+        ); // 140px btn width + 10px right margin for subscribe-btn-wrapper, -2rem bc of left padding, 20px bc of left & right margin of the subscribe-btn-wrapper
+        float: left;
+        height: 100%;
+        background: unset;
+        border: unset;
+        color: var(--grey-300);
+        border-radius: 8px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        padding: 1.25rem;
+        padding-left: 2rem;
+        padding-right: 0rem;
+        // outline: 1px solid green;
+
+        ::placeholder {
+          color: var(--grey-200);
+        }
+      }
+    }
+
+    .subscribe-btn-wrapper {
+      background: var(--brown-300);
+      color: var(--beige-300);
+      border-radius: 4px;
+      position: absolute;
+      z-index: 200;
+      height: 100%;
+      right: 10px;
+      width: 140px;
+      // height: 52px;
+      height: calc(100% - 16px);
+      font-size: 18px;
+      
+      .subscribe-btn-label {
+        z-index: 1;
+        position: relative;
+        font-size: 18px !important;
+        white-space: nowrap;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .subscribe-btn {
+        z-index: 2;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: unset;
+        border: unset;
+        padding: 0;
+      }
+    }
+
+    .subscribe-btn-wrapper:hover {
+      transition: var(--hover-transition);
+      cursor: pointer;
+      // .arrowSVG {
+      //   transform: translate(50px, -50px);
+      // }
+      // .hiddenArrow {
+      //   transform: translate(-50%, -50%);
+      // }
+    }
+  }
+</style>
+
+<script
+  type="text/javascript"
+  src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+
+<script type="text/javascript">
+  (function ($) {
+    window.fnames = new Array();
+    window.ftypes = new Array();
+    fnames[0] = "EMAIL";
+    ftypes[0] = "email";
+    fnames[1] = "FNAME";
+    ftypes[1] = "text";
+    fnames[2] = "LNAME";
+    ftypes[2] = "text";
+    fnames[3] = "ADDRESS";
+    ftypes[3] = "address";
+    fnames[4] = "PHONE";
+    ftypes[4] = "phone";
+    fnames[5] = "BIRTHDAY";
+    ftypes[5] = "birthday";
+  })(jQuery);
+  var $mcj = jQuery.noConflict(true);
+</script>

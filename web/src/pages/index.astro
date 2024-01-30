@@ -5,6 +5,7 @@ import HeroContent from "../components/Hero/HeroContent.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
 
 import { getPastEvents } from "../sanity/api";
+import Newsletter from "../components/Newsletter.astro";
 
 const pastEventsData = await getPastEvents();
 ---
@@ -14,6 +15,7 @@ const pastEventsData = await getPastEvents();
     <HeroContent />
     <MagneticHero />
   </section>
+  <Newsletter />
   <section class="past-events">
     <PastEvents data={pastEventsData} />
   </section>

@@ -2,8 +2,6 @@
 
 
 :root {
-  --beige: #F9F8F3;
-  
   --beige-300: #F9F8F3;
   --beige-200: #FBFBF9;
   --beige-100: #FFFFFD;
@@ -19,21 +17,42 @@
 }
 
 @font-face {
+  font-family: "Bradford-Book";
+  src: url("../fonts/Bradford-Book.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
   font-family: "Bradford-Light";
   src: url("../fonts/Bradford-Light.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Bradford-Light-Italic";
+  src: url("../fonts/Bradford-Light-Italic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
 @font-face {
   font-family: "Bradford-Book";
   src: url("../fonts/Bradford-Book.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
 @font-face {
   font-family: "Denim-Regular";
   src: url("../fonts/Denim-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
 @font-face {
   font-family: "Denim-Medium";
   src: url("../fonts/Denim-Medium.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
+
 h1, h2, h3, h4, h5, h6, p, small {
   font-weight: 100;
 }
@@ -80,13 +99,13 @@ h6 {
   font-family: "Denim-Regular";
 }
 
-p {
+p, input {
   font-size: 22px;
   line-height: 130%;
   font-family: "Denim-Regular";
 }
 
-small {
+small, label {
   font-size: 18px;
   line-height: 130%;
   letter-spacing: 0.01rem;
