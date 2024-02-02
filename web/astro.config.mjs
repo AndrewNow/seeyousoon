@@ -7,7 +7,7 @@ export default defineConfig({
   output: "server",
   adapter: netlify({
     edgeMiddleware: true,
-    imageCDN: false,
+    imageCDN: false, // disable this to serve sanity images
   }),
   integrations: [
     sanity({
