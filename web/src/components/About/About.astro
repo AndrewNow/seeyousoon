@@ -72,19 +72,21 @@ import gallery4 from "../../assets/about/gallery-4.png";
         world in search of inspiration, technique, friendship, and new ingredients.
       </p>
     </div>
-    <div class="sticky-right">
+    <div class="sticky-right" id="parallax-container">
       <div class="sticky-right-inner">
-        <p>
-          Deutsche & Japaner works for clients in the fields of fashion, music,
-          culture, lifestyle and beauty, placing great emphasis on sustainable
-          experiences.
-        </p>
-        <Image
-          src={img4}
-          alt="Image of Keith serving food while walking through a cabbage patch."
-          class=""
-          quality={95}
-        />
+        <span>
+          <p>
+            Deutsche & Japaner works for clients in the fields of fashion,
+            music, culture, lifestyle and beauty, placing great emphasis on
+            sustainable experiences.
+          </p>
+          <Image
+            src={img4}
+            alt="Image of Keith serving food while walking through a cabbage patch."
+            class=""
+            quality={95}
+          />
+        </span>
       </div>
     </div>
   </div>
@@ -129,17 +131,14 @@ import gallery4 from "../../assets/about/gallery-4.png";
 </div>
 
 <script>
-  import { animate, inView } from "motion";
+  import { animate, scroll, inView } from "motion";
 
   const gallery1 = document.querySelector("#gallery1");
   const gallery2 = document.querySelector("#gallery2");
   const gallery3 = document.querySelector("#gallery3");
   const gallery4 = document.querySelector("#gallery4");
 
-  const fadeInImg = {
-    opacity: 1,
-  };
-  const fadeInImgTiming = 1.6;
+  const fadeInImgTiming = 1.16;
   const easing = [0.33, 0, 0.37, 1];
 
   inView(gallery1, (info) => {
@@ -151,7 +150,7 @@ import gallery4 from "../../assets/about/gallery-4.png";
       },
       {
         duration: fadeInImgTiming,
-        easing
+        easing,
       }
     );
   });
@@ -164,7 +163,7 @@ import gallery4 from "../../assets/about/gallery-4.png";
       },
       {
         duration: fadeInImgTiming,
-        easing
+        easing,
       }
     );
   });
@@ -177,7 +176,7 @@ import gallery4 from "../../assets/about/gallery-4.png";
       },
       {
         duration: fadeInImgTiming,
-        easing
+        easing,
       }
     );
   });
@@ -190,13 +189,31 @@ import gallery4 from "../../assets/about/gallery-4.png";
       },
       {
         duration: fadeInImgTiming,
-        easing
+        easing,
       }
     );
   });
+
+  const parallaxContainer = document.querySelector("#parallax-container");
+  const parallaxEl = document.querySelector("#parallax");
+  scroll(
+    animate(parallaxEl, {
+      y: [0, 100],
+    }),
+    {
+      target: parallaxContainer,
+      offset: ["start start", "end start"],
+    }
+  );
 </script>
 
 <style lang="scss">
+  #parallax {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   #gallery1,
   #gallery2,
   #gallery3,
@@ -272,6 +289,7 @@ import gallery4 from "../../assets/about/gallery-4.png";
     width: 33%;
 
     .sticky-right-inner {
+      position: relative;
       margin-top: 120vh;
     }
     p {

@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import MagneticHero from "../components/Hero/MagneticHero.astro";
 import HeroContent from "../components/Hero/HeroContent.astro";
+import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
 
 import { getPastEvents } from "../sanity/api";
@@ -16,6 +17,9 @@ const pastEventsData = await getPastEvents();
     <HeroContent />
     <MagneticHero />
   </section>
+  <div class="upcoming-events">
+    <UpcomingEvents />
+  </div>
   <Newsletter />
   <section class="about">
     <About />

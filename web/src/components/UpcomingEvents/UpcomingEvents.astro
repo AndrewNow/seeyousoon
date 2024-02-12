@@ -1,0 +1,281 @@
+---
+const data = [
+  {
+    title: 'Oranj',
+    date: "May 14th | 10pm-3am",
+    location: "915 Dupont",
+    locationLink: "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
+    eventLink: "https://observablehq.com/@plmrry/positioning-text-with-matter-js"
+  },
+  {
+    title: 'Oranj2',
+    date: "May 14th | 10pm-3am",
+    location: "1233 Queen Street West, Toronto, ON",
+    locationLink: "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
+    eventLink: "https://observablehq.com/@plmrry/positioning-text-with-matter-js"
+  },
+  {
+    title: 'Oranj3',
+    date: "May 14th | 10pm-3am",
+    location: "1233 Queen Street West, Toronto, ON",
+    locationLink: "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
+    eventLink: "https://observablehq.com/@plmrry/positioning-text-with-matter-js"
+  },
+]
+
+const cmsData = JSON.stringify(data.reverse()) // reverse so that the latest event comes first
+---
+
+<div class="upcomingEvents-container" id="upcoming-events" data-cms={cmsData}>
+</div>
+
+<style lang='scss' is:global>
+  .upcomingEvents-container {
+    height: 95vh;
+    width: 98%;
+    margin: 5rem auto;
+    background: var(--brown-400);
+    overflow: hidden; /* Ensure the canvas doesn't overflow the container */
+    position: relative;
+    border-radius: 8px;
+  }
+
+  .box {
+    position: absolute;
+    // overflow: hidden;
+    border-radius: 10px;
+    background: var(--beige-100);
+    outline: 1px solid var(--grey-200);
+    position: relative;
+    height: 300px;
+    width: 620px;
+    display: grid;
+    place-items: center;
+  }
+  .upcomingEvents-inner {
+    height: 80%;
+    width: 90%;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    .upcomingEvents-reserve-link {
+      display: grid;
+      place-items: center;
+      height: 50px;
+      border-radius: 6px;
+      width: 100%;
+      outline: 1px solid var(--grey-100);
+      background: var(--beige-200);
+      text-decoration: none;
+      p {
+        color: var(--brown-300);
+      }
+    }
+    .upcomingEvents-header {
+      h3 {
+        line-height: 100%;
+        padding-bottom: 1rem;
+      }
+      .upcomingEvents-details {
+        h6 {
+          display: flex;
+          padding-bottom: .5rem;
+          svg {
+            padding-right: .5rem;
+          }
+        }
+        a {
+          color: var(--grey-300);
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+import * as Matter from 'matter-js';
+
+const containerEl = document.querySelector('#upcoming-events');
+
+const data = JSON.parse(containerEl.getAttribute('data-cms'));
+
+// __________________________________________________________________________________________
+// =====================
+//    initialization
+// =====================
+// setup vars
+const BOX_WIDTH = 620;
+const BOX_HEIGHT = 300;
+
+// module aliases
+const Engine = Matter.Engine,
+Render = Matter.Render,
+Runner = Matter.Runner,
+Bodies = Matter.Bodies,
+Composite = Matter.Composite,
+Events = Matter.Events,
+Mouse = Matter.Mouse,
+MouseConstraint = Matter.MouseConstraint;
+
+// create an engine
+const engine = Engine.create();
+
+// create a renderer
+const render = Render.create({
+  element: containerEl,
+  engine: engine,
+  options: {
+    width: containerEl.offsetWidth,
+    height: containerEl.offsetHeight,
+    wireframes: false,
+    background: "transparent",
+  },
+});
+
+// =====================
+//    create boundaries
+// =====================
+// create ground
+const ground = Bodies.rectangle(
+  containerEl.offsetWidth / 2,
+  containerEl.offsetHeight,
+  containerEl.offsetWidth,
+  10,
+  { isStatic: true }
+);
+
+// create boundaries (walls)
+const leftWall = Bodies.rectangle(0, containerEl.offsetHeight / 2, 1, containerEl.offsetHeight, { isStatic: true });
+const rightWall = Bodies.rectangle(containerEl.offsetWidth, containerEl.offsetHeight / 2, 1, containerEl.offsetHeight, { isStatic: true });
+
+// add all bodies to the world
+Composite.add(engine.world, [ground, leftWall, rightWall]);
+
+// __________________________________________________________________________________________
+
+// =====================
+//    create boxes
+// ===================== 
+// empty array to hold in the box data
+const boxArr = []
+
+// Create each box dynamically according to CMS data
+data.forEach((cmsEntry, i) => {
+  const boxData = Bodies.rectangle(containerEl.offsetWidth / 2, -containerEl.offsetHeight / 2, BOX_WIDTH, BOX_HEIGHT, 
+  { 
+    angle: Math.PI / 4, label: `box${i}`, 
+    // render: {fillStyle: 'transparent'},
+    restitution: .6
+  });
+  boxArr.push({boxData, cmsEntry})
+  
+  setTimeout(() => {
+    Composite.add(engine.world, boxData)
+  }, 550 * (i + 1));
+})
+// __________________________________________________________________________________________
+
+
+// =====================
+//       renderer
+// =====================
+// run the renderer
+Render.run(render);
+// create runner
+let runner = Runner.create();
+// run the engine
+Runner.run(runner, engine);
+
+
+// =====================
+//       mouse
+// =====================
+const mouse = Mouse.create(render.canvas);
+const mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+        stiffness: 0.2,
+        render: {
+            visible: true,
+        },
+    },
+});
+// Add the mouse constraint to the world
+Composite.add(engine.world, mouseConstraint);
+
+// Keep the mouse in sync with rendering
+render.mouse = mouse;
+// __________________________________________________________________________________________
+
+// =====================
+//     box HTML setup
+// =====================
+boxArr.forEach((box, i) => {
+    // Create HTML elements for boxes
+    createHtmlBox(`box${i}`, box.boxData.position.x, box.boxData.position.y, box.boxData.width, box.boxData.height, box.cmsEntry);
+
+    // Attach the afterUpdate event to the Runner
+    Events.on(runner, 'afterUpdate', function() {
+      updateHtmlBox(`box${i}`, box.boxData.position, box.boxData.angle);
+    })
+})
+
+
+
+function createHtmlBox(id, x, y, width, height, cmsEntry) {
+  console.log(`Creating box ${id} with data: ${cmsEntry.title}`);
+
+  const htmlBox = document.createElement('div');
+  htmlBox.id = id;
+  htmlBox.className = 'box';
+  htmlBox.style.width = `${BOX_WIDTH}px`;
+  htmlBox.style.height = `${BOX_HEIGHT}px`;
+  htmlBox.style.left = `${x - BOX_WIDTH / 2}px`;
+  htmlBox.style.top = `${y - BOX_HEIGHT / 2}px`;
+  htmlBox.style.position = 'absolute';
+  htmlBox.style.zIndex = '1';
+  htmlBox.innerHTML = `
+    <div class='upcomingEvents-inner'>
+      <div class='upcomingEvents-header'>
+        <h3>${cmsEntry.title}</h3>
+        <div class='upcomingEvents-details'>
+          <h6>
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z" fill="#9F9F9F"/>
+            </svg>
+            ${cmsEntry.date}
+            <h6>
+              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 3C10.0314 3 6 6.62869 6 11.1C6 18.3 15 27 15 27C15 27 24 18.3 24 11.1C24 6.62869 19.9686 3 15 3ZM15 15.6C14.288 15.6 13.592 15.3889 12.9999 14.9933C12.4079 14.5977 11.9465 14.0355 11.674 13.3777C11.4016 12.7198 11.3303 11.996 11.4692 11.2977C11.6081 10.5993 11.9509 9.95788 12.4544 9.45441C12.9579 8.95095 13.5993 8.60808 14.2977 8.46917C14.996 8.33027 15.7198 8.40156 16.3777 8.67403C17.0355 8.94651 17.5977 9.40793 17.9933 9.99995C18.3889 10.592 18.6 11.288 18.6 12C18.599 12.9545 18.2193 13.8695 17.5444 14.5444C16.8695 15.2193 15.9545 15.599 15 15.6Z" fill="#9F9F9F"/>
+              </svg>
+              <a href=${cmsEntry.locationLink} target="_blank" rel='noreferrer'>
+                ${cmsEntry.location}
+              </a>
+            </h6>
+          </div>
+        </div>
+      <a class="upcomingEvents-reserve-link" href='${cmsEntry.eventLink}' target="_blank" rel='noreferrer'>
+        <p>
+          Reserve
+        </p>
+      </a>
+    </div>
+  `;
+  document.querySelector('#upcoming-events').appendChild(htmlBox);
+}
+
+function updateHtmlBox(id, position, angle) {
+  const htmlBox = document.getElementById(id);
+  if (htmlBox) {
+    const updatedX = position.x;
+    const updatedY = position.y;
+    const updatedAngle = angle;
+
+    // Apply position and rotation
+    htmlBox.style.left = `${updatedX - BOX_WIDTH / 2}px`;
+    htmlBox.style.top = `${updatedY - BOX_HEIGHT / 2}px`;
+    htmlBox.style.transform = `rotate(${updatedAngle}rad)`;
+  }
+}
+</script>
