@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <div class="wrapper">
@@ -7,12 +8,16 @@
   </div>
   <div class="contact">
     <h5>Contact</h5>
-    <h5>
-      @seeyousoon.to
-    </h5>
-    <h5>
-      info@seeyousoon.to
-    </h5>
+    <a
+      href="https://www.instagram.com/seeyousoon.to/"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <h5>@seeyousoon.to</h5>
+    </a>
+    <a href="mailto:info@seeyousoon.to" target="_blank" rel="noreferrer">
+      <h5>info@seeyousoon.to</h5>
+    </a>
   </div>
 </div>
 
@@ -31,6 +36,19 @@
     color: var(--brown-300);
   }
   .contact {
-    
+    position: absolute;
+    bottom: 1rem;
+    z-index: 10;
+    h5 {
+      color: var(--grey-300);
+    }
+
+    a {
+      text-decoration: none;
+      h5 {
+        color: var(--brown-300);
+        font-family: "Bradford-Light-Italic";
+      }
+    }
   }
 </style>

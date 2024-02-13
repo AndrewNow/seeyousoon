@@ -62,13 +62,21 @@ const convertedDate = convertDateFormat(eventData.date);
   </div>
 </div>
 <div id="marquee">
-  <div class="image-wrapper">
+  <div
+    class="image-wrapper"
+    data-image-count={eventData.images.length}
+    id="image-wrapper"
+  >
     {
       eventData.images.map((img) => {
         return (
           <Image
             src={img.imageSrc}
-            alt={img.altText}
+            alt={
+              img.altText
+                ? img.altText
+                : "No descriptive text was entered for this image, sorry!"
+            }
             width="300"
             height="375"
             quality={90}
@@ -128,7 +136,8 @@ const convertedDate = convertDateFormat(eventData.date);
     img {
       border-radius: 2px;
       max-width: 100%;
-      height: auto;
+      height: 375px;
+      width: auto;
       margin-right: 1.5rem;
     }
   }
@@ -138,12 +147,29 @@ const convertedDate = convertDateFormat(eventData.date);
   import marquee from "vanilla-marquee";
 
   const marquees = document.querySelectorAll("#marquee");
+  const imageWrapper = document.querySelector("#image-wrapper");
+  
+  // Calculate marquee speed based on the number of images
+  const calculateMarqueeSpeed = () => {
+    const imageCount = imageWrapper.getAttribute("data-image-count");
+    // Adjust these values as needed to control the speed based on the image count
+    const minSpeed = 50; // Lower bound speed
+    const maxSpeed = 100; // Upper bound speed
+
+    // Calculate the speed based on the image count
+    const calculatedSpeed =
+      minSpeed + (maxSpeed - minSpeed) * (imageCount / 10);
+
+    return calculatedSpeed;
+  };
 
   marquees.forEach((el) => {
+    const marqueeSpeed = calculateMarqueeSpeed();
+
     new marquee(el, {
       duplicated: true,
       gap: 0,
-      speed: 50,
+      speed: marqueeSpeed,
       // pauseOnHover: true,
       startVisible: true,
       recalcResize: true,

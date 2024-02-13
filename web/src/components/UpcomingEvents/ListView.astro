@@ -1,0 +1,102 @@
+---
+const { cmsData } = Astro.props;
+---
+
+<div class="listView-wrapper">
+  {
+    cmsData.map((event) => (
+      <div class="entry">
+        <h3>{event.title}</h3>
+        <div class="details-wrapper">
+          <div>
+            <p>
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z"
+                  fill="#9F9F9F"
+                />
+              </svg>
+              {event.date}
+            </p>
+            <p>
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15 3C10.0314 3 6 6.62869 6 11.1C6 18.3 15 27 15 27C15 27 24 18.3 24 11.1C24 6.62869 19.9686 3 15 3ZM15 15.6C14.288 15.6 13.592 15.3889 12.9999 14.9933C12.4079 14.5977 11.9465 14.0355 11.674 13.3777C11.4016 12.7198 11.3303 11.996 11.4692 11.2977C11.6081 10.5993 11.9509 9.95788 12.4544 9.45441C12.9579 8.95095 13.5993 8.60808 14.2977 8.46917C14.996 8.33027 15.7198 8.40156 16.3777 8.67403C17.0355 8.94651 17.5977 9.40793 17.9933 9.99995C18.3889 10.592 18.6 11.288 18.6 12C18.599 12.9545 18.2193 13.8695 17.5444 14.5444C16.8695 15.2193 15.9545 15.599 15 15.6Z"
+                  fill="#9F9F9F"
+                />
+              </svg>
+              <a href={event.locationLink} target="_blank" rel="noreferrer">
+                {event.location}
+              </a>
+            </p>
+          </div>
+          <a class="reserve" href={event.eventLink}>
+            <small>Reserve</small>
+          </a>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style lang="scss">
+  .listView-wrapper {
+    margin: 0 auto;
+    max-width: min(650px, 98vw);
+    width: 100%;
+    background: var(--beige-100);
+    padding: 10rem 2rem;
+    border-radius: 8px;
+  }
+  .entry {
+    margin: 1rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px dotted var(--grey-300);
+    h3 {
+      margin-bottom: 0.5rem;
+      color: black;
+    }
+    .details-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    p {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: start;
+      a {
+        color: var(--grey-300);
+      }
+      svg {
+        max-width: 25px;
+        height: auto;
+        aspect-ratio: 1/1;
+        padding-right: 0.75rem;
+      }
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .reserve {
+    padding: .75rem 2.5rem;
+    border-radius: 6px;
+    background: var(--beige-200);
+    border: 1px solid var(--grey-100);
+    color: var(--brown-300);
+    text-decoration: none;
+  }
+</style>

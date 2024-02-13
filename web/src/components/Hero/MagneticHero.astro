@@ -7,7 +7,6 @@ import image4 from "../../assets/landing/sys4.png";
 ---
 
 <div class="cursor-container">
-  <slot />
   <Image
     class="landing-image"
     src={image1}
@@ -47,15 +46,15 @@ import image4 from "../../assets/landing/sys4.png";
     display: grid;
     place-items: center;
     aspect-ratio: 1738/1232;
-    /* border: 1px solid; */
-    width: 50%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    // height: auto;
     // overflow: hidden;
   }
 
   .landing-image {
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: auto;
     position: absolute;
   }
 </style>
@@ -82,14 +81,21 @@ import image4 from "../../assets/landing/sys4.png";
 
   // update mouse pos
   window.addEventListener("mousemove", (e) => {
-    mousePosition.x = e.clientX;
-    mousePosition.y = e.clientY;
-  });
+    // // previous logic
+    // mousePosition.x = e.clientX;
+    // mousePosition.y = e.clientY;
+    const container = document.querySelector(".cursor-container");
+    const containerRect = container.getBoundingClientRect();
 
-  // cursorContainer.addEventListener("mousemove", (e) => {
-  //   mousePosition.x = e.clientX;
-  //   mousePosition.y = e.clientY;
-  // });
+    mousePosition.x = Math.max(
+      containerRect.left,
+      Math.min(containerRect.right, e.clientX)
+    );
+    mousePosition.y = Math.max(
+      containerRect.top,
+      Math.min(containerRect.bottom, e.clientY)
+    );
+  });
 
   // calculate distance
   const calculateDistance = (x1, y1, x2, y2) => {
