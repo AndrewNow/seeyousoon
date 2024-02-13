@@ -1,25 +1,18 @@
 ---
 import { Image } from "astro:assets";
-import image1 from "../../assets/landing/sys1.png";
-import image2 from "../../assets/landing/sys2.png";
-import image3 from "../../assets/landing/sys3.png";
-import image4 from "../../assets/landing/sys4.png";
+import image1 from "../../assets/landing/syshero1.png";
+import image2 from "../../assets/landing/syshero2.png";
+import image3 from "../../assets/landing/syshero3.png";
+import image4 from "../../assets/landing/syshero4.png";
 ---
 
 <div class="cursor-container">
   <Image
     class="landing-image"
-    src={image1}
-    alt="image1"
+    src={image4}
+    alt="image4"
     quality={100}
-    id="image1"
-  />
-  <Image
-    class="landing-image"
-    src={image2}
-    alt="image2"
-    quality={100}
-    id="image2"
+    id="image4"
   />
   <Image
     class="landing-image"
@@ -30,10 +23,17 @@ import image4 from "../../assets/landing/sys4.png";
   />
   <Image
     class="landing-image"
-    src={image4}
-    alt="image4"
+    src={image2}
+    alt="image2"
     quality={100}
-    id="image4"
+    id="image2"
+  />
+  <Image
+    class="landing-image"
+    src={image1}
+    alt="image1"
+    quality={100}
+    id="image1"
   />
 </div>
 
@@ -189,9 +189,9 @@ import image4 from "../../assets/landing/sys4.png";
 
   // don't run this on mobile
   if (window.innerWidth > 576) {
-    new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.05 }).initialize();
-    new MagneticObject(img2, { lerp: 0.05, recenterLerp: 0.05 }).initialize();
-    new MagneticObject(img3, { lerp: 0.5, recenterLerp: 0.05 }).initialize();
-    new MagneticObject(img4, { lerp: 0.1, recenterLerp: 0.05 }).initialize();
+    new MagneticObject(img4, { lerp: 0.025, recenterLerp: 0.05 }).initialize();
+    new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.05 }).initialize();
+    new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.05 }).initialize();
+    new MagneticObject(img1, { lerp: 0.1, recenterLerp: 0.05 }).initialize();
   }
 </script>

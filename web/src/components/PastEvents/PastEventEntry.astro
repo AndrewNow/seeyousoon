@@ -79,7 +79,7 @@ const convertedDate = convertDateFormat(eventData.date);
             }
             width="300"
             height="375"
-            quality={90}
+            quality={80}
           />
         );
       })
@@ -145,6 +145,7 @@ const convertedDate = convertDateFormat(eventData.date);
 
 <script>
   import marquee from "vanilla-marquee";
+
   document.addEventListener("DOMContentLoaded", function () {
     const marquees = document.querySelectorAll("#marquee");
     const imageWrapper = document.querySelector("#image-wrapper");
