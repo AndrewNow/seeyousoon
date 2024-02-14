@@ -18,6 +18,9 @@ const pastEventsData = await getPastEvents();
     <MagneticHero />
   </section>
   <div class="upcoming-events">
+    <div class="title-marquee" id="title-marquee">
+      <h2>Upcoming Events Upcoming Events</h2>
+    </div>
     <UpcomingEvents />
   </div>
   <Newsletter />
@@ -29,7 +32,7 @@ const pastEventsData = await getPastEvents();
   </section>
 </Layout>
 
-<style>
+<style lang="scss">
   .hero {
     position: relative;
     overflow: hidden;
@@ -39,4 +42,41 @@ const pastEventsData = await getPastEvents();
 
   .past-events {
   }
+
+  .title-marquee {
+    display: block;
+    width: 100%;
+    background: var(--brown-400);
+    width: 98%;
+    margin: 0 auto;
+    margin-top: 5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    h2 {
+      padding: 6rem auto;
+      color: var(--beige-300);
+      // background: var(--brown-400);
+    }
+  }
 </style>
+
+<script>
+  import marquee from "vanilla-marquee";
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const marquees = document.querySelectorAll("#title-marquee");
+
+    marquees.forEach((el) => {
+      new marquee(el, {
+        duplicated: true,
+        gap: 30,
+        speed: 100,
+        // pauseOnHover: true,
+        startVisible: true,
+        recalcResize: true,
+      });
+    });
+  });
+</script>
