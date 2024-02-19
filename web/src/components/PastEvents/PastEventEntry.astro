@@ -25,65 +25,63 @@ function convertDateFormat(inputDate) {
 const convertedDate = convertDateFormat(eventData.date);
 ---
 
-<div class="event-text-wrapper">
-  <div class="event-text-inner">
-    <div class="title-area">
-      <h4>
-        {eventData.title}
-      </h4>
-      <p>
-        <small class="description">
-          {eventData.description}
-        </small>
-      </p>
-    </div>
-    <div class="details-area">
-      <div>
+<div>
+  <div class="event-text-wrapper">
+    <div class="event-text-inner">
+      <div class="title-area">
+        <h4>
+          {eventData.title}
+        </h4>
         <p>
-          <small>
-            Where <br />
+          <small class="description">
+            {eventData.description}
           </small>
         </p>
-        <small>
-          {eventData.location}
-        </small>
       </div>
-      <div>
-        <p>
+      <div class="details-area">
+        <div>
+          <p>
+            <small>
+              Where <br />
+            </small>
+          </p>
           <small>
-            When <br />
+            {eventData.location}
           </small>
-        </p>
-        <small>
-          {convertedDate}
-        </small>
+        </div>
+        <div>
+          <p>
+            <small>
+              When <br />
+            </small>
+          </p>
+          <small>
+            {convertedDate}
+          </small>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div id="marquee">
-  <div
-    class="image-wrapper"
-    data-image-count={eventData.images.length}
-    id="image-wrapper"
-  >
-    {
-      eventData.images.map((img) => {
-        return (
-          <Image
-            src={img.imageSrc}
-            alt={
-              img.altText
-                ? img.altText
-                : "No descriptive text was entered for this image, sorry!"
-            }
-            width="300"
-            height="375"
-            quality={80}
-          />
-        );
-      })
-    }
+  <div id="marquee" data-image-count={eventData.images.length}>
+    <div class="image-wrapper">
+      {
+        eventData.images.map((img) => {
+          return (
+            <Image
+              src={img.imageSrc}
+              alt={
+                img.altText
+                  ? img.altText
+                  : "No descriptive text was entered for this image, sorry!"
+              }
+              width="300"
+              height="375"
+              quality={80}
+            />
+          );
+        })
+      }
+    </div>
   </div>
 </div>
 
@@ -147,36 +145,37 @@ const convertedDate = convertDateFormat(eventData.date);
   import marquee from "vanilla-marquee";
 
   // document.addEventListener("DOMContentLoaded", function () {
-    const marquees = document.querySelectorAll("#marquee");
-    const imageWrapper = document.querySelector("#image-wrapper");
+  const marquees = document.querySelectorAll("#marquee");
 
-    // Calculate marquee speed based on the number of images
-    const calculateMarqueeSpeed = () => {
-      const imageCount = imageWrapper.getAttribute("data-image-count");
+  // Calculate marquee speed based on the number of images
+  const calculateMarqueeSpeed = (imageCount) => {
+    // Adjust these values as needed to control the speed based on the image count
+    const minSpeed = 10; // Lower bound speed
+    const maxSpeed = 100; // Upper bound speed
 
-      console.log(imageCount);
-      // Adjust these values as needed to control the speed based on the image count
-      const minSpeed = 50; // Lower bound speed
-      const maxSpeed = 100; // Upper bound speed
+    // Calculate the speed based on the image count
+    const calculatedSpeed =
+      minSpeed + (maxSpeed - minSpeed) * (imageCount / 10);
 
-      // Calculate the speed based on the image count
-      const calculatedSpeed =
-        minSpeed + (maxSpeed - minSpeed) * (imageCount / 10);
+    return calculatedSpeed;
+  };
 
-      return calculatedSpeed;
-    };
+  marquees.forEach((el) => {
+    const marqueeSpeed = calculateMarqueeSpeed(
+      el.getAttribute("data-image-count")
+    );
 
-    marquees.forEach((el) => {
-      const marqueeSpeed = calculateMarqueeSpeed();
+    const imageCount = el.getAttribute("data-image-count");
+    console.log(imageCount);
 
-      new marquee(el, {
-        duplicated: true,
-        gap: 0,
-        speed: marqueeSpeed,
-        // pauseOnHover: true,
-        startVisible: true,
-        recalcResize: true,
-      });
+    new marquee(el, {
+      duplicated: true,
+      gap: 0,
+      speed: marqueeSpeed,
+      // pauseOnHover: true,
+      startVisible: true,
+      recalcResize: true,
     });
+  });
   // });
 </script>
