@@ -34,28 +34,69 @@ const data = [
 const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest event comes first
 ---
 
-<div class="upcomingEvents-wrapper">
-  <div class="carousel-buttons">
-    <button class="carousel-physics-view">Physics view</button>
-    <button class="carousel-list-view">List view</button>
+<div>
+  <div class="title-marquee" id="title-marquee">
+    <h2>Upcoming Events · Upcoming Events ·</h2>
   </div>
-  <div class="upcomingEvents-toggle-track">
-    <div
-      class="upcomingEvents-canvas-container"
-      id="upcoming-events"
-      data-cms={cmsData}
-    >
+  <div class="upcomingEvents-wrapper">
+    <div class="carousel-buttons">
+      <button class="carousel-physics-view">Physics view</button>
+      <button class="carousel-list-view">List view</button>
     </div>
-    <div
-      class="upcomingEvents-list-container"
-      id="upcomingEvents-carousel-slide"
-    >
-      <ListView cmsData={data} />
+    <div class="upcomingEvents-toggle-track">
+      <div
+        class="upcomingEvents-canvas-container"
+        id="upcoming-events"
+        data-cms={cmsData}
+      >
+      </div>
+      <div
+        class="upcomingEvents-list-container"
+        id="upcomingEvents-carousel-slide"
+      >
+        <ListView cmsData={data} />
+      </div>
     </div>
   </div>
 </div>
 
+<script>
+  import marquee from "vanilla-marquee";
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const marquees = document.querySelectorAll("#title-marquee");
+
+    marquees.forEach((el) => {
+      new marquee(el, {
+        duplicated: true,
+        gap: 30,
+        speed: 100,
+        // pauseOnHover: true,
+        startVisible: true,
+        recalcResize: true,
+      });
+    });
+  });
+</script>
+
 <style lang="scss" is:global>
+  .title-marquee {
+    display: block;
+    width: 100%;
+    background: var(--brown-400);
+    width: 98%;
+    margin: 0 auto;
+    margin-top: 5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    h2 {
+      padding: 6rem auto;
+      color: var(--beige-300);
+      // background: var(--brown-400);
+    }
+  }
   .upcomingEvents-wrapper {
     position: relative;
     height: 95vh;
