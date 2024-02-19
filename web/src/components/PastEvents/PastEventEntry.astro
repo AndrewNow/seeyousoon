@@ -144,41 +144,41 @@ const convertedDate = convertDateFormat(eventData.date);
 <script>
   import marquee from "vanilla-marquee";
 
-  // document.addEventListener("DOMContentLoaded", function () {
-  const marquees = document.querySelectorAll("#pastEvents-marquee");
+  document.addEventListener("DOMContentLoaded", function () {
+    const marquees = document.querySelectorAll("#pastEvents-marquee");
 
-  // Calculate marquee speed based on the number of images
-  const calculateMarqueeSpeed = (imageCount) => {
-    // Adjust these values as needed to control the speed based on the image count
-    const minSpeed = 5; // Lower bound speed
-    const maxSpeed = 100; // Upper bound speed
+    // Calculate marquee speed based on the number of images
+    const calculateMarqueeSpeed = (imageCount) => {
+      // Adjust these values as needed to control the speed based on the image count
+      const minSpeed = 5; // Lower bound speed
+      const maxSpeed = 100; // Upper bound speed
 
-    // Calculate the speed based on the image count
-    const calculatedSpeed =
-      minSpeed + (maxSpeed - minSpeed) * (imageCount / 20);
+      // Calculate the speed based on the image count
+      const calculatedSpeed =
+        minSpeed + (maxSpeed - minSpeed) * (imageCount / 20);
 
-    return calculatedSpeed;
-  };
+      return calculatedSpeed;
+    };
 
-  console.log("marquees", marquees);
+    console.log("marquees", marquees);
 
-  marquees.forEach((el) => {
-    const marqueeSpeed = calculateMarqueeSpeed(
-      el.getAttribute("data-image-count")
-    );
+    marquees.forEach((el) => {
+      const marqueeSpeed = calculateMarqueeSpeed(
+        el.getAttribute("data-image-count")
+      );
 
-    // const imageCount = el.getAttribute("data-image-count");
-    console.log("imagecount", marqueeSpeed);
-    const speed = marqueeSpeed ? marqueeSpeed : 50
+      // const imageCount = el.getAttribute("data-image-count");
+      console.log("imagecount", marqueeSpeed);
+      const speed = marqueeSpeed ? marqueeSpeed : 50;
 
-    new marquee(el, {
-      duplicated: true,
-      gap: 0,
-      speed: speed,
-      // pauseOnHover: true,
-      startVisible: true,
-      // recalcResize: true,
+      new marquee(el, {
+        duplicated: true,
+        gap: 0,
+        speed: speed,
+        // pauseOnHover: true,
+        startVisible: true,
+        // recalcResize: true,
+      });
     });
   });
-  // });
 </script>
