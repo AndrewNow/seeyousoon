@@ -1,0 +1,8 @@
+---
+import PastEvents from "../components/PastEvents/PastEvents.astro";
+import { getPastEvents } from "../sanity/api";
+
+const pastEventsData = await getPastEvents();
+---
+
+<PastEvents data={pastEventsData} />

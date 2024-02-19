@@ -150,12 +150,12 @@ const convertedDate = convertDateFormat(eventData.date);
     // Calculate marquee speed based on the number of images
     const calculateMarqueeSpeed = (imageCount) => {
       // Adjust these values as needed to control the speed based on the image count
-      const minSpeed = 5; // Lower bound speed
+      const minSpeed = 10; // Lower bound speed
       const maxSpeed = 100; // Upper bound speed
 
       // Calculate the speed based on the image count
       const calculatedSpeed =
-        minSpeed + (maxSpeed - minSpeed) * (imageCount / 20);
+        minSpeed + (maxSpeed - minSpeed) * (imageCount / 10);
 
       return calculatedSpeed;
     };
@@ -177,7 +177,7 @@ const convertedDate = convertDateFormat(eventData.date);
         speed: speed,
         // pauseOnHover: true,
         startVisible: true,
-        // recalcResize: true,
+        recalcResize: true,
       });
     });
   });
