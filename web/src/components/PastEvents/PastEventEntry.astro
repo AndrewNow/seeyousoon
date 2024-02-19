@@ -28,7 +28,7 @@ const convertedDate = convertDateFormat(eventData.date);
 <div>
   <div class="event-text-wrapper">
     <div class="event-text-inner">
-      <div class="title-area">
+      <div class="event-title-area">
         <h4>
           {eventData.title}
         </h4>
@@ -38,7 +38,7 @@ const convertedDate = convertDateFormat(eventData.date);
           </small>
         </p>
       </div>
-      <div class="details-area">
+      <div class="event-details-area">
         <div>
           <p>
             <small>
@@ -62,8 +62,8 @@ const convertedDate = convertDateFormat(eventData.date);
       </div>
     </div>
   </div>
-  <div id="marquee" data-image-count={eventData.images.length}>
-    <div class="image-wrapper">
+  <div id="pastEvents-marquee" data-image-count={eventData.images.length}>
+    <div class="pastEvents-image-wrapper">
       {
         eventData.images.map((img) => {
           return (
@@ -86,7 +86,7 @@ const convertedDate = convertDateFormat(eventData.date);
 </div>
 
 <style lang="scss">
-  #marquee {
+  #pastEvents-marquee {
     width: 100%;
     overflow: hidden;
   }
@@ -113,14 +113,14 @@ const convertedDate = convertDateFormat(eventData.date);
     }
   }
 
-  .title-area {
+  .event-title-area {
     flex: 1.5;
     max-width: 50%;
     p {
       width: 65%;
     }
   }
-  .details-area {
+  .event-details-area {
     flex: 1;
     max-width: 500px;
     display: flex;
@@ -128,7 +128,7 @@ const convertedDate = convertDateFormat(eventData.date);
     color: white;
   }
 
-  .image-wrapper {
+  .pastEvents-image-wrapper {
     display: flex;
 
     img {
@@ -145,7 +145,7 @@ const convertedDate = convertDateFormat(eventData.date);
   import marquee from "vanilla-marquee";
 
   // document.addEventListener("DOMContentLoaded", function () {
-  const marquees = document.querySelectorAll("#marquee");
+  const marquees = document.querySelectorAll("#pastEvents-marquee");
 
   // Calculate marquee speed based on the number of images
   const calculateMarqueeSpeed = (imageCount) => {
