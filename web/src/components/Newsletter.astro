@@ -1,5 +1,11 @@
+---
+import Image from "astro/components/Image.astro";
+import house from "../assets/house.png";
+---
+
 <!-- Begin Mailchimp Signup Form -->
 <section id="mc_embed_signup" class="newsletter-wrapper">
+  <Image src={house} alt="SYS house illustration" class="sys-house-image" quality={60} />
   <form
     action=""
     method="post"
@@ -65,13 +71,15 @@
 </section>
 
 <style lang="scss">
+  .sys-house-image {
+    margin: 0 auto;
+  }
   .newsletter-wrapper {
     padding: 10rem 0;
     margin: 0 auto;
     text-align: center;
     h2 {
       color: var(--brown-300);
-      margin-bottom: 2rem;
     }
     p {
       max-width: 480px;
@@ -137,7 +145,7 @@
       // height: 52px;
       height: calc(100% - 16px);
       font-size: 18px;
-      
+
       .subscribe-btn-label {
         z-index: 1;
         position: relative;
