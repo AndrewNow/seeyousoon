@@ -85,7 +85,7 @@ const convertedDate = convertDateFormat(eventData.date);
   </div>
 </div>
 
-<style lang="scss" is:global>
+<style lang="scss">
   #pastEvents-marquee {
     width: 100%;
     overflow: hidden;
@@ -160,21 +160,23 @@ const convertedDate = convertDateFormat(eventData.date);
     return calculatedSpeed;
   };
 
+  console.log("marquees", marquees);
+
   marquees.forEach((el) => {
     const marqueeSpeed = calculateMarqueeSpeed(
       el.getAttribute("data-image-count")
     );
 
     const imageCount = el.getAttribute("data-image-count");
-    console.log(imageCount);
+    console.log("imagecount", imageCount);
 
     new marquee(el, {
       duplicated: true,
       gap: 0,
-      speed: marqueeSpeed,
+      speed: marqueeSpeed ? marqueeSpeed : 50,
       // pauseOnHover: true,
       startVisible: true,
-      recalcResize: true,
+      // recalcResize: true,
     });
   });
   // });
