@@ -167,13 +167,14 @@ const convertedDate = convertDateFormat(eventData.date);
       el.getAttribute("data-image-count")
     );
 
-    const imageCount = el.getAttribute("data-image-count");
-    console.log("imagecount", imageCount);
+    // const imageCount = el.getAttribute("data-image-count");
+    console.log("imagecount", marqueeSpeed);
+    const speed = marqueeSpeed ? marqueeSpeed : 50
 
     new marquee(el, {
       duplicated: true,
       gap: 0,
-      speed: marqueeSpeed ? marqueeSpeed : 50,
+      speed: speed,
       // pauseOnHover: true,
       startVisible: true,
       // recalcResize: true,
