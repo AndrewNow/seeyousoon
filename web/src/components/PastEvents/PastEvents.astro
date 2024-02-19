@@ -8,10 +8,10 @@ const { data } = Astro.props;
 <div class="wrapper">
   <h1>Past Events</h1>
   {
-    data.map((event) => {
+    data.map((event, index) => {
       return (
         <div class="pastevent-entry-wrapper">
-          <PastEventEntry eventData={event} />
+          <PastEventEntry eventData={event} key={index}/>
         </div>
       );
     })

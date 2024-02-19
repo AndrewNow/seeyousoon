@@ -146,13 +146,15 @@ const convertedDate = convertDateFormat(eventData.date);
 <script>
   import marquee from "vanilla-marquee";
 
-  document.addEventListener("DOMContentLoaded", function () {
+  // document.addEventListener("DOMContentLoaded", function () {
     const marquees = document.querySelectorAll("#marquee");
     const imageWrapper = document.querySelector("#image-wrapper");
 
     // Calculate marquee speed based on the number of images
     const calculateMarqueeSpeed = () => {
       const imageCount = imageWrapper.getAttribute("data-image-count");
+
+      console.log(imageCount);
       // Adjust these values as needed to control the speed based on the image count
       const minSpeed = 50; // Lower bound speed
       const maxSpeed = 100; // Upper bound speed
@@ -176,5 +178,5 @@ const convertedDate = convertDateFormat(eventData.date);
         recalcResize: true,
       });
     });
-  });
+  // });
 </script>

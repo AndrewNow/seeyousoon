@@ -63,20 +63,20 @@ const pastEventsData = await getPastEvents();
 </style>
 
 <script>
-  // import marquee from "vanilla-marquee";
+  import marquee from "vanilla-marquee";
 
-  // document.addEventListener("DOMContentLoaded", function () {
-  //   const marquees = document.querySelectorAll("#title-marquee");
+  document.addEventListener("DOMContentLoaded", function () {
+    const marquees = document.querySelectorAll("#title-marquee");
 
-  //   marquees.forEach((el) => {
-  //     new marquee(el, {
-  //       duplicated: true,
-  //       gap: 30,
-  //       speed: 100,
-  //       // pauseOnHover: true,
-  //       startVisible: true,
-  //       recalcResize: true,
-  //     });
-  //   });
-  // });
+    marquees.forEach((el) => {
+      new marquee(el, {
+        duplicated: true,
+        gap: 30,
+        speed: 100,
+        // pauseOnHover: true,
+        startVisible: true,
+        recalcResize: true,
+      });
+    });
+  });
 </script>

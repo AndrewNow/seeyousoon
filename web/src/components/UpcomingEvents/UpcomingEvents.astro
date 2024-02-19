@@ -34,26 +34,26 @@ const data = [
 const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest event comes first
 ---
 
-  <div class="upcomingEvents-wrapper">
-    <div class="carousel-buttons">
-      <button class="carousel-physics-view">Physics view</button>
-      <button class="carousel-list-view">List view</button>
+<div class="upcomingEvents-wrapper">
+  <div class="carousel-buttons">
+    <button class="carousel-physics-view">Physics view</button>
+    <button class="carousel-list-view">List view</button>
+  </div>
+  <div class="upcomingEvents-toggle-track">
+    <div
+      class="upcomingEvents-canvas-container"
+      id="upcoming-events"
+      data-cms={cmsData}
+    >
     </div>
-    <div class="upcomingEvents-toggle-track">
-      <div
-        class="upcomingEvents-canvas-container"
-        id="upcoming-events"
-        data-cms={cmsData}
-      >
-      </div>
-      <div
-        class="upcomingEvents-list-container"
-        id="upcomingEvents-carousel-slide"
-      >
-        <ListView cmsData={data} />
-      </div>
+    <div
+      class="upcomingEvents-list-container"
+      id="upcomingEvents-carousel-slide"
+    >
+      <ListView cmsData={data} />
     </div>
   </div>
+</div>
 
 <style lang="scss" is:global>
   .upcomingEvents-wrapper {
@@ -354,7 +354,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   });
 
   function createHtmlBox(id, x, y, cmsEntry) {
-    console.log(`Creating box ${id} with data: ${cmsEntry.title}`);
+    // console.log(`Creating box ${id} with data: ${cmsEntry.title}`);
 
     const htmlBox = document.createElement("div");
     htmlBox.id = id;
