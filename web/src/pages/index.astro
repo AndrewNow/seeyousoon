@@ -20,9 +20,9 @@ const pastEventsData = await getPastEvents();
   <div class="upcoming-events">
     <UpcomingEvents />
   </div>
-  <section class="about">
+  <!-- <section class="about">
     <About />
-  </section>
+  </section> -->
   <section class="past-events">
     <PastEvents data={pastEventsData} />
   </section>
@@ -40,3 +40,5 @@ const pastEventsData = await getPastEvents();
   .past-events {
   }
 </style>
+
+<script src="../components/utils/marquee.js"></script>
