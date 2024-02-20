@@ -29,7 +29,7 @@ import Layout from "../layouts/Layout.astro";
   <div class="vh-spacer"><h1>spacer</h1></div>
 </Layout>
 
-<style>
+<style lang="scss">
   .vh-spacer {
     height: 100vh;
     background: var(--brown-400);
@@ -90,7 +90,7 @@ import Layout from "../layouts/Layout.astro";
     scroll(animate(inner, { y: [0, -300] }), {
       target: inner,
       offset: isLast
-        ? ["start start", "end end"]
+        ? ["0 0.5", "1 1"]
         : ["start start", "end start"],
     });
   });

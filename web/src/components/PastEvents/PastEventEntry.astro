@@ -1,27 +1,22 @@
 ---
 import { Image } from "astro:assets";
 const { eventData } = Astro.props;
-
 function convertDateFormat(inputDate) {
   // Parse the input date string in the "YYYY-MM-DD" format
   const parts = inputDate.split("-");
   const year = parseInt(parts[0], 10);
   const month = parseInt(parts[1], 10);
   const day = parseInt(parts[2], 10);
-
   // Create a Date object
   const dateObject = new Date(year, month - 1, day);
-
   // Format the date in the "DD-MM-YYYY" format
   const formattedDate = `${dateObject.getDate().toString().padStart(2, "0")}.${(
     dateObject.getMonth() + 1
   )
     .toString()
     .padStart(2, "0")}.${dateObject.getFullYear()}`;
-
   return formattedDate;
 }
-
 const convertedDate = convertDateFormat(eventData.date);
 ---
 
@@ -84,7 +79,6 @@ const convertedDate = convertDateFormat(eventData.date);
     </div>
   </div>
 </div>
-
 <style lang="scss">
   #pastEvents-marquee {
     width: 100%;
@@ -95,24 +89,20 @@ const convertedDate = convertDateFormat(eventData.date);
     margin: 5rem auto;
     padding-top: 2.5rem;
     border-top: 1px solid var(--brown-100);
-
     .event-text-inner {
       width: 97.5%;
       margin: 0 auto;
       display: flex;
       justify-content: flex-start;
     }
-
     h4,
     p {
       color: var(--beige-300);
     }
-
     p > small {
       color: var(--grey-300);
     }
   }
-
   .event-title-area {
     flex: 1.5;
     max-width: 50%;
@@ -127,10 +117,8 @@ const convertedDate = convertDateFormat(eventData.date);
     justify-content: space-between;
     color: white;
   }
-
   .pastEvents-image-wrapper {
     display: flex;
-
     img {
       border-radius: 2px;
       max-width: 100%;
@@ -140,45 +128,39 @@ const convertedDate = convertDateFormat(eventData.date);
     }
   }
 </style>
-
 <script>
   import marquee from "vanilla-marquee";
+  document.addEventListener("DOMContentLoaded", function () {
+    const marquees = document.querySelectorAll("#pastEvents-marquee");
+    // Calculate marquee speed based on the number of images
+    const calculateMarqueeSpeed = (imageCount) => {
+      // Adjust these values as needed to control the speed based on the image count
+      const minSpeed = 10; // Lower bound speed
+      const maxSpeed = 100; // Upper bound speed
 
-  // document.addEventListener("DOMContentLoaded", function () {
-  const marquees = document.querySelectorAll("#pastEvents-marquee");
+      // Calculate the speed based on the image count
+      const calculatedSpeed =
+        minSpeed + (maxSpeed - minSpeed) * (imageCount / 10);
 
-  // Calculate marquee speed based on the number of images
-  const calculateMarqueeSpeed = (imageCount) => {
-    // Adjust these values as needed to control the speed based on the image count
-    const minSpeed = 10; // Lower bound speed
-    const maxSpeed = 100; // Upper bound speed
-
-    // Calculate the speed based on the image count
-    const calculatedSpeed =
-      minSpeed + (maxSpeed - minSpeed) * (imageCount / 10);
-
-    return calculatedSpeed;
-  };
-
-  console.log("marquees", marquees);
-
-  marquees.forEach((el) => {
-    const marqueeSpeed = calculateMarqueeSpeed(
-      el.getAttribute("data-image-count")
-    );
-
-    // const imageCount = el.getAttribute("data-image-count");
-    console.log("imagecount", marqueeSpeed);
-    const speed = marqueeSpeed ? marqueeSpeed : 50;
-
-    new marquee(el, {
-      duplicated: true,
-      gap: 0,
-      speed: speed,
-      // pauseOnHover: true,
-      startVisible: true,
-      recalcResize: true,
+      return calculatedSpeed;
+    };
+    console.log("marquees", marquees);
+    marquees.forEach((el) => {
+      const marqueeSpeed = calculateMarqueeSpeed(
+        el.getAttribute("data-image-count")
+      );
+      // const imageCount = el.getAttribute("data-image-count");
+      console.log("imagecount", marqueeSpeed);
+      const speed = marqueeSpeed ? marqueeSpeed : 50;
+      new marquee(el, {
+        duplicated: true,
+        gap: 0,
+        speed: speed,
+        // pauseOnHover: true,
+        startVisible: true,
+        // recalcResize: true,
+        recalcResize: true,
+      });
     });
   });
-  // });
 </script>
