@@ -30,9 +30,6 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <style lang="scss">
-  body {
-    // background: black;
-  }
   .vh-spacer {
     height: 100vh;
     background: var(--brown-400);
@@ -41,6 +38,7 @@ import Layout from "../layouts/Layout.astro";
     }
   }
   .wrapper {
+    background: black;
     overflow: hidden;
     width: 100%;
   }
@@ -104,11 +102,11 @@ import Layout from "../layouts/Layout.astro";
           // opacity: [null, 0.99, 0.99, 0],
           // y: "50%",
           opacity: 0,
-          y: "75%",
+          y: "60%",
           rotate: -20,
           borderRadius: "20px",
           scale: 0.75,
-          filter: "brightness(60%) contrast(135%)",
+          // filter: "brightness(60%) contrast(135%)",
         },
       ],
     ];
