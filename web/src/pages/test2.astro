@@ -30,6 +30,9 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <style lang="scss">
+  body {
+    // background: black;
+  }
   .vh-spacer {
     height: 100vh;
     background: var(--brown-400);
@@ -38,20 +41,21 @@ import Layout from "../layouts/Layout.astro";
     }
   }
   .wrapper {
+    overflow: hidden;
     width: 100%;
   }
 
   .item1 {
-    // background: var(--grey-100);
+    background: var(--grey-100);
   }
   .item2 {
-    // background: var(--grey-200);
+    background: var(--grey-200);
   }
   .item3 {
-    // background: var(--brown-100);
+    background: var(--brown-100);
   }
   .item4 {
-    // background: var(--brown-200);
+    background: var(--brown-200);
   }
   .content {
     display: flex;
@@ -62,11 +66,13 @@ import Layout from "../layouts/Layout.astro";
 
   .content--sticky {
     width: 100%;
-    position: sticky;
+    // position: sticky;
     top: 0;
     --offset: 0px;
     top: var(--offset);
     height: calc(100vh - var(--offset));
+    // transform-origin: 50% 0% 0px;
+    transform-origin: 100% 0% 0px;
     /* opacity: 1; */
   }
   .el-inner {
@@ -81,22 +87,35 @@ import Layout from "../layouts/Layout.astro";
   const totalContentElements = contentElements.length;
 
   contentElements.forEach((el, position) => {
-    const inner = el.querySelector(".el-inner");
+    // const inner = el.querySelector(".el-inner");
 
     const isLast = position === totalContentElements - 1;
-    const offsetVal = isLast ? ScrollOffset.Exit : ScrollOffset.All;
+    const offsetVal = isLast
+      ? ["start start", "end start"]
+      : ["center -100px", "center end"];
 
-    // // scroll(animate(inner, { x: [0, -300] }), {
-    // //   target: inner,
-    // //   offset: offsetVal,
-    // // });
-    
+    // const scaleVal = isLast ? 1 : [0.5, 1];
 
-    console.log(...ScrollOffset.Exit);
-    const sequence = [[inner, { rotate: [null, 90] }]];
+    const sequence = [
+      [
+        el,
+        {
+          // scale: [1, 0.5],
+          // opacity: [null, 0.99, 0.99, 0],
+          // y: "50%",
+          opacity: 0,
+          y: "75%",
+          rotate: -20,
+          borderRadius: "20px",
+          scale: 0.75,
+          filter: "brightness(60%) contrast(135%)",
+        },
+      ],
+    ];
+
     scroll(timeline(sequence), {
-      target: inner,
-      offset: offsetVal,
+      target: el,
+      offset: ["1 1", "1 0"],
     });
   });
 </script>
