@@ -1,8 +1,97 @@
 ---
-import PastEvents from "../components/PastEvents/PastEvents.astro";
-import { getPastEvents } from "../sanity/api";
-
-const pastEventsData = await getPastEvents();
+import Layout from "../layouts/Layout.astro";
 ---
 
-<PastEvents data={pastEventsData} />
+<Layout>
+  <div class="vh-spacer"><h1>spacer</h1></div>
+  <div class="wrapper" id="sticky-area">
+    <div class="content content--sticky content--grid item1">
+      <div class="el-inner">
+        <h1>test content</h1>
+      </div>
+    </div>
+    <div class="content content--sticky content--grid item2">
+      <div class="el-inner">
+        <h1>test content</h1>
+      </div>
+    </div>
+    <div class="content content--sticky content--grid item3">
+      <div class="el-inner">
+        <h1>test content</h1>
+      </div>
+    </div>
+    <div class="content content--sticky content--grid item4">
+      <div class="el-inner">
+        <h1>test content</h1>
+      </div>
+    </div>
+  </div>
+  <div class="vh-spacer"><h1>spacer</h1></div>
+</Layout>
+
+<style>
+  .vh-spacer {
+    height: 100vh;
+    background: var(--brown-400);
+    h1 {
+      color: white;
+    }
+  }
+  .wrapper {
+    width: 100%;
+  }
+
+  .item1 {
+    background: var(--grey-100);
+  }
+  .item2 {
+    background: var(--grey-200);
+  }
+  .item3 {
+    background: var(--brown-100);
+  }
+  .item4 {
+    background: var(--brown-200);
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content--sticky {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    --offset: 0px;
+    top: var(--offset);
+    height: calc(100vh - var(--offset));
+    /* opacity: 1; */
+  }
+  .el-inner {
+  }
+</style>
+
+<script>
+  import { animate, scroll, ScrollOffset } from "motion";
+
+  const contentElements = [...document.querySelectorAll(".content--sticky")];
+
+  const totalContentElements = contentElements.length;
+  
+  contentElements.forEach((el, position) => {
+
+    const inner = el.querySelector(".el-inner");
+    // console.log(inner);
+
+    const isLast = position === totalContentElements - 1;
+
+    scroll(animate(inner, { y: [0, -300] }), {
+      target: inner,
+      offset: isLast
+        ? ["start start", "end end"]
+        : ["start start", "end start"],
+    });
+  });
+</script>

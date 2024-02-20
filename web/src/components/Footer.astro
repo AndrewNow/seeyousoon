@@ -1,6 +1,7 @@
 ---
-import footer from "../assets/footer/footer.png";
 import Image from "astro/components/Image.astro";
+// import footer from "../assets/footer/footer.png";
+import footerSrc from "../assets/footer/footer.mp4";
 ---
 
 <footer class="wrapper">
@@ -12,12 +13,16 @@ import Image from "astro/components/Image.astro";
         <h3>Email <a class="socials-link">info@seeyousoon.to</a></h3>
       </div>
     </div>
-    <Image src={footer} alt="video" class="video-media" />
+    <video loading="lazy" autoplay muted class="video-media" preload="metadata">
+      <source src={footerSrc} type="video/mp4" />
+    </video>
+    <!-- <Image src={footer} alt="video" class="video-media" /> -->
   </div>
   <div class="credits">
     <div>
       <small class="location-flex">
-      <span class="current-location"> Currently in:</span>Toronto</small>
+        <span class="current-location"> Currently in:</span>Toronto</small
+      >
     </div>
     <div>
       <small>©{new Date().getFullYear()} seeyousoon</small>
@@ -55,14 +60,20 @@ import Image from "astro/components/Image.astro";
     height: 55vh;
     position: relative;
     overflow: hidden;
-    display: grid;
-    place-items: center;
-    object-fit: cover;
+    display: flex; // Use Flexbox
+    flex-direction: column; // Stack children vertically
+    align-items: center; // Center horizontally
+    justify-content: center; // Center vertically
 
     .video-media {
+      max-width: 100%;
       width: 100%;
       object-fit: cover;
+      object-position: top;
       filter: brightness(0.7);
+      // width: 100%;
+      // object-fit: cover;
+      // filter: brightness(0.7);
     }
 
     .video-text {
@@ -81,14 +92,13 @@ import Image from "astro/components/Image.astro";
   .sys-text {
     color: var(--beige-100);
     font-family: "Bradford-Light-Italic";
-    letter-spacing: -.4rem;
+    letter-spacing: -0.4rem;
     line-height: unset;
     font-size: 160px;
     transform: rotate(-4.5deg) translateY(-30px);
   }
   .socials {
     color: var(--beige-100);
-    
 
     .socials-link:before {
       content: "";
