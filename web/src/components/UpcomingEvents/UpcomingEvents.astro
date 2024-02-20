@@ -60,25 +60,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   </div>
 </div>
 
-<script>
-  import marquee from "vanilla-marquee";
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const marquees = document.querySelectorAll("#title-marquee");
-
-    marquees.forEach((el) => {
-      new marquee(el, {
-        duplicated: true,
-        gap: 30,
-        speed: 100,
-        // pauseOnHover: true,
-        startVisible: true,
-        recalcResize: true,
-      });
-    });
-  });
-</script>
-
 <style lang="scss" is:global>
   .title-marquee {
     display: block;
