@@ -63,6 +63,7 @@ const convertedDate = convertDateFormat(eventData.date);
         eventData.images.map((img) => {
           return (
             <Image
+              format="webp"
               src={img.imageSrc}
               alt={
                 img.altText
@@ -125,6 +126,32 @@ const convertedDate = convertDateFormat(eventData.date);
       height: 375px;
       width: auto;
       margin-right: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .event-text-wrapper {
+      margin-bottom: 2.5rem;
+    }
+    .event-text-inner {
+      flex-direction: column;
+    }
+    .event-title-area {
+      max-width: 100%;
+      p {
+        width: 100%;
+        line-height: 115%;
+      }
+    }
+    .event-details-area {
+      margin-top: 2rem;
+      width: 80%;
+    }
+    .pastEvents-image-wrapper {
+      img {
+        height: 250px;
+        margin-right: 1rem;
+      }
     }
   }
 </style>

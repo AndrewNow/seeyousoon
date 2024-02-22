@@ -9,7 +9,7 @@ const { data } = Astro.props;
     data.map((event, index) => {
       return (
         <div class="pastevent-entry-wrapper">
-          <PastEventEntry eventData={event} key={index}/>
+          <PastEventEntry eventData={event} key={index} />
         </div>
       );
     })
@@ -33,5 +33,12 @@ const { data } = Astro.props;
 
   .pastevent-entry-wrapper {
     margin: 5rem auto;
+  }
+
+  @media (max-width: 768px) {
+    .wrapper {
+      // width: 100%;
+      // border-radius: 0;
+    }
   }
 </style>
