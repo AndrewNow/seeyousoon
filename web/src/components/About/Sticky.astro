@@ -5,7 +5,9 @@
 <div class="wrapper" id="sticky-area">
   <div class="content content--sticky content--grid item1">
     <div class="el-inner">
-      <h1>test content 1</h1>
+      <h1>
+        An expression of farewell, with the intention of meeting once again.
+      </h1>
     </div>
   </div>
   <div class="content content--sticky content--grid item2">
@@ -15,12 +17,17 @@
   </div>
   <div class="content content--sticky content--grid item3">
     <div class="el-inner">
-      <h1>test content 3</h1>
+      <p>
+        Welcome to the culinary adventures of our trio of globetrotting chefs!
+        With a passion for exploration and a love for diverse flavours, we
+        travel the world to bring you the most exciting culinary experiences
+        through our residency format.
+      </p>
     </div>
   </div>
   <div class="content content--sticky content--grid item4">
     <div class="el-inner">
-      <h1>test content 4</h1>
+      <p>test content 4</p>
     </div>
   </div>
 </div>
@@ -55,16 +62,25 @@
     width: 80%;
     margin: 0 auto;
     // position: sticky;
-    border: 1px solid var(--grey-200);
+    border: 1px solid var(--grey-100);
     top: 0;
     --offset: 0px;
     top: var(--offset);
     height: calc(100vh - var(--offset));
+    border-radius: 20px;
     // transform-origin: 50% 0% 0px;
     transform-origin: 100% 0% 0px;
     /* opacity: 1; */
   }
   .el-inner {
+    max-width: 65%;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--brown-300);
+    p {
+      max-width: 70%;
+      margin: 0 auto;
+    }
     // opacity: 0;
   }
 </style>
