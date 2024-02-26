@@ -12,7 +12,7 @@ import image4 from "../../assets/landing/syshero4.png";
     class="landing-image"
     src={image4}
     alt="image4"
-    quality={100}
+    quality={20}
     id="image4"
   />
   <Image
@@ -20,7 +20,7 @@ import image4 from "../../assets/landing/syshero4.png";
     class="landing-image"
     src={image3}
     alt="image3"
-    quality={100}
+    quality={20}
     id="image3"
   />
   <Image
@@ -28,7 +28,7 @@ import image4 from "../../assets/landing/syshero4.png";
     class="landing-image"
     src={image2}
     alt="image2"
-    quality={100}
+    quality={20}
     id="image2"
   />
   <Image
@@ -36,117 +36,12 @@ import image4 from "../../assets/landing/syshero4.png";
     class="landing-image"
     src={image1}
     alt="image1"
-    quality={100}
+    quality={20}
     id="image1"
   />
 </div>
 
 <style lang="scss">
-  @keyframes float {
-    0% {
-      transform: translate(
-        calc(cos(0deg) * var(--radius)),
-        calc(sin(0deg) * var(--radius))
-      );
-    }
-    6% {
-      transform: translate(
-        calc(cos(22.5deg) * var(--radius)),
-        calc(sin(22.5deg) * var(--radius))
-      );
-    }
-    12% {
-      transform: translate(
-        calc(cos(45deg) * var(--radius)),
-        calc(sin(45deg) * var(--radius))
-      );
-    }
-    18% {
-      transform: translate(
-        calc(cos(67.5deg) * var(--radius)),
-        calc(sin(67.5deg) * var(--radius))
-      );
-    }
-    25% {
-      transform: translate(
-        calc(cos(90deg) * var(--radius)),
-        calc(sin(90deg) * var(--radius))
-      );
-    }
-    31% {
-      transform: translate(
-        calc(cos(112.5deg) * var(--radius)),
-        calc(sin(112.5deg) * var(--radius))
-      );
-    }
-    37% {
-      transform: translate(
-        calc(cos(135deg) * var(--radius)),
-        calc(sin(135deg) * var(--radius))
-      );
-    }
-    43% {
-      transform: translate(
-        calc(cos(157.5deg) * var(--radius)),
-        calc(sin(157.5deg) * var(--radius))
-      );
-    }
-    50% {
-      transform: translate(
-        calc(cos(180deg) * var(--radius)),
-        calc(sin(180deg) * var(--radius))
-      );
-    }
-    56% {
-      transform: translate(
-        calc(cos(202.5deg) * var(--radius)),
-        calc(sin(202.5deg) * var(--radius))
-      );
-    }
-    62% {
-      transform: translate(
-        calc(cos(225deg) * var(--radius)),
-        calc(sin(225deg) * var(--radius))
-      );
-    }
-    68% {
-      transform: translate(
-        calc(cos(247.5deg) * var(--radius)),
-        calc(sin(247.5deg) * var(--radius))
-      );
-    }
-    75% {
-      transform: translate(
-        calc(cos(270deg) * var(--radius)),
-        calc(sin(270deg) * var(--radius))
-      );
-    }
-    81% {
-      transform: translate(
-        calc(cos(292.5deg) * var(--radius)),
-        calc(sin(292.5deg) * var(--radius))
-      );
-    }
-    87% {
-      transform: translate(
-        calc(cos(315deg) * var(--radius)),
-        calc(sin(315deg) * var(--radius))
-      );
-    }
-    93% {
-      transform: translate(
-        calc(cos(337.5deg) * var(--radius)),
-        calc(sin(337.5deg) * var(--radius))
-      );
-    }
-    100% {
-      transform: translate(
-        calc(cos(360deg) * var(--radius)),
-        calc(sin(360deg) * var(--radius))
-      );
-    }
-  }
-
   .cursor-container {
     position: absolute;
     top: 50%;
@@ -162,6 +57,7 @@ import image4 from "../../assets/landing/syshero4.png";
   }
 
   .landing-image {
+    will-change: transform;
     width: 45%;
     height: auto;
     position: absolute;

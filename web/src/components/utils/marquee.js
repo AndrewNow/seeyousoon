@@ -28,14 +28,14 @@
       return calculatedSpeed;
     };
 
-    console.log("pastEventsMarquees", pastEventsMarquees);
+    // console.log("pastEventsMarquees", pastEventsMarquees);
 
     pastEventsMarquees.forEach((el) => {
       const marqueeSpeed = calculateMarqueeSpeed(
         el.getAttribute("data-image-count")
       );
       // const imageCount = el.getAttribute("data-image-count");
-      console.log("imagecount", marqueeSpeed);
+      // console.log("imagecount", marqueeSpeed);
       const speed = marqueeSpeed ? marqueeSpeed : 50;
       new marquee(el, {
         duplicated: true,
