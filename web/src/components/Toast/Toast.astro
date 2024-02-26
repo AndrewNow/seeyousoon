@@ -1,0 +1,18 @@
+---
+const { data } = Astro.props;
+
+import Desktop from "./Desktop.astro";
+---
+
+<div class="toastWrapper">
+  <Desktop data={data} />
+</div>
+
+<style lang="scss">
+  .toastWrapper {
+    z-index: 4;
+    position: fixed;
+    bottom: 1rem;
+    right: 2vw;
+  }
+</style>

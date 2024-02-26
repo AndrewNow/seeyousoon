@@ -2,18 +2,21 @@
 import Layout from "../layouts/Layout.astro";
 import MagneticHero from "../components/Hero/MagneticHero.astro";
 import HeroContent from "../components/Hero/HeroContent.astro";
+import Toast from "../components/Toast/Toast.astro";
 import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
 
-import { getPastEvents } from "../sanity/api";
+import { getPastEvents, getUpcomingEvent } from "../sanity/api";
 import Newsletter from "../components/Newsletter.astro";
 import About from "../components/About/About.astro";
 
 const pastEventsData = await getPastEvents();
+const upcomingEventToastData = await getUpcomingEvent();
 ---
 
 <Layout title="Welcome to Astro.">
   <section class="hero" id="magneticHero-wrapper">
+    <Toast data={upcomingEventToastData} />
     <HeroContent />
     <MagneticHero />
   </section>
@@ -36,8 +39,10 @@ const pastEventsData = await getPastEvents();
     width: 100%;
     height: 99vh;
   }
-
-  .past-events {
+  .upcoming-events {
+    position: relative;
+    z-index: 5;
+    background: var(--beige-300);
   }
 
   @media (max-width: 576px) {

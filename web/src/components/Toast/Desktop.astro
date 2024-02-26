@@ -1,0 +1,196 @@
+---
+const { data } = Astro.props;
+const startDate = JSON.stringify(data.dateStart);
+const endDate = JSON.stringify(data.dateEnd);
+const eventTitle = JSON.stringify(data.title);
+---
+
+<div class="desktop-toast-wrapper">
+  <small id="eventStatus">
+    Join us at <span class="event-toast-title">{data.title}</span> in
+  </small>
+  <p
+    class="countdown"
+    data-startDate={startDate}
+    data-endDate={endDate}
+    data-eventTitle={eventTitle}
+  >
+  </p>
+  <a href={data.eventLink} class="reserve-btn" target="_blank" rel="noreferrer">
+    <p>Reserve</p>
+  </a>
+  <button class="toast-close" id="closeToast" aria-label="Close toast"
+    ><svg
+      width="18"
+      height="19"
+      viewBox="0 0 18 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.5 4.76172L4.5 13.7617"
+        stroke="#8D8D8D"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+      <path
+        d="M4.5 4.76172L13.5 13.7617"
+        stroke="#8D8D8D"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </button>
+</div>
+
+<style lang="scss" is:global>
+  .desktop-toast-wrapper {
+    transform: translateX(25vw) translateY(0vh) rotate(-0deg) skewX(15deg);
+    filter: blur(2px);
+    opacity: 0;
+    min-width: 450px;
+    background: var(--brown-200);
+    color: var(--beige-300);
+    padding: 1rem;
+    border-radius: 6px;
+    small {
+      color: var(--grey-200);
+    }
+  }
+  .event-toast-title {
+    color: var(--grey-100);
+    font-family: "Denim-Medium";
+  }
+  .countdown {
+    font-variant-numeric: tabular-nums;
+  }
+  .reserve-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem 0;
+    border-radius: 4px;
+    border: 1px solid var(--grey-100);
+    background: var(--beige-100);
+    color: var(--brown-300);
+    text-decoration: none;
+    font-family: "Denim-Regular";
+  }
+  .toast-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: unset;
+    outline: unset;
+    border: unset;
+    color: var(--grey-300);
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  import { animate } from "motion";
+  const wrapper = document.querySelector(".desktop-toast-wrapper");
+  const closeToast = document.getElementById("closeToast");
+
+  animate(
+    wrapper,
+    {
+      transform: `translateX(0px) translateY(0) rotate(0deg) skewX(0)`,
+      opacity: 1,
+      filter: ` blur(0px)`,
+    },
+    {
+      duration: 1.45,
+      delay: 0.25,
+      easing: [0.83, 0, 0.17, 1],
+    }
+  );
+
+  closeToast.addEventListener("click", () => {
+    animate(
+      wrapper,
+      {
+        transform: `translateX(8vw) translateY(40vh) rotate(-35deg) skewX(-15deg)`,
+        opacity: 1,
+        filter: ` blur(2px)`,
+      },
+      {
+        duration: 0.6,
+        delay: 0.25,
+        easing: [0.215, 0.61, 0.355, 1],
+      }
+    );
+  });
+</script>
+
+<script>
+  const countdownParent = document.querySelector(".countdown");
+  const eventStatus = document.getElementById("eventStatus");
+
+  const startDate = new Date(
+    JSON.parse(countdownParent.getAttribute("data-startDate"))
+  );
+
+  const endDate = new Date(
+    JSON.parse(countdownParent.getAttribute("data-endDate"))
+  );
+
+  const eventTitle = JSON.parse(
+    countdownParent.getAttribute("data-eventTitle")
+  );
+
+  // Function to update the countdown based on the current date
+  function updateCountdown() {
+    const currentDate = new Date();
+
+    // Check if the current date is before the start date
+    if (currentDate < startDate) {
+      eventStatus.innerHTML = `Join us at <span class="event-toast-title">${eventTitle}</span> in`;
+      const timeRemaining = startDate - currentDate;
+      displayCountdown(timeRemaining);
+    }
+    // Check if the current date is between the start and end dates
+    else if (currentDate < endDate) {
+      eventStatus.innerHTML = `We're still at <span class="event-toast-title">${eventTitle}</span> for`;
+      const timeRemaining = endDate - currentDate;
+      displayCountdown(timeRemaining);
+    }
+    // If the current date is after the end date, display "Event is over!"
+    else {
+      countdownParent.textContent = "Event is over!";
+    }
+  }
+
+  // Function to display the countdown in the specified format
+  function displayCountdown(timeRemaining) {
+    const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+      (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+    );
+
+    let countdownText = "";
+
+    // Construct the countdown text based on remaining days, hours, and minutes
+    if (days > 0) {
+      countdownText += `${days} day${days > 1 ? "s" : ""}, `;
+    }
+    if (hours > 0) {
+      countdownText += `${hours} hour${hours > 1 ? "s" : ""}, `;
+    }
+    countdownText += `${minutes} minute${minutes > 1 ? "s" : ""}`;
+
+    // Set the countdown text to the formatted string
+    countdownParent.textContent = countdownText;
+  }
+
+  // Initial call to set the countdown when the page loads
+  updateCountdown();
+
+  // Update the countdown every second
+  setInterval(updateCountdown, 1000);
+</script>

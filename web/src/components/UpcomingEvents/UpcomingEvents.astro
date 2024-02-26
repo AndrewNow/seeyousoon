@@ -348,7 +348,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     // =====================
     // add items into the world if this page section is in view
     // Clear the existing world if bodies are present
-    console.log("bodies already exist", engine.world.bodies);
+    // console.log("bodies already exist", engine.world.bodies);
 
     data.forEach((cmsEntry, i) => {
       // Check if a box with the label `box${i}` already exists
@@ -378,7 +378,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       }
     });
 
-    console.log("boxArray after resize", boxArr);
+    // console.log("boxArray after resize", boxArr);
     // =====================
     // renderer
     // =====================
