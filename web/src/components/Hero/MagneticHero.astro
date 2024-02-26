@@ -104,7 +104,6 @@ import image4 from "../../assets/landing/syshero4.png";
     let loadedImages = 0;
     images.forEach((image) => {
       window.addEventListener("load", () => {
-      console.log('test')
         loadedImages++;
         if (loadedImages === images.length) {
           callback();
@@ -113,7 +112,6 @@ import image4 from "../../assets/landing/syshero4.png";
     });
   }
   const images = [img1, img2, img3, img4];
-
 
   checkAllImagesLoaded(images, () => {
     const cursorContainer = document.querySelector(".cursor-container");
@@ -127,6 +125,7 @@ import image4 from "../../assets/landing/syshero4.png";
 
   const cursorContainer = document.getElementById("magneticHero-wrapper");
   let isCursorInsideContainer = true;
+  let shouldRender = true; // Added variable to control rendering
 
   cursorContainer.addEventListener("mouseenter", () => {
     isCursorInsideContainer = true;
@@ -171,7 +170,6 @@ import image4 from "../../assets/landing/syshero4.png";
         this.boundingClientRect = this.imageElement.getBoundingClientRect();
       });
 
-      // Add Intersection Observer to detect when the cursor container is out of view
       const intersectionOptions = {
         root: null,
         rootMargin: "0px",
@@ -194,6 +192,8 @@ import image4 from "../../assets/landing/syshero4.png";
     }
 
     render() {
+      if (!shouldRender) return;
+
       const { left, width, top, height } = this.boundingClientRect || {};
       const distanceFromMouseToCenter = calculateDistance(
         mousePosition.x,
@@ -213,36 +213,14 @@ import image4 from "../../assets/landing/syshero4.png";
         targetHolder.x = (mousePosition.x - (left + width / 2)) * 0.2;
         targetHolder.y = (mousePosition.y - (top + height / 2)) * 0.2;
 
-        // Reset state when re-entering the viewport
         if (this.isRecentering) {
-          const recenterLerpFactor = isCursorInsideContainer
-            ? this.lerpFactor
-            : this.recenterLerpFactor;
-
-          for (const item in this.lerpingData) {
-            this.lerpingData[item].current = lerp(
-              this.lerpingData[item].current,
-              this.lerpingData[item].target,
-              recenterLerpFactor
-            );
-          }
-
-          // Check if the lerping values are close to the target values
-          const isCloseToTarget =
-            Math.abs(this.lerpingData.x.current - this.lerpingData.x.target) <
-              0.1 &&
-            Math.abs(this.lerpingData.y.current - this.lerpingData.y.target) <
-              0.1;
-
-          // If close to the target, stop recentering
-          if (isCloseToTarget) {
-            this.isRecentering = false;
-          }
+          this.isRecentering = false;
+          this.lerpingData.x.current = targetHolder.x;
+          this.lerpingData.y.current = targetHolder.y;
         }
       } else {
         this.imageElement.classList.remove("focus");
 
-        // Only recenter if not already recentering
         if (!isCursorInsideContainer && !this.isRecentering) {
           this.isRecentering = true;
 
@@ -281,15 +259,18 @@ import image4 from "../../assets/landing/syshero4.png";
     }
 
     pauseAnimation() {
+      shouldRender = false;
       this.imageElement.style.transform = "translate(0, 0)";
       this.lerpingData.x.current = 0;
       this.lerpingData.y.current = 0;
     }
 
     resumeAnimation() {
+      shouldRender = true;
       this.imageElement.style.transform = "translate(0, 0)";
       this.lerpingData.x.current = 0;
       this.lerpingData.y.current = 0;
+      requestAnimationFrame(() => this.render());
     }
   }
 
@@ -298,7 +279,6 @@ import image4 from "../../assets/landing/syshero4.png";
   const img3 = document.getElementById("image3");
   const img4 = document.getElementById("image4");
 
-  // don't run this on mobile
   const isTouchDevice =
     "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
