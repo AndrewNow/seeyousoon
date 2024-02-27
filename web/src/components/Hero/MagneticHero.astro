@@ -244,7 +244,7 @@ import image4 from "../../assets/landing/syshero4.png";
         this.lerpingData.x.current !== 0 ||
         this.lerpingData.y.current !== 0
       ) {
-        this.imageElement.style.transform = `translate(${this.lerpingData.x.current}px, ${this.lerpingData.y.current}px)`;
+        this.imageElement.style.transform = `translate3d(${this.lerpingData.x.current}px, ${this.lerpingData.y.current}px, 0)`;
       }
 
       this.resizeObserver.observe(this.imageElement);
@@ -260,14 +260,14 @@ import image4 from "../../assets/landing/syshero4.png";
 
     pauseAnimation() {
       shouldRender = false;
-      this.imageElement.style.transform = "translate(0, 0)";
+      this.imageElement.style.transform = "translate3d(0, 0, 0)";
       this.lerpingData.x.current = 0;
       this.lerpingData.y.current = 0;
     }
 
     resumeAnimation() {
       shouldRender = true;
-      this.imageElement.style.transform = "translate(0, 0)";
+      this.imageElement.style.transform = "translate3d(0, 0, 0)";
       this.lerpingData.x.current = 0;
       this.lerpingData.y.current = 0;
       requestAnimationFrame(() => this.render());

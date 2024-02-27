@@ -62,6 +62,7 @@ const eventTitle = JSON.stringify(data.title);
     font-family: "Denim-Medium";
   }
   .countdown {
+    padding-top: 0.25rem;
     font-variant-numeric: tabular-nums;
   }
   .reserve-btn {
@@ -86,6 +87,12 @@ const eventTitle = JSON.stringify(data.title);
     border: unset;
     color: var(--grey-300);
     cursor: pointer;
+  }
+
+  @media (max-width: 576px) {
+    .desktop-toast-wrapper {
+      display: none;
+    }
   }
 </style>
 

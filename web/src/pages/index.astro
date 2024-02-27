@@ -6,11 +6,12 @@ import Toast from "../components/Toast/Toast.astro";
 import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
 
-import { getPastEvents, getUpcomingEvent } from "../sanity/api";
+import { getPastEvents, getUpcomingEvent, getUpcomingEvents } from "../sanity/api";
 import Newsletter from "../components/Newsletter.astro";
 import About from "../components/About/About.astro";
 
 const pastEventsData = await getPastEvents();
+const upcomingEventsData = await getUpcomingEvents();
 const upcomingEventToastData = await getUpcomingEvent();
 ---
 
@@ -21,7 +22,7 @@ const upcomingEventToastData = await getUpcomingEvent();
     <MagneticHero />
   </section>
   <div class="upcoming-events">
-    <UpcomingEvents />
+    <UpcomingEvents data={upcomingEventsData} />
   </div>
   <!-- <section class="about">
     <About />

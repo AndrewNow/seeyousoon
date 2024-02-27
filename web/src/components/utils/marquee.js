@@ -29,22 +29,28 @@
     };
 
     // console.log("pastEventsMarquees", pastEventsMarquees);
+ const isTouchDevice =
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0;
 
-    pastEventsMarquees.forEach((el) => {
-      const marqueeSpeed = calculateMarqueeSpeed(
-        el.getAttribute("data-image-count")
-      );
-      // const imageCount = el.getAttribute("data-image-count");
-      // console.log("imagecount", marqueeSpeed);
-      const speed = marqueeSpeed ? marqueeSpeed : 50;
-      new marquee(el, {
-        duplicated: true,
-        gap: 0,
-        speed: speed,
-        // pauseOnHover: true,
-        startVisible: true,
-        // recalcResize: true,
-        recalcResize: true,
-      });
-    });
+    if (window.innerWidth > 576 || !isTouchDevice) {
+      pastEventsMarquees.forEach((el) => {
+        const marqueeSpeed = calculateMarqueeSpeed(
+          el.getAttribute("data-image-count")
+        );
+        // const imageCount = el.getAttribute("data-image-count");
+        // console.log("imagecount", marqueeSpeed);
+        const speed = marqueeSpeed ? marqueeSpeed : 50;
+        new marquee(el, {
+          duplicated: true,
+          gap: 0,
+          speed: speed,
+          // pauseOnHover: true,
+          startVisible: true,
+          // recalcResize: true,
+          recalcResize: true,
+        });
+      })
+    };
   });

@@ -1,72 +1,147 @@
 ---
 const { cmsData } = Astro.props;
+import Image from "astro/components/Image.astro";
+import dancing from "../../assets/dancing.png";
+
+let formattedDates = [];
+
+cmsData.forEach((post) => {
+  function formatDate(inputDate) {
+    const dateObject = new Date(inputDate);
+    const options = { month: "long", day: "numeric" };
+
+    const monthAndDay = dateObject.toLocaleDateString("en-US", options);
+    const day = dateObject.getDate();
+    let suffix = "th";
+
+    // Handle special cases for 11 to 13 (11th, 12th, 13th)
+    if (day >= 11 && day <= 13) {
+      suffix = "th";
+    } else {
+      // For all other cases (1st, 2nd, 3rd, and 21st to 31st)
+      switch (day % 10) {
+        case 1:
+          suffix = "st";
+          break;
+        case 2:
+          suffix = "nd";
+          break;
+        case 3:
+          suffix = "rd";
+          break;
+      }
+    }
+
+    return `${monthAndDay}${suffix}`;
+  }
+
+  function formatRange(startDate, endDate) {
+    const formattedStartDate = formatDate(startDate);
+    const formattedEndDate = endDate ? formatDate(endDate) : null;
+
+    // Check if startDate and endDate have the same month
+    const startMonth = new Date(startDate).getMonth();
+    const endMonth = endDate ? new Date(endDate).getMonth() : null;
+
+    if (endMonth !== null && startMonth === endMonth) {
+      // If same month, omit the month name from endDate
+      return `${formattedStartDate} to ${formattedEndDate.substr(formattedEndDate.indexOf(" ") + 1)}`;
+    } else {
+      // If different months or endDate is not provided, use both month names
+      return `${formattedStartDate} to ${formattedEndDate}`;
+    }
+  }
+
+  const startDate = post.dateStart;
+  const endDate = post.dateEnd;
+  const formattedDateRange = formatRange(startDate, endDate);
+  formattedDates.push(formattedDateRange);
+});
 ---
 
 <div class="listView-wrapper">
+  <h4 class="title">Upcoming events</h4>
   {
-    cmsData.map((event) => (
-      <div class="entry">
-        <h3>{event.title}</h3>
-        <div class="details-wrapper">
-          <div>
-            <p>
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z"
-                  fill="#9F9F9F"
-                />
-              </svg>
-              {event.date}
-            </p>
-            <p>
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 3C10.0314 3 6 6.62869 6 11.1C6 18.3 15 27 15 27C15 27 24 18.3 24 11.1C24 6.62869 19.9686 3 15 3ZM15 15.6C14.288 15.6 13.592 15.3889 12.9999 14.9933C12.4079 14.5977 11.9465 14.0355 11.674 13.3777C11.4016 12.7198 11.3303 11.996 11.4692 11.2977C11.6081 10.5993 11.9509 9.95788 12.4544 9.45441C12.9579 8.95095 13.5993 8.60808 14.2977 8.46917C14.996 8.33027 15.7198 8.40156 16.3777 8.67403C17.0355 8.94651 17.5977 9.40793 17.9933 9.99995C18.3889 10.592 18.6 11.288 18.6 12C18.599 12.9545 18.2193 13.8695 17.5444 14.5444C16.8695 15.2193 15.9545 15.599 15 15.6Z"
-                  fill="#9F9F9F"
-                />
-              </svg>
-              <a href={event.locationLink} target="_blank" rel="noreferrer">
-                {event.location}
-              </a>
-            </p>
+    cmsData.map((event, i) => {
+      return (
+        <div class="entry">
+          <h4>{event.title}</h4>
+          <div class="details-wrapper">
+            <div>
+              <p>
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z"
+                    fill="#9F9F9F"
+                  />
+                </svg>
+                {formattedDates[i]}
+              </p>
+              <p>
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 3C10.0314 3 6 6.62869 6 11.1C6 18.3 15 27 15 27C15 27 24 18.3 24 11.1C24 6.62869 19.9686 3 15 3ZM15 15.6C14.288 15.6 13.592 15.3889 12.9999 14.9933C12.4079 14.5977 11.9465 14.0355 11.674 13.3777C11.4016 12.7198 11.3303 11.996 11.4692 11.2977C11.6081 10.5993 11.9509 9.95788 12.4544 9.45441C12.9579 8.95095 13.5993 8.60808 14.2977 8.46917C14.996 8.33027 15.7198 8.40156 16.3777 8.67403C17.0355 8.94651 17.5977 9.40793 17.9933 9.99995C18.3889 10.592 18.6 11.288 18.6 12C18.599 12.9545 18.2193 13.8695 17.5444 14.5444C16.8695 15.2193 15.9545 15.599 15 15.6Z"
+                    fill="#9F9F9F"
+                  />
+                </svg>
+                <a href={event.locationLink} target="_blank" rel="noreferrer">
+                  {event.location}
+                </a>
+              </p>
+            </div>
+            <a class="reserve" href={event.eventLink}>
+              <small>Reserve</small>
+            </a>
           </div>
-          <a class="reserve" href={event.eventLink}>
-            <small>Reserve</small>
-          </a>
         </div>
-      </div>
-    ))
+      );
+    })
   }
+  <Image
+    class="dancing-img"
+    src={dancing}
+    alt="Two dancing SYS stars, each with a glass of wine in their hand"
+  />
 </div>
 
 <style lang="scss">
   .listView-wrapper {
+    transform: rotate(-1.5deg);
     margin: 0 auto;
     max-width: min(650px, 98vw);
     width: 100%;
     background: var(--beige-100);
-    padding: 10rem 2rem;
+    color: var(--brown-200);
+    padding: 4rem 1.5rem;
     border-radius: 8px;
+    .title {
+      font-family: "Denim-Regular";
+      text-transform: uppercase;
+      margin: 3rem auto;
+      margin-top: 2rem;
+      text-align: center;
+    }
   }
   .entry {
     margin: 1rem;
     padding-bottom: 2rem;
     border-bottom: 1px dotted var(--grey-300);
-    h3 {
+    h4 {
+      font-family: "Denim-Medium";
       margin-bottom: 0.5rem;
-      color: black;
+      color: var(--brown-200);
     }
     .details-wrapper {
       display: flex;
@@ -77,6 +152,7 @@ const { cmsData } = Astro.props;
       margin-bottom: 0.5rem;
       display: flex;
       align-items: start;
+      color: var(--grey-300);
       a {
         color: var(--grey-300);
       }
@@ -92,11 +168,46 @@ const { cmsData } = Astro.props;
     }
   }
   .reserve {
-    padding: .75rem 2.5rem;
+    padding: 0.75rem 2.5rem;
     border-radius: 6px;
     background: var(--beige-200);
     border: 1px solid var(--grey-100);
     color: var(--brown-300);
     text-decoration: none;
+  }
+  .dancing-img {
+    padding-top: 3rem;
+    margin: 0 auto;
+    opacity: 0.5;
+    transform: rotate(1deg);
+  }
+
+  @media (max-width: 768px) {
+    .listView-wrapper {
+      transform: rotate(-0.5deg);
+      padding: 0;
+      width: 95%;
+    }
+    .entry {
+      .details-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      p {
+        font-size: 14px;
+        svg {
+          max-width: 18px;
+        }
+      }
+    }
+    .reserve {
+      display: block;
+      width: 100%;
+      padding: 0;
+    }
+    .dancing-img {
+      padding-top: 0rem;
+      scale: 0.75;
+    }
   }
 </style>

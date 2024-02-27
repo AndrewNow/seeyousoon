@@ -1,37 +1,8 @@
 ---
 import ListView from "./ListView.astro";
-
-const data = [
-  {
-    title: "Oranj",
-    date: "May 14th | 10pm-3am",
-    location: "915 Dupont",
-    locationLink:
-      "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-    eventLink:
-      "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-  },
-  {
-    title: "Oranj2",
-    date: "May 14th | 10pm-3am",
-    location: "1233 Queen Street West, Toronto, ON",
-    locationLink:
-      "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-    eventLink:
-      "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-  },
-  {
-    title: "Oranj3",
-    date: "May 14th | 10pm-3am",
-    location: "1233 Queen Street West, Toronto, ON",
-    locationLink:
-      "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-    eventLink:
-      "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-  },
-];
-
 import Sticky from "../About/Sticky.astro";
+
+const { data } = Astro.props;
 const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest event comes first
 ---
 
@@ -41,8 +12,12 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   </div>
   <div class="upcomingEvents-wrapper">
     <div class="carousel-buttons">
-      <button class="carousel-physics-view">Physics view</button>
-      <button class="carousel-list-view">List view</button>
+      <button class="carousel-card-view active">
+        <p>Card view</p>
+      </button>
+      <button class="carousel-list-view">
+        <p>List view</p>
+      </button>
     </div>
     <div class="upcomingEvents-toggle-track">
       <div
@@ -82,7 +57,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   }
   .upcomingEvents-wrapper {
     position: relative;
-    height: 95vh;
+    height: 105vh;
     width: 98%;
     margin: 5rem auto;
     margin-top: 1rem; // delete if not using carousel
@@ -93,8 +68,22 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   .carousel-buttons {
     position: absolute;
     top: 2rem;
-    left: 2rem;
+    right: 2rem;
     z-index: 10;
+    button {
+      cursor: pointer;
+      margin: 0 0.5rem;
+      border: unset;
+      background: unset;
+      color: var(--grey-300);
+      transition: 0.3s all ease;
+    }
+    button:hover {
+      color: var(--grey-100);
+    }
+    button.active {
+      color: var(--beige-300);
+    }
   }
   .upcomingEvents-toggle-track {
     display: flex;
@@ -129,8 +118,8 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     background: var(--beige-100);
     outline: 1px solid var(--grey-200);
     position: relative;
-    height: 300px;
-    width: 620px;
+    height: 250px;
+    width: 500px;
     display: grid;
     place-items: center;
   }
@@ -145,7 +134,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   .upcomingEvents-reserve-link {
     display: grid;
     place-items: center;
-    height: 50px;
+    height: 60px;
     border-radius: 6px;
     width: 100%;
     outline: 1px solid var(--grey-100);
@@ -157,20 +146,26 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   }
   .upcomingEvents-header {
     h3 {
+      color: var(--brown-200);
       line-height: 100%;
       padding-bottom: 1rem;
+      font-size: 34px;
     }
   }
   .upcomingEvents-details {
     h6 {
       display: flex;
+      align-items: center;
       padding-bottom: 0.5rem;
+      font-size: 20px;
+      // color: var(--brown-200);
+      color: var(--grey-300);
       // white-space: nowrap;
       .svg-wrapper {
         padding-right: 0.5rem;
         aspect-ratio: 1/1;
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
         display: grid;
         place-items: center;
         position: relative;
@@ -235,11 +230,19 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       track.style.transform = `translateX(-100%)`;
     };
 
-    const canvasButton = document.querySelector(".carousel-physics-view");
-    canvasButton.addEventListener("click", viewCanvasEl);
+    const cardButton = document.querySelector(".carousel-card-view");
+    cardButton.addEventListener("click", () => {
+      cardButton.classList.add("active");
+      listButton.classList.toggle("active");
+      viewCanvasEl();
+    });
 
     const listButton = document.querySelector(".carousel-list-view");
-    listButton.addEventListener("click", viewListEl);
+    listButton.addEventListener("click", () => {
+      cardButton.classList.toggle("active");
+      listButton.classList.add("active");
+      viewListEl();
+    });
   });
 
   //
@@ -258,8 +261,8 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   // =====================
   // Variable declaration
   // =====================
-  let BOX_WIDTH = 620;
-  let BOX_HEIGHT = 300;
+  let BOX_WIDTH = 550;
+  let BOX_HEIGHT = 250;
 
   let ground, leftWall, rightWall;
   let boxArr = [];
@@ -271,8 +274,8 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   const init = () => {
     // change dimensions based on browser size
     if (window.innerWidth >= 1440) {
-      BOX_WIDTH = 620;
-      BOX_HEIGHT = 300;
+      BOX_WIDTH = 550;
+      BOX_HEIGHT = 250;
     } else if (window.innerWidth >= 576) {
       BOX_WIDTH = 490;
       BOX_HEIGHT = 235;
@@ -346,24 +349,28 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     // =====================
     // create boxes
     // =====================
-    // add items into the world if this page section is in view
-    // Clear the existing world if bodies are present
-    // console.log("bodies already exist", engine.world.bodies);
 
     data.forEach((cmsEntry, i) => {
       // Check if a box with the label `box${i}` already exists
       const existingBox = boxArr.find((box) => box.boxData.label === `box${i}`);
 
       if (!existingBox) {
+        const randomX = 1.5 + Math.random() * 1.5;
+
+        const isPositive = Math.random() < 0.5;
+        const randomAngle = isPositive
+          ? 3.0 + Math.random()
+          : -3.0 - Math.random();
+
         const boxData = Matter.Bodies.rectangle(
-          containerEl.offsetWidth / 2,
+          containerEl.offsetWidth / randomX,
           -containerEl.offsetHeight / 2,
           BOX_WIDTH,
           BOX_HEIGHT,
           {
-            angle: Math.PI / 4,
+            angle: Math.PI / randomAngle,
             label: `box${i}`,
-            // render: { fillStyle: "transparent" },
+            render: { fillStyle: "transparent" },
             restitution: 0.6,
           }
         );
@@ -373,20 +380,18 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
           () => {
             Matter.Composite.add(engine.world, boxData);
           },
-          550 * (i + 1)
+          750 * (i + 1)
         );
       }
     });
 
-    // console.log("boxArray after resize", boxArr);
     // =====================
     // renderer
     // =====================
-    // run the renderer
     Matter.Render.run(render);
+
     render.canvas.width = containerEl.offsetWidth;
     render.canvas.height = containerEl.offsetHeight;
-    // create runner
 
     if (runner === null) {
       runner = Matter.Runner.create();
@@ -394,7 +399,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       runner.enabled = true;
     }
 
-    // run the engine
     // Run the engine only if the section is in view
     const observer = new IntersectionObserver(
       (entries) => {
@@ -427,7 +431,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       );
 
       // Attach the afterUpdate event to the Runner
-
       Matter.Events.on(runner, "afterUpdate", function () {
         updateHtmlBox(`box${i}`, box.boxData.position, box.boxData.angle);
       });
@@ -484,6 +487,58 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     htmlBox.style.top = `${y - BOX_HEIGHT / 2}px`;
     htmlBox.style.position = "absolute";
     htmlBox.style.zIndex = "1";
+
+    function formatDate(inputDate) {
+      const dateObject = new Date(inputDate);
+      const options = { month: "long", day: "numeric" };
+
+      const monthAndDay = dateObject.toLocaleDateString("en-US", options);
+      const day = dateObject.getDate();
+      let suffix = "th";
+
+      // Handle special cases for 11 to 13 (11th, 12th, 13th)
+      if (day >= 11 && day <= 13) {
+        suffix = "th";
+      } else {
+        // For all other cases (1st, 2nd, 3rd, and 21st to 31st)
+        switch (day % 10) {
+          case 1:
+            suffix = "st";
+            break;
+          case 2:
+            suffix = "nd";
+            break;
+          case 3:
+            suffix = "rd";
+            break;
+        }
+      }
+
+      return `${monthAndDay}${suffix}`;
+    }
+
+    function formatRange(startDate, endDate) {
+      const formattedStartDate = formatDate(startDate);
+      const formattedEndDate = endDate ? formatDate(endDate) : null;
+
+      // Check if startDate and endDate have the same month
+      const startMonth = new Date(startDate).getMonth();
+      const endMonth = endDate ? new Date(endDate).getMonth() : null;
+
+      if (endMonth !== null && startMonth === endMonth) {
+        // If same month, omit the month name from endDate
+        return `${formattedStartDate} to ${formattedEndDate.substr(formattedEndDate.indexOf(" ") + 1)}`;
+      } else {
+        // If different months or endDate is not provided, use both month names
+        return `${formattedStartDate} to ${formattedEndDate}`;
+      }
+    }
+
+    const startDate = cmsEntry.dateStart;
+    const endDate = cmsEntry.dateEnd;
+    const formattedDateRange = formatRange(startDate, endDate);
+    console.log(formattedDateRange);
+
     htmlBox.innerHTML = `
     <div class='upcomingEvents-inner'>
       <div class='upcomingEvents-header'>
@@ -495,7 +550,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
               <path d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z" fill="#9F9F9F"/>
               </svg>
             </span>
-            ${cmsEntry.date}
+            ${formattedDateRange}
           </h6>
           <h6>
             <span class='svg-wrapper'>
