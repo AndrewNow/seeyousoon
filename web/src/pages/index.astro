@@ -6,10 +6,11 @@ import Toast from "../components/Toast/Toast.astro";
 import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
 
-import { getPastEvents, getUpcomingEvent, getUpcomingEvents } from "../sanity/api";
+import { getHeroImages, getPastEvents, getUpcomingEvent, getUpcomingEvents } from "../sanity/api";
 import Newsletter from "../components/Newsletter.astro";
 import About from "../components/About/About.astro";
 
+const heroImageData = await getHeroImages();
 const pastEventsData = await getPastEvents();
 const upcomingEventsData = await getUpcomingEvents();
 const upcomingEventToastData = await getUpcomingEvent();
@@ -19,7 +20,7 @@ const upcomingEventToastData = await getUpcomingEvent();
   <section class="hero" id="magneticHero-wrapper">
     <Toast data={upcomingEventToastData} />
     <HeroContent />
-    <MagneticHero />
+    <MagneticHero data={heroImageData} />
   </section>
   <div class="upcoming-events">
     <UpcomingEvents data={upcomingEventsData} />
