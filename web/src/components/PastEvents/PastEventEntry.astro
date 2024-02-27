@@ -157,8 +157,13 @@ const convertedDate = convertDateFormat(eventData.date);
 
   @media (max-width: 576px) {
     #pastEvents-marquee {
-      margin: 0 .5rem;
-      overflow-x: scroll;
+      margin: 0 0.5rem;
+      // overflow-x: scroll;
+    }
+    .pastEvents-image-wrapper {
+      img {
+        height: 200px;
+      }
     }
   }
 </style>
