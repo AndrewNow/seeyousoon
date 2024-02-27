@@ -188,27 +188,42 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     }
   }
   @media (max-width: 576px) {
+    .upcomingEvents-wrapper {
+      margin-top: 0.5rem;
+    }
     .title-marquee {
       padding-top: 1rem;
       padding-bottom: 1rem;
     }
     .box {
-      width: 255px;
-      height: 190px;
+      border-radius: 4px;
+      width: 275px;
+      height: 170px;
+    }
+    .upcomingEvents-header {
+      h3 {
+        font-size: 22px;
+      }
     }
     .upcomingEvents-inner {
       height: 85%;
     }
     .upcomingEvents-details {
       h6 {
+        font-size: 14px;
         .svg-wrapper {
-          width: 17px;
-          height: 17px;
+          width: 20px;
+          height: 20px;
         }
       }
     }
     .upcomingEvents-reserve-link {
       height: 40px;
+    }
+  }
+  @media (max-width: 374px) {
+    .upcomingEvents-wrapper {
+      height: 150vh;
     }
   }
 </style>
@@ -280,8 +295,8 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       BOX_WIDTH = 490;
       BOX_HEIGHT = 235;
     } else {
-      BOX_WIDTH = 255;
-      BOX_HEIGHT = 190;
+      BOX_WIDTH = 275;
+      BOX_HEIGHT = 170;
     }
 
     // create an engine

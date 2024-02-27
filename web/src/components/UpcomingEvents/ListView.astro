@@ -186,7 +186,7 @@ cmsData.forEach((post) => {
     .listView-wrapper {
       transform: rotate(-0.5deg);
       padding: 0;
-      width: 95%;
+      width: 90%;
     }
     .entry {
       .details-wrapper {
@@ -208,6 +208,42 @@ cmsData.forEach((post) => {
     .dancing-img {
       padding-top: 0rem;
       scale: 0.75;
+    }
+  }
+  @media (max-width: 576px) {
+    .listView-wrapper {
+      padding: 0;
+      .title {
+        margin: 2rem auto;
+        font-size: 22px;
+      }
+    }
+    .reserve {
+      margin-top: 0.75rem;
+      text-align: center;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      small {
+        font-size: 16px;
+      }
+    }
+    .entry {
+      margin: 0 auto;
+      margin-top: 0.75rem;
+      width: 85%;
+      padding-bottom: 1rem;
+      .details-wrapper {
+        p {
+          svg {
+            padding-right: 0.5rem;
+          }
+        }
+      }
+    }
+    .dancing-img {
+      scale: .7;
+      transform: rotate(1.5deg);
     }
   }
 </style>
