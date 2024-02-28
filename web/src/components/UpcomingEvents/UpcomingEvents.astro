@@ -291,6 +291,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     runner = null;
 
   let debouncedResize;
+  let prevWindowWidth = window.innerWidth;
 
   const init = () => {
     if (window.innerWidth >= 1440) {
@@ -446,6 +447,13 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   }
 
   function resize() {
+    const currentWindowWidth = window.innerWidth;
+    if (currentWindowWidth === prevWindowWidth) {
+      // No change in window width, exit without resizing
+      return;
+    }
+    prevWindowWidth = currentWindowWidth;
+
     window.removeEventListener("resize", debouncedResize);
     Matter.Runner.stop(runner);
     Matter.Render.stop(render);
