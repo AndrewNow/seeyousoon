@@ -188,6 +188,15 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     }
   }
   @media (max-width: 576px) {
+    .carousel-buttons {
+      width: 60%;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      border-radius: 4px;
+    }
     .upcomingEvents-wrapper {
       height: 120vh;
       margin-top: 0.5rem;
@@ -370,6 +379,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
             angle: Math.PI / randomAngle,
             label: `box${i}`,
             restitution: 0.6,
+            render: { fillStyle: "transparent" },
           }
         );
         boxArr.push({ boxData, cmsEntry });
