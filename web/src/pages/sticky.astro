@@ -1,0 +1,83 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <div class="spacer">Spacer</div>
+  <div class="sticky-area" id="sticky-container">
+    <div class="sticky-container" id="sticky-el">
+      <div class="text-wrapper">
+        <h4 id="sys">- "See you soon"</h4>
+        <h1 id="sys-bio">
+          An expression of farewell, with the intention of meeting once again.
+        </h1>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .spacer {
+    height: 100vh;
+    background: var(--brown-300);
+    color: var(--beige-300);
+    display: grid;
+    place-items: center;
+  }
+  .sticky-area {
+    height: 400vh;
+  }
+  .sticky-container {
+    height: 100vh;
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
+    position: sticky;
+    top: 0;
+  }
+  .text-wrapper {
+    display: grid;
+    width: 60%;
+    h4 {
+      font-family: "Bradford-Light-Italic";
+    }
+  }
+
+  #sys {
+    opacity: 0;
+  }
+  #sys-bio {
+    opacity: 0;
+  }
+</style>
+
+<script>
+  import { timeline, scroll } from "motion";
+
+  const scrollTrack = document.getElementById("sticky-container");
+
+  const sys = document.getElementById("sys");
+  const sysBio = document.getElementById("sys-bio");
+
+  const sequence = [
+    [
+      sys,
+      {
+        opacity: 1,
+      },
+      {
+        at: "<"
+      }
+    ],
+    [
+      sysBio,
+      {
+        opacity: 1,
+      },
+    ],
+  ];
+
+  scroll(timeline(sequence), {
+    target: scrollTrack,
+  });
+</script>
