@@ -7,9 +7,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 ---
 
 <div>
-  <!-- <div class="title-marquee" id="title-marquee">
+  <div class="title-marquee" id="title-marquee">
     <h2>Upcoming Events · Upcoming Events ·</h2>
-  </div> -->
+  </div>
   <div class="upcomingEvents-wrapper">
     <div class="carousel-buttons">
       <button class="carousel-card-view active">
@@ -337,7 +337,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       0,
       containerEl.offsetHeight / 2,
       10,
-      containerEl.offsetHeight,
+      containerEl.offsetHeight * 2,
       {
         isStatic: true,
         render: { fillStyle: "transparent" },
@@ -350,7 +350,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       containerEl.offsetWidth,
       containerEl.offsetHeight / 2,
       10,
-      containerEl.offsetHeight,
+      containerEl.offsetHeight * 2,
       {
         isStatic: true,
         render: { fillStyle: "transparent" },
