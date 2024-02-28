@@ -189,6 +189,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   }
   @media (max-width: 576px) {
     .upcomingEvents-wrapper {
+      height: 120vh;
       margin-top: 0.5rem;
     }
     .title-marquee {
@@ -264,30 +265,25 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   //
   //
   //
-  //
-  //
-  //
-  //
   import * as Matter from "matter-js";
 
   const containerEl = document.querySelector("#upcoming-events");
   const data = JSON.parse(containerEl.getAttribute("data-cms"));
 
-  // =====================
-  // Variable declaration
-  // =====================
   let BOX_WIDTH = 550;
   let BOX_HEIGHT = 250;
 
   let ground, leftWall, rightWall;
+
   let boxArr = [];
 
   let engine,
     render,
     runner = null;
 
+  let debouncedResize;
+
   const init = () => {
-    // change dimensions based on browser size
     if (window.innerWidth >= 1440) {
       BOX_WIDTH = 550;
       BOX_HEIGHT = 250;
@@ -299,10 +295,10 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       BOX_HEIGHT = 170;
     }
 
-    // create an engine
-    engine = Matter.Engine.create();
+    if (engine == null || undefined) {
+      engine = Matter.Engine.create();
+    }
 
-    // create a renderer
     render = Matter.Render.create({
       element: containerEl,
       engine: engine,
@@ -314,10 +310,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       },
     });
 
-    // =====================
-    // boundaries
-    // =====================
-    // create ground
     ground = Matter.Bodies.rectangle(
       containerEl.offsetWidth / 2,
       containerEl.offsetHeight,
@@ -331,7 +323,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       }
     );
 
-    // create boundaries (walls)
     leftWall = Matter.Bodies.rectangle(
       0,
       containerEl.offsetHeight / 2,
@@ -358,20 +349,13 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       }
     );
 
-    // add all bodies to the world
     Matter.Composite.add(engine.world, [ground, leftWall, rightWall]);
 
-    // =====================
-    // create boxes
-    // =====================
-
     data.forEach((cmsEntry, i) => {
-      // Check if a box with the label `box${i}` already exists
       const existingBox = boxArr.find((box) => box.boxData.label === `box${i}`);
 
       if (!existingBox) {
         const randomX = 1.5 + Math.random() * 1.5;
-
         const isPositive = Math.random() < 0.5;
         const randomAngle = isPositive
           ? 3.0 + Math.random()
@@ -385,11 +369,10 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
           {
             angle: Math.PI / randomAngle,
             label: `box${i}`,
-            render: { fillStyle: "transparent" },
             restitution: 0.6,
           }
         );
-        boxArr.push({ boxData, cmsEntry }); // boxdata = the physics model, cmsEntry = the data for the html boxes
+        boxArr.push({ boxData, cmsEntry });
 
         setTimeout(
           () => {
@@ -400,9 +383,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       }
     });
 
-    // =====================
-    // renderer
-    // =====================
     Matter.Render.run(render);
 
     render.canvas.width = containerEl.offsetWidth;
@@ -414,7 +394,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       runner.enabled = true;
     }
 
-    // Run the engine only if the section is in view
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -424,20 +403,15 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
         });
       },
       {
-        root: null, // use the viewport as the root
+        root: null,
         rootMargin: "0px",
-        threshold: 0.5, // 0.5 means at least 50% of the target element must be in view
+        threshold: 0.5,
       }
     );
 
-    // Observe the container element
     observer.observe(containerEl);
 
-    // =====================
-    // box HTML setup
-    // =====================
     boxArr.forEach((box, i) => {
-      // Create HTML elements for boxes
       createHtmlBox(
         `box${i}`,
         box.boxData.position.x,
@@ -445,7 +419,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
         box.cmsEntry
       );
 
-      // Attach the afterUpdate event to the Runner
       Matter.Events.on(runner, "afterUpdate", function () {
         updateHtmlBox(`box${i}`, box.boxData.position, box.boxData.angle);
       });
@@ -455,41 +428,42 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   };
   init();
 
+  function initResize() {
+    debouncedResize = debounce(() => {
+      resize();
+    }, 1000);
+    window.addEventListener("resize", debouncedResize);
+  }
+
   function resize() {
-    // don't remove the walls
+    window.removeEventListener("resize", debouncedResize);
+    Matter.Runner.stop(runner);
+    Matter.Render.stop(render);
+    Matter.Runner.stop(runner);
+    Matter.World.clear(engine.world);
+    Matter.Engine.clear(engine);
+
     Matter.Composite.allBodies(engine.world).forEach((body) => {
       if (body.label !== "wall") {
         Matter.Composite.remove(engine.world, body);
       }
     });
 
-    // Remove HTML box elements
     boxArr = [];
 
-    // remove the html appended to the boxes
     const htmlBoxes = document.querySelectorAll(".box");
     htmlBoxes.forEach((box) => {
       box.remove();
     });
 
-    // Remove the canvas element from the DOM
     const canvas = containerEl.querySelector("canvas");
     if (canvas) {
       canvas.remove();
     }
 
-    // Reinitialize the setup
     setTimeout(() => {
       init();
     }, 1000);
-  }
-
-  function initResize() {
-    const debouncedResize = debounce(() => {
-      resize();
-    }, 2000);
-
-    window.addEventListener("resize", debouncedResize);
   }
 
   function createHtmlBox(id, x, y, cmsEntry) {
@@ -511,11 +485,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       const day = dateObject.getDate();
       let suffix = "th";
 
-      // Handle special cases for 11 to 13 (11th, 12th, 13th)
       if (day >= 11 && day <= 13) {
         suffix = "th";
       } else {
-        // For all other cases (1st, 2nd, 3rd, and 21st to 31st)
         switch (day % 10) {
           case 1:
             suffix = "st";
@@ -536,15 +508,12 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       const formattedStartDate = formatDate(startDate);
       const formattedEndDate = endDate ? formatDate(endDate) : null;
 
-      // Check if startDate and endDate have the same month
       const startMonth = new Date(startDate).getMonth();
       const endMonth = endDate ? new Date(endDate).getMonth() : null;
 
       if (endMonth !== null && startMonth === endMonth) {
-        // If same month, omit the month name from endDate
         return `${formattedStartDate} to ${formattedEndDate.substr(formattedEndDate.indexOf(" ") + 1)}`;
       } else {
-        // If different months or endDate is not provided, use both month names
         return `${formattedStartDate} to ${formattedEndDate}`;
       }
     }
@@ -561,7 +530,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
           <h6>
             <span class='svg-wrapper'>
               <svg width="100%" height="100%" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z" fill="#9F9F9F"/>
+                <path d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z" fill="#9F9F9F"/>
               </svg>
             </span>
             ${formattedDateRange}
@@ -585,7 +554,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       </a>
     </div>
   `;
-    document.querySelector("#upcoming-events").appendChild(htmlBox);
+    containerEl.appendChild(htmlBox);
   }
 
   function updateHtmlBox(id, position, angle) {
@@ -595,7 +564,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       const updatedY = position.y;
       const updatedAngle = angle;
 
-      // Apply position and rotation
       htmlBox.style.left = `${updatedX - BOX_WIDTH / 2}px`;
       htmlBox.style.top = `${updatedY - BOX_HEIGHT / 2}px`;
       htmlBox.style.transform = `rotate(${updatedAngle}rad)`;
