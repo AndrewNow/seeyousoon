@@ -5,7 +5,12 @@ import house from "../assets/house.png";
 
 <!-- Begin Mailchimp Signup Form -->
 <section id="mc_embed_signup" class="newsletter-wrapper">
-  <Image src={house} alt="SYS house illustration" class="sys-house-image" quality={60} />
+  <Image
+    src={house}
+    alt="SYS house illustration"
+    class="sys-house-image"
+    quality={60}
+  />
   <form
     action=""
     method="post"
@@ -30,7 +35,7 @@ import house from "../assets/house.png";
               type="email"
               value=""
               name="EMAIL"
-              placeholder="test"
+              placeholder="yourname@email.com"
               id="mce-EMAIL"
               required
             />
@@ -70,7 +75,16 @@ import house from "../assets/house.png";
   </form>
 </section>
 
-<style lang="scss">
+<style lang="scss" is:global>
+  .mce_inline_error {
+    // font-size: 14px;
+    font-family: "Denim-Regular";
+    background: unset;
+    background-color: unset !important;
+    color: var(--red) !important;
+    // margin: unset !important;
+    text-align: left;
+  }
   .sys-house-image {
     margin: 0 auto;
   }
@@ -85,7 +99,7 @@ import house from "../assets/house.png";
       max-width: 480px;
       margin: 0 auto;
       margin-bottom: 4rem;
-      color: var(--grey-300);
+      color: var(--grey-300) !important;
     }
   }
 
@@ -135,7 +149,7 @@ import house from "../assets/house.png";
 
     .subscribe-btn-wrapper {
       background: var(--brown-300);
-      color: var(--beige-300);
+      color: var(--beige-300) !important;
       border-radius: 4px;
       position: absolute;
       z-index: 200;
@@ -179,6 +193,39 @@ import house from "../assets/house.png";
       // .hiddenArrow {
       //   transform: translate(-50%, -50%);
       // }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .newsletter-wrapper {
+      padding: 5rem 0;
+      padding-top: 7rem;
+    }
+    .newsletter-wrapper {
+      width: 95%;
+      margin: 0 auto;
+      p {
+        margin-bottom: 2rem;
+        max-width: 90%;
+      }
+    }
+    .sys-house-image {
+      max-width: 150px;
+      height: auto;
+      margin: 1rem auto;
+    }
+    .input-container {
+      .text-input-wrapper {
+        .email-input {
+          width: calc(100% - 110px - 2rem - 20px);
+        }
+      }
+      .subscribe-btn-wrapper {
+        width: 110px;
+        .subscribe-btn-label {
+          font-size: 14px !important;
+        }
+      }
     }
   }
 </style>
