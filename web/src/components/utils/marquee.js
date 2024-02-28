@@ -3,6 +3,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     const titleMarquees = document.querySelectorAll("#title-marquee");
 
+    let windowWidth = window.innerWidth
     titleMarquees.forEach((el) => {
       new marquee(el, {
         duplicated: true,
@@ -12,6 +13,12 @@
         startVisible: true,
         recalcResize: false,
       });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth != windowWidth) {
+          windowWidth = window.innerWidth
+          marquee.refresh()
+        }
+      })
     });
 
     const pastEventsMarquees = document.querySelectorAll("#pastEvents-marquee");
