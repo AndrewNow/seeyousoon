@@ -1,10 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import footerSrc from "../assets/footer/footer.mp4";
 ---
 
 <Layout>
   <div class="spacer">Spacer</div>
-  <div class="sticky-area" id="sticky-container">
+  <div class="sticky-area-1" id="sticky-container-1">
     <div class="sticky-container" id="sticky-el">
       <div class="text-wrapper">
         <h4 id="sys">- "See you soon"</h4>
@@ -12,6 +13,37 @@ import Layout from "../layouts/Layout.astro";
           An expression of farewell, with the intention of meeting once again.
         </h1>
       </div>
+    </div>
+  </div>
+  <div class="sticky-area-2" id="sticky-container-2">
+    <div class="sticky-container" id="sticky-el">
+      <div class="video-container">
+        <video
+          class="video-media"
+          preload="metadata"
+          loading="lazy"
+          autoplay
+          playsinline
+          muted
+          loop
+        >
+          <source src={footerSrc} type="video/mp4" />
+        </video>
+      </div>
+    </div>
+    <div class="bio-wrapper">
+      <p>
+        Expanding the spectrum from graphic design, branding, scenography and
+        art direction, to packaging and type development, the studio’s work
+        embraces holistic examination from research and concept to creation,
+        irrespective of its digital or analog nature.
+      </p>
+      <p>
+        Expanding the spectrum from graphic design, branding, scenography and
+        art direction, to packaging and type development, the studio’s work
+        embraces holistic examination from research and concept to creation,
+        irrespective of its digital or analog nature.
+      </p>
     </div>
   </div>
 </Layout>
@@ -24,8 +56,11 @@ import Layout from "../layouts/Layout.astro";
     display: grid;
     place-items: center;
   }
-  .sticky-area {
+  .sticky-area-1 {
     height: 400vh;
+  }
+  .sticky-area-2 {
+    height: 500vh;
   }
   .sticky-container {
     height: 100vh;
@@ -49,12 +84,29 @@ import Layout from "../layouts/Layout.astro";
   #sys-bio {
     opacity: 0;
   }
+
+  .video-container {
+    max-height: 80vh;
+    object-fit: cover;
+    overflow: hidden;
+  }
+
+  .bio-wrapper {
+    margin-top: 200vh;
+    p {
+      color: var(--beige-300);
+      position: relative;
+      z-index: 10;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
 </style>
 
 <script>
   import { timeline, scroll } from "motion";
 
-  const scrollTrack = document.getElementById("sticky-container");
+  const scrollTrack1 = document.getElementById("sticky-container-1");
 
   const sys = document.getElementById("sys");
   const sysBio = document.getElementById("sys-bio");
@@ -66,8 +118,8 @@ import Layout from "../layouts/Layout.astro";
         opacity: 1,
       },
       {
-        at: "<"
-      }
+        at: "<",
+      },
     ],
     [
       sysBio,
@@ -78,6 +130,6 @@ import Layout from "../layouts/Layout.astro";
   ];
 
   scroll(timeline(sequence), {
-    target: scrollTrack,
+    target: scrollTrack1,
   });
 </script>
