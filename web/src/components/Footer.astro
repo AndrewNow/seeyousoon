@@ -26,35 +26,21 @@ import footerSrc from "../assets/footer/footer.mp4";
     <!-- <Image src={footer} alt="video" class="video-media" /> -->
   </div>
   <div class="credits">
-    <div>
+    <div class="credits-item">
       <small class="location-flex">
         <span class="current-location"> Currently in:</span>Toronto</small
       >
     </div>
-    <div>
+    <div class="credits-item">
       <small>©{new Date().getFullYear()} seeyousoon</small>
     </div>
-    <div>
-      <small> Website by Sling</small>
+    <div class="credits-item">
+      <small> Website by <a href="https://www.sling.online/">Sling</a></small>
     </div>
   </div>
 </footer>
 
 <style lang="scss">
-  @keyframes bounce {
-    0%,
-    100% {
-      // transform: translateY(4px);
-      opacity: 0;
-      // animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
-    50% {
-      // transform: translateY(-2px);
-      opacity: 1;
-      // animation-timing-function: cubic-bezier(0.32, 0.43, 0.58, 1);
-    }
-  }
-
   .wrapper {
     width: 98%;
     margin: 0 auto;
@@ -134,6 +120,7 @@ import footerSrc from "../assets/footer/footer.mp4";
     width: 95%;
     margin: 1rem auto;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     font-family: "Denim-Regular";
 
@@ -159,7 +146,69 @@ import footerSrc from "../assets/footer/footer.mp4";
       transform: translateY(5px);
       display: block;
       border-radius: 10px;
-      animation: bounce 1.6s infinite;
+      animation: blink 1.6s infinite;
+    }
+  }
+
+  .credits-item {
+    display: flex;
+    a {
+      color: var(--grey-300);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .credits {
+      height: 11px;
+      align-items: center;
+      small {
+        font-size: 10px;
+        line-height: 100%;
+      }
+      .current-location {
+        margin-right: 4px;
+      }
+      .current-location:before {
+        transform: translateY(3px);
+        margin-right: 4px;
+        width: 5px;
+        height: 5px;
+      }
+    }
+
+    .video {
+      .video-media {
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        filter: brightness(0.7);
+        // width: 100%;
+        // object-fit: cover;
+        // filter: brightness(0.7);
+      }
+      .video-text {
+        width: 100%;
+        flex-direction: column;
+        .socials {
+          margin-top: 2rem;
+          h3 {
+            font-size: 22px;
+            margin-bottom: 0.5rem;
+          }
+        }
+        .sys-text {
+          margin: 0 auto;
+          font-size: 60px;
+          letter-spacing: -0.1rem;
+        }
+      }
     }
   }
 </style>

@@ -5,7 +5,7 @@ const endDate = JSON.stringify(data.dateEnd);
 const eventTitle = JSON.stringify(data.title);
 ---
 
-<div class="desktop-toast-wrapper">
+<div class="desktop-toast-wrapper" id="toastWrapper">
   <small id="eventStatus">
     Join us at <span class="event-toast-title">{data.title}</span> in
   </small>
@@ -99,6 +99,7 @@ const eventTitle = JSON.stringify(data.title);
 <script>
   import { animate } from "motion";
   const wrapper = document.querySelector(".desktop-toast-wrapper");
+  const toastWrapper = document.querySelector(".toastWrapper");
   const closeToast = document.getElementById("closeToast");
 
   animate(
@@ -128,7 +129,9 @@ const eventTitle = JSON.stringify(data.title);
         delay: 0.25,
         easing: [0.215, 0.61, 0.355, 1],
       }
-    );
+    ).finished.then(() => {
+      toastWrapper.style.display = "none";
+    });
   });
 </script>
 
