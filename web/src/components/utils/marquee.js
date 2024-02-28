@@ -10,7 +10,7 @@
         speed: 100,
         // pauseOnHover: true,
         startVisible: true,
-        recalcResize: true,
+        recalcResize: false,
       });
     });
 
@@ -49,7 +49,7 @@
           // pauseOnHover: true,
           startVisible: true,
           // recalcResize: true,
-          recalcResize: true,
+          recalcResize: false,
         });
       })
     };
