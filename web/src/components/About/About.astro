@@ -1,253 +1,126 @@
 ---
-import { Image } from "astro:assets";
-import endswell from "../../assets/about/endswell.png";
-import star from "../../assets/star.png";
-import img1 from "../../assets/about/1.png";
-import img2 from "../../assets/about/3.png";
-import img3 from "../../assets/about/2.png";
-import img4 from "../../assets/about/4.png";
-import gallery1 from "../../assets/about/gallery-1.png";
-import gallery2 from "../../assets/about/gallery-2.png";
-import gallery3 from "../../assets/about/gallery-3.png";
-import gallery4 from "../../assets/about/gallery-4.png";
+import aboutVideo from "../../assets/footer/footer.mp4";
 ---
 
-<div class="wrapper">
-  <div class="endswell-hero">
-    <Image
-      src={endswell}
-      alt="A large group of people gathering under a tent during a summer day in BC, enjoying a lovely meal. Shot from a distance with vegetation in the foreground."
-      class="endswell-img"
-    />
-  </div>
-  <div class="bio-wrapper">
-    <small>About Us</small>
-    <div class="bio-header-flex">
-      <h1>
-        “see you soon” - An expression of farewell, with the intention of
-        meeting once again.
+<div class="sticky-area-1" id="sticky-container-1">
+  <div class="sticky-container" id="sticky-el">
+    <div class="text-wrapper">
+      <h4 id="sys">- "See you soon"</h4>
+      <h1 id="sys-bio">
+        An expression of farewell, with the intention of meeting once again.
       </h1>
-      <Image
-        src={star}
-        alt="See you soon star logo"
-        width="100"
-        height="100"
-        class="star-img"
-      />
     </div>
   </div>
 </div>
-
-<script>
-  import { animate, scroll, inView } from "motion";
-
-  const gallery1 = document.querySelector("#gallery1");
-  const gallery2 = document.querySelector("#gallery2");
-  const gallery3 = document.querySelector("#gallery3");
-  const gallery4 = document.querySelector("#gallery4");
-
-  const fadeInImgTiming = 1.16;
-
-  inView(gallery1, (info) => {
-    animate(
-      info.target,
-      {
-        opacity: 1,
-        clipPath: `inset(0% 0% 0% 0%)`,
-      },
-      {
-        duration: fadeInImgTiming,
-        easing: [0.33, 0, 0.37, 1],
-      }
-    );
-  });
-  inView(gallery2, (info) => {
-    animate(
-      info.target,
-      {
-        opacity: 1,
-        clipPath: `inset(0% 0% 0% 0%)`,
-      },
-      {
-        duration: fadeInImgTiming,
-        easing: [0.33, 0, 0.37, 1],
-      }
-    );
-  });
-  inView(gallery3, (info) => {
-    animate(
-      info.target,
-      {
-        opacity: 1,
-        clipPath: `inset(0% 0% 0% 0%)`,
-      },
-      {
-        duration: fadeInImgTiming,
-        easing: [0.33, 0, 0.37, 1],
-      }
-    );
-  });
-  inView(gallery4, (info) => {
-    animate(
-      info.target,
-      {
-        opacity: 1,
-        clipPath: `inset(0% 0% 0% 0%)`,
-      },
-      {
-        duration: fadeInImgTiming,
-        easing: [0.33, 0, 0.37, 1],
-      }
-    );
-  });
-
-  const parallaxContainer = document.querySelector("#parallax-container");
-  const parallaxEl = document.querySelector("#parallax");
-  scroll(
-    animate(parallaxEl, {
-      y: [0, 100],
-    }),
-    {
-      target: parallaxContainer,
-      offset: ["start start", "end start"],
-    }
-  );
-</script>
+<div class="sticky-area-2" id="sticky-container-2">
+  <div class="sticky-container" id="sticky-el">
+    <div class="video-container">
+      <video
+        class="video-media"
+        preload="metadata"
+        loading="lazy"
+        autoplay
+        playsinline
+        muted
+        loop
+      >
+        <source src={aboutVideo} type="video/mp4" />
+      </video>
+    </div>
+  </div>
+  <div class="bio-wrapper">
+    <p>
+      Expanding the spectrum from graphic design, branding, scenography and art
+      direction, to packaging and type development, the studio’s work embraces
+      holistic examination from research and concept to creation, irrespective
+      of its digital or analog nature.
+    </p>
+    <br />
+    <br />
+    <p>
+      Expanding the spectrum from graphic design, branding, scenography and art
+      direction, to packaging and type development, the studio’s work embraces
+      holistic examination from research and concept to creation, irrespective
+      of its digital or analog nature.
+    </p>
+  </div>
+</div>
 
 <style lang="scss">
-  #parallax {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
+  .sticky-area-1 {
+    height: 400vh;
   }
-  #gallery1,
-  #gallery2,
-  #gallery3,
-  #gallery4 {
-    opacity: 1;
-    clip-path: inset(100% 0% 0% 0%);
+  .sticky-area-2 {
+    height: 500vh;
+  }
+  .sticky-container {
+    height: 100vh;
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
+    position: sticky;
+    top: 0;
+  }
+  .text-wrapper {
+    display: grid;
+    width: 60%;
+    h4 {
+      font-family: "Bradford-Light-Italic";
+    }
   }
 
-  .wrapper {
-    margin: 5rem auto;
-    width: 98%;
-    position: relative;
+  #sys {
+    opacity: 0;
   }
-  .endswell-hero {
-    position: relative;
-    width: 100%;
-    .endswell-img {
-      width: 100%;
-    }
+  #sys-bio {
+    opacity: 0;
+  }
+
+  .video-container {
+    max-height: 80vh;
+    object-fit: cover;
+    overflow: hidden;
   }
 
   .bio-wrapper {
-    width: 70%;
-    margin: 10rem auto;
-    margin-bottom: 5rem;
-    small {
-      color: var(--brown-300);
-      display: block;
-      margin-bottom: 2rem;
-    }
-    .bio-header-flex {
-      display: flex;
-      align-items: center;
-      h1 {
-        color: var(--brown-300);
-      }
-      .star-img {
-        margin-left: 2rem;
-        aspect-ratio: 100/100;
-      }
-    }
-  }
-
-  .sticky-section {
-    width: 85%;
-    margin-left: auto;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .sticky-left {
-    width: 33%;
-    img {
-      margin: 2rem auto;
-    }
-    img:first-child {
-      margin-top: 0;
-    }
-  }
-  .sticky-middle {
-    position: sticky;
-    top: 2rem;
-    align-self: flex-start;
-    width: 33%;
-    margin-bottom: 2rem;
-    margin-left: 2rem;
+    margin-top: 200vh;
     p {
-      max-width: 305px;
-      color: var(--grey-300);
-    }
-  }
-  .sticky-right {
-    width: 33%;
-
-    .sticky-right-inner {
+      color: var(--beige-300);
       position: relative;
-      margin-top: 120vh;
-    }
-    p {
-      color: var(--grey-300);
-      margin-bottom: 1rem;
-    }
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
-
-  .gallery-section {
-    width: 100%;
-  }
-  .gallery-top {
-    margin-top: 5rem;
-    display: flex;
-    gap: 0.5rem;
-    justify-content: space-between;
-    height: 125vh;
-
-    .gallery-top-left {
-      img {
-        width: 100%;
-        height: auto;
-      }
-    }
-
-    .gallery-top-right {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      img {
-        width: 100%;
-        height: auto;
-      }
-      .gallery-top-right-topImg {
-        width: 40%;
-      }
-    }
-  }
-  .gallery-bottom {
-    width: 80%;
-    position: relative;
-    margin: 1rem auto;
-    img {
-      // width: 100%;
-      // object-fit: cover;
+      z-index: 10;
+      max-width: 400px;
       margin: 0 auto;
     }
   }
 </style>
+
+<script>
+  import { timeline, scroll } from "motion";
+
+  const scrollTrack1 = document.getElementById("sticky-container-1");
+
+  const sys = document.getElementById("sys");
+  const sysBio = document.getElementById("sys-bio");
+
+  const sequence = [
+    [
+      sys,
+      {
+        opacity: 1,
+      },
+      {
+        at: "<",
+      },
+    ],
+    [
+      sysBio,
+      {
+        opacity: 1,
+      },
+    ],
+  ];
+
+  scroll(timeline(sequence), {
+    target: scrollTrack1,
+  });
+</script>

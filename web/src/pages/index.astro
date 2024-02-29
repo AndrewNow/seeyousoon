@@ -6,7 +6,12 @@ import Toast from "../components/Toast/Toast.astro";
 import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
 
-import { getHeroImages, getPastEvents, getUpcomingEvent, getUpcomingEvents } from "../sanity/api";
+import {
+  getHeroImages,
+  getPastEvents,
+  getUpcomingEvent,
+  getUpcomingEvents,
+} from "../sanity/api";
 import Newsletter from "../components/Newsletter.astro";
 import About from "../components/About/About.astro";
 
@@ -25,9 +30,9 @@ const upcomingEventToastData = await getUpcomingEvent();
   <div class="upcoming-events">
     <UpcomingEvents data={upcomingEventsData} />
   </div>
-  <!-- <section class="about">
+  <section class="about">
     <About />
-  </section> -->
+  </section>
   <section class="past-events">
     <PastEvents data={pastEventsData} />
   </section>

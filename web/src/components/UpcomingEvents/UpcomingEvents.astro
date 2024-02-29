@@ -1,6 +1,5 @@
 ---
 import ListView from "./ListView.astro";
-import Sticky from "../About/Sticky.astro";
 
 const { data } = Astro.props;
 const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest event comes first
@@ -34,7 +33,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       </div>
     </div>
   </div>
-  <Sticky />
 </div>
 
 <style lang="scss" is:global>
