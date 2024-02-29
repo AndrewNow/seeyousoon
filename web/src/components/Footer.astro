@@ -4,48 +4,72 @@ import Image from "astro/components/Image.astro";
 import footerSrc from "../assets/footer/footer.mp4";
 ---
 
-<footer class="wrapper">
-  <div class="video">
-    <div class="video-text">
-      <h2 class="sys-text">see you soon!</h2>
-      <div class="socials">
-        <h3>Instagram <a class="socials-link">@seeyousoon.to</a></h3>
-        <h3>Email <a class="socials-link">info@seeyousoon.to</a></h3>
+<footer class="wrapper" id="footerTrack">
+  <div class="spacer-el"></div>
+  <div class="sticky-inner">
+    <div class="video" id="footerVideo">
+      <div class="video-text">
+        <h2 class="sys-text">see you soon!</h2>
+        <div class="socials">
+          <h3>Instagram <a class="socials-link">@seeyousoon.to</a></h3>
+          <h3>Email <a class="socials-link">info@seeyousoon.to</a></h3>
+        </div>
       </div>
-    </div>
-    <video
-      class="video-media"
-      preload="metadata"
-      loading="lazy"
-      autoplay
-      playsinline
-      muted
-      loop
-    >
-      <source src={footerSrc} type="video/mp4" />
-    </video>
-    <!-- <Image src={footer} alt="video" class="video-media" /> -->
-  </div>
-  <div class="credits">
-    <div class="credits-item">
-      <small class="location-flex">
-        <span class="current-location"> Currently in:</span>Toronto</small
+      <video
+        class="video-media"
+        preload="metadata"
+        loading="lazy"
+        autoplay
+        playsinline
+        muted
+        loop
       >
+        <source src={footerSrc} type="video/mp4" />
+      </video>
+      <!-- <Image src={footer} alt="video" class="video-media" /> -->
     </div>
-    <div class="credits-item">
-      <small>©{new Date().getFullYear()} seeyousoon</small>
-    </div>
-    <div class="credits-item">
-      <small> Website by <a href="https://www.sling.online/">Sling</a></small>
+    <div class="credits">
+      <div class="credits-item">
+        <small class="location-flex">
+          <span class="current-location"> Currently in:</span>Toronto</small
+        >
+      </div>
+      <div class="credits-item">
+        <small>©{new Date().getFullYear()} seeyousoon</small>
+      </div>
+      <div class="credits-item">
+        <small> Website by <a href="https://www.sling.online/">Sling</a></small>
+      </div>
     </div>
   </div>
 </footer>
+
+<script>
+  import { scroll, timeline } from "motion";
+
+  const scrollTrack = document.getElementById("footerTrack");
+  const video = document.getElementById("footerVideo");
+
+  const sequence = [[video, { height: "90vh" }]];
+  scroll(timeline(sequence), {
+    target: scrollTrack,
+  });
+</script>
 
 <style lang="scss">
   .wrapper {
     width: 98%;
     margin: 0 auto;
     margin-top: 5rem;
+    // min-height: 150vh;
+    position: relative;
+  }
+  .spacer-el {
+    height: 200vh;
+  }
+  .sticky-inner {
+    position: sticky;
+    bottom: 1rem;
   }
   .video {
     background: var(--grey-100);

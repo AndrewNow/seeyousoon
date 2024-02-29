@@ -1,16 +1,33 @@
 ---
 // import { Image } from "astro:assets";
-import Image from "astro/components/Image.astro";
-import image1 from "../../assets/landing/syshero1.png";
-import image2 from "../../assets/landing/syshero2.png";
-import image3 from "../../assets/landing/syshero3.png";
-import image4 from "../../assets/landing/syshero4.png";
+// import Image from "astro/components/Image.astro";
+// import image1 from "../../assets/landing/syshero1.png";
+// import image2 from "../../assets/landing/syshero2.png";
+// import image3 from "../../assets/landing/syshero3.png";
+// import image4 from "../../assets/landing/syshero4.png";
+
+import Star1 from "../../assets/landing/Star1.astro";
+import Star2 from "../../assets/landing/Star2.astro";
+import Star3 from "../../assets/landing/Star3.astro";
+import Star4 from "../../assets/landing/Star4.astro";
 
 const { data } = Astro.props;
 ---
 
 <div class="cursor-container">
-  {
+  <div class="landing-image" id="image4">
+    <Star4 />
+  </div>
+  <div class="landing-image" id="image3">
+    <Star3 />
+  </div>
+  <div class="landing-image" id="image2">
+    <Star2 />
+  </div>
+  <div class="landing-image" id="image1">
+    <Star1 />
+  </div>
+  <!-- {
     data.length > 0 ? (
       data.images.map((el, i) => {
         return (
@@ -62,7 +79,7 @@ const { data } = Astro.props;
         />
       </>
     )
-  }
+  } -->
 </div>
 
 <style lang="scss">
@@ -83,12 +100,23 @@ const { data } = Astro.props;
 
   .landing-image {
     will-change: transform;
+    aspect-ratio: 856/608;
     width: 45%;
     height: auto;
     position: absolute;
     --radius: 3px; // animation for mobile
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+
+    svg {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      path {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
   }
 
   .cursor-container.images-loaded .landing-image {
