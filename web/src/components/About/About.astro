@@ -1,22 +1,26 @@
 ---
 import aboutVideo from "../../assets/footer/footer.mp4";
-import SysWritten from '../../assets/syswritten.png'
+import SysWritten from "../../assets/syswritten.png";
 import { Image } from "astro:assets";
 ---
 
 <div class="sticky-area-1" id="sticky-container-1">
-  <div class="sticky-container" id="sticky-el">
+  <div class="sticky-container-1" id="sticky-el">
     <div class="text-wrapper">
       <h4 id="sys">- "See you soon"</h4>
       <h1 id="sys-bio">
-        An expression of farewell, with the intention of meeting once again.
+        <div class="text-hidden">
+          <div id="animated-text-container">
+            An expression of farewell, with the intention of meeting once again.
+          </div>
+        </div>
       </h1>
     </div>
   </div>
 </div>
 <div class="sticky-area-2" id="sticky-container-2">
-  <div class="sticky-container" id="sticky-el">
-    <div class="video-container" id="video-container">
+  <div class="sticky-container-2" id="sticky-el">
+    <div class="video-container" id="about-video-container">
       <video
         class="video-media"
         preload="metadata"
@@ -45,13 +49,20 @@ import { Image } from "astro:assets";
       holistic examination from research and concept to creation, irrespective
       of its digital or analog nature.
     </p>
-    <Image class="sys-written" src={SysWritten} alt="test" quality="low" width={136} height={25} />
+    <Image
+      class="sys-written-logo"
+      src={SysWritten}
+      alt="test"
+      quality="low"
+      width={136}
+      height={25}
+    />
   </div>
 </div>
 
-<style lang="scss">
+<style lang="scss" is:global>
   .sticky-area-1 {
-    height: 400vh;
+    height: 500vh;
     // overflow-x: hidden;
     width: 100%;
     position: relative;
@@ -63,8 +74,19 @@ import { Image } from "astro:assets";
     position: relative;
     margin-bottom: 5rem;
   }
-  .sticky-container {
+  .sticky-container-1 {
+    height: 50vh;
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
+    position: sticky;
+    // border: 1px solid green;
+    transform: translateY(50%);
+    top: 0;
+  }
+  .sticky-container-2 {
     height: 100vh;
+    // border: 1px solid red;
     margin: 0 auto;
     display: grid;
     place-items: center;
@@ -79,24 +101,20 @@ import { Image } from "astro:assets";
     }
   }
 
-  #sys {
-    opacity: 0;
-  }
-  #sys-bio {
-    opacity: 0;
-  }
-
   .video-container {
     max-height: 85vh;
+    max-width: 95vw;
     object-fit: cover;
     overflow: hidden;
-    clip-path: inset(20% 20% 20% 20% round 14px);
+    clip-path: inset(20% 45% 20% 45% round 8px);
     border-radius: 40px;
     filter: brightness(1);
   }
 
   .bio-wrapper {
+    margin: 0 auto;
     margin-top: 200vh;
+    max-width: 90vw;
     p {
       color: var(--beige-300);
       position: relative;
@@ -106,9 +124,48 @@ import { Image } from "astro:assets";
     }
   }
 
-  .sys-written {
-    margin: 3rem auto;
+  .sys-written-logo {
+    margin: 50vh auto;
+    position: relative;
+    z-index: 3;
+  }
+  .about-animated-word {
+    display: inline-block;
+    color: var(--grey-100);
+    // opacity: 0;
+    // transform: translateY(40px) scaleX(0);
+  }
 
+  #sys {
+    opacity: 0;
+  }
+  #sys-bio {
+    // opacity: 0;
+  }
+  .text-hidden {
+    overflow-y: hidden;
+  }
+  #animated-text-container {
+    transform: translateY(2vh);
+    opacity: 0;
+    filter: blur(10px);
+  }
+
+  @media (max-width: 576px) {
+    .text-wrapper {
+      width: 90%;
+      text-align: center;
+    }
+    #sys {
+      margin-bottom: 1rem;
+    }
+    #sys-bio {
+      font-size: 28px;
+    }
+    .video-container {
+      max-width: 98vw;
+      clip-path: inset(20% 38% 20% 38% round 8px);
+    }
   }
 </style>
 
@@ -121,29 +178,68 @@ import { Image } from "astro:assets";
   const sys = document.getElementById("sys");
   const sysBio = document.getElementById("sys-bio");
 
-  const sequence1 = [
+  const textContainer = document.getElementById("animated-text-container");
+  const wordsArr = textContainer.innerText.split(" ");
+
+  let charIndex = 0; // Track the index of characters
+
+  const spannedWords = wordsArr.map((word, wordIndex) => {
+    const wordCharacters = word.split("");
+    const spannedCharacters = wordCharacters.map((char) => {
+      if (char === " ") {
+        return " "; // Preserve spaces without animation
+      } else {
+        const charId = `char${charIndex}`;
+        charIndex++;
+        return `<span class="about-animated-word" id="${charId}">${char}</span>`;
+      }
+    });
+
+    return `<span class="about-animated-word" id="word${wordIndex}" style="white-space: nowrap;">${spannedCharacters.join("")}</span>`;
+  });
+
+  textContainer.innerHTML = spannedWords.join(" ");
+
+  let sequence1 = [
     [
       sys,
       {
         opacity: 1,
       },
-      {
-        at: "<",
-      },
     ],
     [
-      sysBio,
+      textContainer,
       {
+        transform: `translateY(0)`,
         opacity: 1,
+        filter: `blur(0)`,
       },
     ],
   ];
+
+  const animatedChars = document.querySelectorAll(".about-animated-word");
+
+  animatedChars.forEach((char) => {
+    const charId = char.id;
+    if (charId && charId.startsWith("char")) {
+      sequence1.push([
+        char,
+        {
+          color: `var(--brown-300)`,
+        },
+      ]);
+    }
+  });
 
   scroll(timeline(sequence1), {
     target: scrollTrack1,
   });
 
-  const clipVideo = document.getElementById("video-container");
+  // rest of the script remains unchanged
+
+  //
+  //
+  const clipVideo = document.getElementById("about-video-container");
   const sequence2 = [
     [
       clipVideo,
