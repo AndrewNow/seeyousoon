@@ -113,7 +113,7 @@ const { data } = Astro.props;
     height: auto;
     position: absolute;
     --radius: 3px; // animation for mobile
-    opacity: 0;
+    // opacity: 0;
     transition: opacity 0.5s ease-in-out;
 
     svg {
@@ -155,28 +155,28 @@ const { data } = Astro.props;
 </style>
 
 <script>
-  const img1 = document.getElementById("image1");
-  const img2 = document.getElementById("image2");
-  const img3 = document.getElementById("image3");
-  const img4 = document.getElementById("image4");
+  // const img1 = document.getElementById("image1");
+  // const img2 = document.getElementById("image2");
+  // const img3 = document.getElementById("image3");
+  // const img4 = document.getElementById("image4");
 
-  function checkAllImagesLoaded(images, callback) {
-    let loadedImages = 0;
-    images.forEach((image) => {
-      window.addEventListener("load", () => {
-        loadedImages++;
-        if (loadedImages === images.length) {
-          callback();
-        }
-      });
-    });
-  }
-  const images = [img1, img2, img3, img4];
+  // function checkAllImagesLoaded(images, callback) {
+  //   let loadedImages = 0;
+  //   images.forEach((image) => {
+  //     window.addEventListener("load", () => {
+  //       loadedImages++;
+  //       if (loadedImages === images.length) {
+  //         callback();
+  //       }
+  //     });
+  //   });
+  // }
+  // const images = [img1, img2, img3, img4];
 
-  checkAllImagesLoaded(images, () => {
-    const cursorContainer = document.querySelector(".cursor-container");
-    cursorContainer.classList.add("images-loaded");
-  });
+  // checkAllImagesLoaded(images, () => {
+  //   const cursorContainer = document.querySelector(".cursor-container");
+  //  cursorContainer.classList.add("images-loaded");
+  // });
 </script>
 
 <script>
