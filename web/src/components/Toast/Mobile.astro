@@ -40,6 +40,7 @@ const eventTitle = JSON.stringify(data.title);
 
 <style lang="scss">
   .mobile-toast-wrapper {
+    display: none;
     width: 95vw;
     margin: 0 auto;
     height: 48px;
@@ -90,6 +91,12 @@ const eventTitle = JSON.stringify(data.title);
     font-family: "Denim-Regular";
     font-size: 14px;
     color: var(--grey-200);
+  }
+
+  @media (max-width: 576px) {
+    .mobile-toast-wrapper {
+      display: block;
+    }
   }
 </style>
 
