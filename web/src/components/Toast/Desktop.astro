@@ -192,7 +192,7 @@ const eventTitle = JSON.stringify(data.title);
     if (hours > 0) {
       countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
     }
-    countdownText += `${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;
+    countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;
 
     // Set the countdown text to the formatted string
     countdownParent.textContent = countdownText;
