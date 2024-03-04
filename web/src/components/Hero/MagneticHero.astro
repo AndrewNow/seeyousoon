@@ -336,16 +336,18 @@ const { data } = Astro.props;
     navigator.maxTouchPoints > 0 ||
     navigator.msMaxTouchPoints > 0;
 
-  if (window.innerWidth > 576 || !isTouchDevice) {
-    const magneticObjects = [
-      new MagneticObject(img4, { lerp: 0.025, recenterLerp: 0.05 }),
-      new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.05 }),
-      new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.05 }),
-      new MagneticObject(img1, { lerp: 0.1, recenterLerp: 0.05 }),
-    ];
-
-    magneticObjects.forEach((obj) => {
-      obj.initialize();
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.innerWidth > 576 || !isTouchDevice) {
+        const magneticObjects = [
+          new MagneticObject(img4, { lerp: 0.025, recenterLerp: 0.05 }),
+          new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.05 }),
+          new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.05 }),
+          new MagneticObject(img1, { lerp: 0.1, recenterLerp: 0.05 }),
+        ];
+        
+        magneticObjects.forEach((obj) => {
+          obj.initialize();
+        });
+      }
     });
-  }
 </script>
