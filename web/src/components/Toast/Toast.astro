@@ -2,10 +2,12 @@
 const { data } = Astro.props;
 
 import Desktop from "./Desktop.astro";
+import Mobile from "./Mobile.astro";
 ---
 
 <div class="toastWrapper">
   <Desktop data={data} />
+  <Mobile data={data} />
 </div>
 
 <style lang="scss">

@@ -1,0 +1,122 @@
+---
+const { data } = Astro.props;
+
+const startDate = JSON.stringify(data.dateStart);
+const endDate = JSON.stringify(data.dateEnd);
+const eventTitle = JSON.stringify(data.title);
+---
+
+<div class="mobile-toast-wrapper">
+  <div class="content-flex">
+    <button class="close-toast" aria-label="Close toast"
+      ><svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.364 10.95L17.314 6L18.728 7.414L13.778 12.364L18.728 17.314L17.313 18.728L12.363 13.778L7.414 18.728L6 17.313L10.95 12.363L6 7.413L7.414 6.001L12.364 10.95Z"
+          fill="white"></path>
+      </svg>
+    </button>
+    <div class="content-carousel" id="carousel">
+      <div class="carousel-item">We're in residence...</div>
+      <div class="carousel-item">Catch us at Oranj!</div>
+      <div class="carousel-item">11 days, 3 hours and 3 minutes...</div>
+      <!-- Duplicate for carousel -->
+      <div class="carousel-item">We're in residence...</div>
+      <div class="carousel-item">Catch us at Oranj!</div>
+      <div class="carousel-item">11 days, 3 hours and 3 minutes...</div>
+      <!-- Duplicate for carousel -->
+      <div class="carousel-item">We're in residence...</div>
+      <div class="carousel-item">Catch us at Oranj!</div>
+      <div class="carousel-item">11 days, 3 hours and 3 minutes...</div>
+    </div>
+  </div>
+  <div class="rsvp">RSVP here</div>
+</div>
+
+<style lang="scss">
+  .mobile-toast-wrapper {
+    width: 95vw;
+    margin: 0 auto;
+    height: 48px;
+    background: var(--brown-200);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .rsvp {
+    font-family: "Denim-Regular";
+    font-size: 14px;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: underline;
+    color: var(--beige-300);
+  }
+  .close-toast {
+    background: var(--brown-100);
+    border: unset;
+    width: 40px;
+    color: var(--beige-300);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+  }
+
+  .content-flex {
+    display: flex;
+    align-content: center;
+    height: 48px;
+    overflow-y: hidden;
+  }
+
+  .content-carousel {
+    margin-left: 8px;
+    // overflow: hidden;
+    transition: transform 0.5s ease; /* Smooth transition */
+  }
+
+  .carousel-item {
+    display: block;
+    height: 40px; /* Adjust height as needed */
+    line-height: 48px; /* Vertically center text */
+    color: var(--beige-300);
+    font-family: "Denim-Regular";
+    font-size: 14px;
+    color: var(--grey-200);
+  }
+</style>
+
+<script>
+  const carousel = document.getElementById("carousel");
+  const items = document.querySelectorAll(".carousel-item");
+  const itemHeight = items[0].offsetHeight;
+  let currentIndex = 0;
+
+  function scrollCarousel() {
+    currentIndex++;
+    const translateY = -currentIndex * itemHeight;
+    carousel.style.transform = `translateY(${translateY}px)`;
+
+    // Check if the last item is reached
+    if (currentIndex >= items.length) {
+      setTimeout(() => {
+        currentIndex = 0;
+        carousel.style.transition = "none";
+        carousel.style.transform = `translateY(0)`;
+        setTimeout(() => {
+          carousel.style.transition = "transform 0.5s ease";
+        });
+      });
+    }
+  }
+
+  // Set an interval for auto-scrolling
+  const intervalId = setInterval(scrollCarousel, 2500);
+</script>

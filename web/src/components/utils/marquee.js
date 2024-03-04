@@ -46,13 +46,27 @@
         const marqueeSpeed = calculateMarqueeSpeed(
           el.getAttribute("data-image-count")
         );
+        const index = el.getAttribute('data-index')
+        
+        function isOddOrEven(index) {
+          if (index % 2 === 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        
+        const isOdd = isOddOrEven(index);
+
+        const direction = isOdd ? "left" : "right"
+
         // const imageCount = el.getAttribute("data-image-count");
-        // console.log("imagecount", marqueeSpeed);
         const speed = marqueeSpeed ? marqueeSpeed : 50;
         new marquee(el, {
           duplicated: true,
           gap: 0,
           speed: speed,
+          direction: direction,
           // pauseOnHover: true,
           startVisible: true,
           // recalcResize: true,

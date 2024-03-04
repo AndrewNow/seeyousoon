@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-const { eventData } = Astro.props;
+const { eventData, index } = Astro.props;
 function convertDateFormat(inputDate) {
   // Parse the input date string in the "YYYY-MM-DD" format
   const parts = inputDate.split("-");
@@ -57,7 +57,11 @@ const convertedDate = convertDateFormat(eventData.date);
       </div>
     </div>
   </div>
-  <div id="pastEvents-marquee" data-image-count={eventData.images.length}>
+  <div
+    id="pastEvents-marquee"
+    data-image-count={eventData.images.length}
+    data-index={index}
+  >
     <div class="pastEvents-image-wrapper">
       {
         eventData.images.map((img) => {

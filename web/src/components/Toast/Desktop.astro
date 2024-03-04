@@ -187,12 +187,12 @@ const eventTitle = JSON.stringify(data.title);
 
     // Construct the countdown text based on remaining days, hours, and minutes
     if (days > 0) {
-      countdownText += `${days} day${days > 1 ? "s" : ""}, `;
+      countdownText += `${days} day${days > 1 || days === 0 ? "s" : ""}, `;
     }
     if (hours > 0) {
-      countdownText += `${hours} hour${hours > 1 ? "s" : ""}, `;
+      countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
     }
-    countdownText += `${minutes} minute${minutes > 1 ? "s" : ""}`;
+    countdownText += `${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;
 
     // Set the countdown text to the formatted string
     countdownParent.textContent = countdownText;
