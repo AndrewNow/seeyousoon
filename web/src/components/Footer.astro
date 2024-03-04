@@ -66,13 +66,14 @@ import footerSrc from "../assets/footer/footer.mp4";
     position: relative;
   }
   .spacer-el {
-    height: 200vh;
+    height: 40vh; // was 150 or 200vh
   }
   .sticky-inner {
     position: sticky;
     bottom: 1rem;
   }
   .video {
+    will-change: height;
     background: var(--grey-100);
     border-radius: 8px;
     width: 100%;
