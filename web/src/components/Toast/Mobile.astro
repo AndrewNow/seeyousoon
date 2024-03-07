@@ -1,9 +1,7 @@
 ---
 const { data } = Astro.props;
-
 const startDate = JSON.stringify(data.dateStart);
 const endDate = JSON.stringify(data.dateEnd);
-const eventTitle = JSON.stringify(data.title);
 ---
 
 <div class="mobile-toast-wrapper">
@@ -25,20 +23,67 @@ const eventTitle = JSON.stringify(data.title);
       </svg>
     </button>
     <div class="content-carousel" id="carousel">
-      <div class="carousel-item">We're in residence...</div>
-      <div class="carousel-item">Catch us at Oranj!</div>
-      <div class="carousel-item">11 days, 3 hours and 3 minutes...</div>
+      {
+        data.isResidency && (
+          <div class="carousel-item">We're in residence...</div>
+        )
+      }
+      <div class="carousel-item">
+        Catch us at <span
+          style="color:var(--grey-100);font-family:Denim-Medium;"
+          >{data.title}!</span
+        >
+      </div>
+      <div
+        class="carousel-item"
+        id="mobile-countdown"
+        data-startDate={startDate}
+        data-endDate={endDate}
+      >
+      </div>
       <!-- Duplicate for carousel -->
-      <div class="carousel-item">We're in residence...</div>
-      <div class="carousel-item">Catch us at Oranj!</div>
-      <div class="carousel-item">11 days, 3 hours and 3 minutes...</div>
+      {
+        data.isResidency && (
+          <div class="carousel-item">We're in residence...</div>
+        )
+      }
+      <div class="carousel-item">
+        Catch us at <span
+          style="color:var(--grey-100);font-family:Denim-Medium;"
+          >{data.title}!</span
+        >
+      </div>
+      <div
+        class="carousel-item"
+        id="mobile-countdown"
+        data-startDate={startDate}
+        data-endDate={endDate}
+      >
+      </div>
       <!-- Duplicate for carousel -->
-      <div class="carousel-item">We're in residence...</div>
-      <div class="carousel-item">Catch us at Oranj!</div>
-      <div class="carousel-item">11 days, 3 hours and 3 minutes...</div>
+      {
+        data.isResidency && (
+          <div class="carousel-item">We're in residence...</div>
+        )
+      }
+      <div class="carousel-item">
+        Catch us at <span
+          style="color:var(--grey-100);font-family:Denim-Medium;"
+          >{data.title}!</span
+        >
+      </div>
+      <div
+        class="carousel-item"
+        id="mobile-countdown"
+        data-startDate={startDate}
+        data-endDate={endDate}
+      >
+      </div>
     </div>
   </div>
-  <div class="rsvp">RSVP here</div>
+  <a class="rsvp" href={data.eventLink} target="_blank" rel="noreferrer">
+    RSVP here
+  </a>
 </div>
 
 <style lang="scss">
@@ -224,5 +269,62 @@ const eventTitle = JSON.stringify(data.title);
       opacity: 0,
       transform: `translateY(10vh) scaleX(.5)`,
     });
+  });
+
+  // countdown logic
+  const countdownParent = document.querySelectorAll("#mobile-countdown");
+
+  const currentDate = new Date();
+
+  countdownParent.forEach((el) => {
+    const startDate = new Date(JSON.parse(el.getAttribute("data-startDate")));
+    const endDate = new Date(JSON.parse(el.getAttribute("data-endDate")));
+
+    // Function to update the countdown based on the current date
+    function updateCountdown() {
+      // Check if the current date is before the start date
+      if (currentDate < startDate) {
+        const timeRemaining = startDate - currentDate;
+        displayCountdown(timeRemaining, { isBeforeStart: true });
+      }
+      // Check if the current date is between the start and end dates
+      else if (currentDate < endDate) {
+        const timeRemaining = endDate - currentDate;
+        displayCountdown(timeRemaining, { isBeforeStart: false });
+      }
+    }
+
+    // Function to display the countdown in the specified format
+    function displayCountdown(timeRemaining, isBeforeStart) {
+      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+      );
+
+      let countdownText = "";
+      // Construct the countdown text based on remaining days, hours, and minutes
+      if (days > 0) {
+        if (isBeforeStart == true) {
+          countdownText += `in ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
+        } else {
+          countdownText += `for ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
+        }
+      }
+      if (hours > 0) {
+        countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
+      }
+      countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;
+      // Set the countdown text to the formatted string
+      el.textContent = countdownText;
+    }
+
+    // Initial call to set the countdown when the page loads
+    updateCountdown();
+
+    // Update the countdown every second
+    setInterval(updateCountdown, 1000);
   });
 </script>
