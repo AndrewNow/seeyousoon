@@ -7,8 +7,11 @@ const eventTitle = JSON.stringify(data.title);
 ---
 
 <div class="mobile-toast-wrapper">
-  <div class="content-flex">
-    <button class="close-toast" aria-label="Close toast"
+  <div class="loading-bar" id="loadingBar">
+    <div class="loading-progress" id="loadingProgress"></div>
+  </div>
+  <div class="content-flex" id="toastContent">
+    <button class="close-toast" aria-label="Close toast" id="closeToastMobile"
       ><svg
         width="24"
         height="24"
@@ -39,6 +42,9 @@ const eventTitle = JSON.stringify(data.title);
 </div>
 
 <style lang="scss">
+  #toastContent {
+    transform: translateX(-40px);
+  }
   .mobile-toast-wrapper {
     display: none;
     width: 95vw;
@@ -48,6 +54,26 @@ const eventTitle = JSON.stringify(data.title);
     border-radius: 4px;
     overflow: hidden;
     position: relative;
+  }
+  .loading-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--grey-200);
+  }
+  .loading-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    transform-origin: left;
+    transform: scaleX(0);
+    background: var(--brown-100);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
   }
 
   .rsvp {
@@ -78,7 +104,7 @@ const eventTitle = JSON.stringify(data.title);
   }
 
   .content-carousel {
-    margin-left: 8px;
+    margin-left: 1rem;
     // overflow: hidden;
     transition: transform 0.5s ease; /* Smooth transition */
   }
@@ -96,6 +122,8 @@ const eventTitle = JSON.stringify(data.title);
   @media (max-width: 576px) {
     .mobile-toast-wrapper {
       display: block;
+      opacity: 1;
+      transform: translateY(10vh) scaleX(0.5);
     }
   }
 </style>
@@ -103,6 +131,24 @@ const eventTitle = JSON.stringify(data.title);
 <script>
   const carousel = document.getElementById("carousel");
   const items = document.querySelectorAll(".carousel-item");
+  const closeBtn = document.getElementById("closeToastMobile");
+  const wrapper = document.querySelector(".mobile-toast-wrapper");
+
+  // animate the component in
+  animate(
+    wrapper,
+    {
+      opacity: 1,
+      transform: `translateY(0) scaleX(1)`,
+    },
+    {
+      delay: 2,
+    }
+  ).finished.then(() => {
+    // Set an interval for auto-scrolling
+    const intervalId = setInterval(scrollCarousel, 2500);
+  });
+
   const itemHeight = items[0].offsetHeight;
   let currentIndex = 0;
 
@@ -124,6 +170,49 @@ const eventTitle = JSON.stringify(data.title);
     }
   }
 
-  // Set an interval for auto-scrolling
-  const intervalId = setInterval(scrollCarousel, 2500);
+  // animate in the close button
+  import { animate } from "motion";
+  const content = document.getElementById("toastContent");
+  const loadingBar = document.getElementById("loadingBar");
+  const loadingProgress = document.getElementById("loadingProgress");
+
+  animate(
+    loadingProgress,
+    {
+      transform: `scaleX(1)`,
+    },
+    {
+      duration: 8,
+      delay: 2.5,
+      easing: "linear",
+    }
+  ).finished.then(() => {
+    animate(
+      loadingBar,
+      {
+        transform: `translateY(-100%)`,
+      },
+      {
+        duration: 0.5,
+      }
+    );
+    animate(
+      content,
+      {
+        transform: `translateX(0)`,
+      },
+      {
+        delay: 0.5,
+        duration: 0.5,
+      }
+    );
+  });
+
+  // close the modal when button is clicked
+  closeBtn.addEventListener("click", () => {
+    animate(wrapper, {
+      opacity: 0,
+      transform: `translateY(10vh) scaleX(.5)`,
+    });
+  });
 </script>
