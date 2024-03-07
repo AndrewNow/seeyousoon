@@ -39,6 +39,8 @@ const { data } = Astro.props;
           width={608}
           height={856}
           id={`image${i + 1}`}
+          widths={[380, 581, 856, el.imageSrc.width]}
+          sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 856px, ${el.imageSrc.width}px`}
         />
       );
     })
@@ -147,6 +149,16 @@ const { data } = Astro.props;
     opacity: 1;
   }
 
+  @media (max-width: 1440px) {
+    .landing-image {
+      width: 55%;
+    }
+  }
+  @media (max-width: 992px) {
+    .landing-image {
+      width: 70%;
+    }
+  }
   @media (max-width: 768px) {
     .landing-image {
       width: 90%;
