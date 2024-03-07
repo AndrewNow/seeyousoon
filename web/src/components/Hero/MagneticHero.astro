@@ -30,18 +30,19 @@ const { data } = Astro.props;
   {
     data.images.map((el, i) => {
       const imgSrc = `${el.imageSrc}?fm=webp`;
-      console.log(imgSrc);
       return (
         <Image
           class="landing-image"
           src={imgSrc}
-          alt="SYS star image"
+          alt=""
           quality={10}
-          width={608}
-          height={856}
+          width="856"
+          height="608"
           id={`image${i + 1}`}
           widths={[380, 581, 856]}
           sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 856px`}
+          decoding="async"
+          loading="lazy"
         />
       );
     })
