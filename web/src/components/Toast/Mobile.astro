@@ -24,7 +24,7 @@ const endDate = JSON.stringify(data.dateEnd);
     </button>
     <div class="content-carousel" id="carousel">
       {
-        data.isResidency && (
+        data.isResidency === true && (
           <div class="carousel-item">We're in residence...</div>
         )
       }
@@ -285,17 +285,17 @@ const endDate = JSON.stringify(data.dateEnd);
       // Check if the current date is before the start date
       if (currentDate < startDate) {
         const timeRemaining = startDate - currentDate;
-        displayCountdown(timeRemaining, { isBeforeStart: true });
+        displayCountdown(timeRemaining, true);
       }
       // Check if the current date is between the start and end dates
       else if (currentDate < endDate) {
         const timeRemaining = endDate - currentDate;
-        displayCountdown(timeRemaining, { isBeforeStart: false });
+        displayCountdown(timeRemaining, false);
       }
     }
 
     // Function to display the countdown in the specified format
-    function displayCountdown(timeRemaining, isBeforeStart) {
+    function displayCountdown(timeRemaining, isBeforeStartOfEvent) {
       const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
         (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -306,14 +306,14 @@ const endDate = JSON.stringify(data.dateEnd);
 
       let countdownText = "";
       // Construct the countdown text based on remaining days, hours, and minutes
-      if (days > 0) {
-        if (isBeforeStart == true) {
+      if (days >= 0) {
+        if (isBeforeStartOfEvent === true) {
           countdownText += `in ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
         } else {
           countdownText += `for ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
         }
       }
-      if (hours > 0) {
+      if (hours >= 0) {
         countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
       }
       countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;

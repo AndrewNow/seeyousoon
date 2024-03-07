@@ -363,7 +363,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       const existingBox = boxArr.find((box) => box.boxData.label === `box${i}`);
 
       if (!existingBox) {
-        const randomX = 1.5 + Math.random() * 1.5;
+        const randomX = 1.75 + Math.random() * 0.5;
         const isPositive = Math.random() < 0.5;
         const randomAngle = isPositive
           ? 3.0 + Math.random()

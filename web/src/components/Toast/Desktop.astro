@@ -159,13 +159,13 @@ const eventTitle = JSON.stringify(data.title);
     if (currentDate < startDate) {
       eventStatus.innerHTML = `Join us at <span class="event-toast-title">${eventTitle}</span> in`;
       const timeRemaining = startDate - currentDate;
-      displayCountdown(timeRemaining);
+      displayCountdown(timeRemaining, true);
     }
     // Check if the current date is between the start and end dates
     else if (currentDate < endDate) {
       eventStatus.innerHTML = `We're still at <span class="event-toast-title">${eventTitle}</span> for`;
       const timeRemaining = endDate - currentDate;
-      displayCountdown(timeRemaining);
+      displayCountdown(timeRemaining, false);
     }
     // If the current date is after the end date, display "Event is over!"
     else {
@@ -174,7 +174,7 @@ const eventTitle = JSON.stringify(data.title);
   }
 
   // Function to display the countdown in the specified format
-  function displayCountdown(timeRemaining) {
+  function displayCountdown(timeRemaining, isBeforeStartOfEvent) {
     const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
     const hours = Math.floor(
       (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -186,10 +186,15 @@ const eventTitle = JSON.stringify(data.title);
     let countdownText = "";
 
     // Construct the countdown text based on remaining days, hours, and minutes
-    if (days > 0) {
+    if (days >= 0) {
       countdownText += `${days} day${days > 1 || days === 0 ? "s" : ""}, `;
+      // if (isBeforeStartOfEvent === true) {
+      //   countdownText += `in ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
+      // } else {
+      //   countdownText += `for ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
+      // }
     }
-    if (hours > 0) {
+    if (hours >= 0) {
       countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
     }
     countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;
