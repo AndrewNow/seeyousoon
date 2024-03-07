@@ -64,19 +64,26 @@ const convertedDate = convertDateFormat(eventData.date);
   >
     <div class="pastEvents-image-wrapper">
       {
-        eventData.images.map((img) => {
+        eventData.images.map((el) => {
+          const imgSrcLarge = `${el.imageSrc}?w=562&fm=webp`;
+          const imgSrcMedium = `${el.imageSrc}?w=378&fm=webp`;
+          const imgSrcSmall = `${el.imageSrc}?w=301&fm=webp`;
           return (
             <Image
               format="webp"
-              src={img.imageSrc}
+              src={el.imageSrc}
+              srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
               alt={
-                img.altText
-                  ? img.altText
+                el.altText
+                  ? el.altText
                   : "No descriptive text was entered for this image, sorry!"
               }
               width="300"
               height="375"
+              widths={[301, 378, 562]}
+              sizes={`(max-width: 576px) 301px, (max-width: 768px) 378px, (max-width: 1600px) 562px`}
               quality={40}
+              decoding="async"
               loading="lazy"
             />
           );

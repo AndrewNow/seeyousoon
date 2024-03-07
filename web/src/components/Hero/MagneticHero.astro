@@ -1,10 +1,10 @@
 ---
 import { Image } from "astro:assets";
-import Image from "astro/components/Image.astro";
-import image1 from "../../assets/landing/syshero1.png";
-import image2 from "../../assets/landing/syshero2.png";
-import image3 from "../../assets/landing/syshero3.png";
-import image4 from "../../assets/landing/syshero4.png";
+// import Image from "astro/components/Image.astro";
+// import image1 from "../../assets/landing/syshero1.png";
+// import image2 from "../../assets/landing/syshero2.png";
+// import image3 from "../../assets/landing/syshero3.png";
+// import image4 from "../../assets/landing/syshero4.png";
 
 // import Star1 from "../../assets/landing/Star1.astro";
 // import Star2 from "../../assets/landing/Star2.astro";
@@ -30,15 +30,15 @@ const { data } = Astro.props;
   {
     data.images.map((el, i) => {
       const imgSrcLarge = `${el.imageSrc}?w=856&fm=webp`;
-      const imgSrcMedium = `${el.imageSrc}?w=581&fm=webp`
-      const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`
+      const imgSrcMedium = `${el.imageSrc}?w=581&fm=webp`;
+      const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`;
       return (
         <Image
           class="landing-image"
           src={imgSrcLarge}
           srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
           alt=""
-          quality={10}
+          quality={15}
           width="856"
           height="608"
           id={`image${i + 1}`}
