@@ -71,14 +71,14 @@ const convertedDate = convertDateFormat(eventData.date);
           return (
             <Image
               format="webp"
-              src={el.imageSrc}
+              src={imgSrcLarge}
               srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
               alt={
                 el.altText
                   ? el.altText
                   : "No descriptive text was entered for this image, sorry!"
               }
-              width="300"
+              width="563"
               height="375"
               widths={[301, 378, 562]}
               sizes={`(max-width: 576px) 301px, (max-width: 768px) 378px, (max-width: 1600px) 562px`}
