@@ -17,5 +17,12 @@ import Mobile from "./Mobile.astro";
     bottom: 1rem;
     right: 2vw;
   }
-</style>
 
+  @media (max-width: 576px) {
+    .toastWrapper {
+      right: unset;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+</style>
