@@ -29,11 +29,14 @@ const { data } = Astro.props;
   </div> -->
   {
     data.images.map((el, i) => {
-      const imgSrc = `${el.imageSrc}?fm=webp`;
+      const imgSrcLarge = `${el.imageSrc}?w=856&fm=webp`;
+      const imgSrcMedium = `${el.imageSrc}?w=581&fm=webp`
+      const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`
       return (
         <Image
           class="landing-image"
-          src={imgSrc}
+          src={imgSrcLarge}
+          srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
           alt=""
           quality={10}
           width="856"
