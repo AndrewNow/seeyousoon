@@ -1,32 +1,10 @@
 ---
 import { Image } from "astro:assets";
-// import Image from "astro/components/Image.astro";
-// import image1 from "../../assets/landing/syshero1.png";
-// import image2 from "../../assets/landing/syshero2.png";
-// import image3 from "../../assets/landing/syshero3.png";
-// import image4 from "../../assets/landing/syshero4.png";
-
-// import Star1 from "../../assets/landing/Star1.astro";
-// import Star2 from "../../assets/landing/Star2.astro";
-// import Star3 from "../../assets/landing/Star3.astro";
-// import Star4 from "../../assets/landing/Star4.astro";
 
 const { data } = Astro.props;
 ---
 
 <div class="cursor-container">
-  <!-- <div class="landing-image" id="image4">
-    <Star4 />
-  </div>
-  <div class="landing-image" id="image3">
-    <Star3 />
-  </div>
-  <div class="landing-image" id="image2">
-    <Star2 />
-  </div>
-  <div class="landing-image" id="image1">
-    <Star1 />
-  </div> -->
   {
     data.images.map((el, i) => {
       const imgSrcLarge = `${el.imageSrc}?w=856&fm=webp`;
@@ -50,67 +28,6 @@ const { data } = Astro.props;
       );
     })
   }
-  <!-- {
-    data.length > 0 ? (
-      data.images.map((el, i) => {
-        return (
-          <Image
-            format="webp"
-            class="landing-image"
-            src={el.imageSrc}
-            alt="SYS star image"
-            quality={10}
-            width={608}
-            height={856}
-            id={`image${i + 1}`}
-          />
-        );
-      })
-    ) : (
-      <>
-        <Image
-          format="webp"
-          class="landing-image"
-          src={image4}
-          alt="image4"
-          quality={10}
-          id="image4"
-          width={856}
-          height={608}
-        />
-        <Image
-          format="webp"
-          class="landing-image"
-          src={image3}
-          alt="image3"
-          quality={10}
-          id="image3"
-          width={856}
-          height={608}
-        />
-        <Image
-          format="webp"
-          class="landing-image"
-          src={image2}
-          alt="image2"
-          quality={10}
-          id="image2"
-          width={856}
-          height={608}
-        />
-        <Image
-          format="webp"
-          class="landing-image"
-          src={image1}
-          alt="image1"
-          quality={10}
-          id="image1"
-          width={856}
-          height={608}
-        />
-      </>
-    )
-  } -->
 </div>
 
 <style lang="scss">
@@ -178,15 +95,12 @@ const { data } = Astro.props;
     }
     #image2 {
       animation: float 3s linear infinite;
-      animation-delay: 0.25s;
     }
     #image3 {
       animation: float 4s linear infinite;
-      animation-delay: 0.5s;
     }
     #image4 {
       animation: float 5s linear infinite;
-      animation-delay: 0.75s;
     }
   }
 </style>

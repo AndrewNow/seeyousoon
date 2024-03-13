@@ -49,9 +49,13 @@ const upcomingEventToastData = await getUpcomingEvent();
     background: var(--beige-300);
   }
   .upcoming-events {
-    position: relative;
-    z-index: 5;
     background: var(--beige-300);
+  }
+
+  .past-events,
+  .upcoming-events {
+    position: relative;
+    z-index: 11;
   }
 
   @media (max-width: 576px) {
