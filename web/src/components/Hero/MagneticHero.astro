@@ -36,7 +36,7 @@ const { data } = Astro.props;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.5);
     display: grid;
     place-items: center;
     aspect-ratio: 1738/1232;
@@ -44,6 +44,7 @@ const { data } = Astro.props;
     height: 100%;
     // height: auto;
     // overflow: hidden;
+    opacity: 0;
   }
 
   .landing-image {
@@ -106,6 +107,22 @@ const { data } = Astro.props;
 </style>
 
 <script>
+  import { animate, spring } from "motion";
+
+  const cursorContainer = document.querySelector(".cursor-container");
+
+  animate(
+    cursorContainer,
+    {
+      opacity: 1,
+      transform: `translate(-50%, -50%) scale(1)`,
+    },
+    {
+      delay: 1.35,
+      duration: 1,
+      easing: spring({ stiffness: 30, damping: 10 }),
+    }
+  );
   // const img1 = document.getElementById("image1");
   // const img2 = document.getElementById("image2");
   // const img3 = document.getElementById("image3");

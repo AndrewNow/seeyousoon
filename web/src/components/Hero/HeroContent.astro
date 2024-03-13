@@ -2,11 +2,13 @@
 
 ---
 
-<div class="wrapper">
-  <div class="header">
-    <h1>We create private dinners, food-focused events and other fun stuff.</h1>
+<div class="hero-content-wrapper">
+  <div class="hero-header">
+    <h1 id="siteTitle">
+      We create private dinners, food-focused events, and other fun stuff.
+    </h1>
   </div>
-  <div class="contact">
+  <div class="hero-contact">
     <!-- <h5>Contact</h5> -->
     <a
       href="https://www.instagram.com/seeyousoon.to/"
@@ -21,8 +23,8 @@
   </div>
 </div>
 
-<style lang="scss">
-  .wrapper {
+<style lang="scss" is:global>
+  .hero-content-wrapper {
     z-index: 10;
     position: relative;
     // margin-left: 2.5vw;
@@ -31,15 +33,15 @@
     flex-direction: column;
     height: 100%;
   }
-  
-  .header {
+
+  .hero-header {
     margin-left: 2.5vw;
     margin-top: 2.5vh;
     max-width: 60vw;
     color: var(--brown-300);
     z-index: 3;
   }
-  .contact {
+  .hero-contact {
     margin-left: 2.5vw;
     position: absolute;
     bottom: 2.5vh;
@@ -58,21 +60,93 @@
   }
 
   @media (max-width: 1500px) {
-    .header {
+    .hero-header {
       max-width: 70vw;
     }
   }
   @media (max-width: 768px) {
-    .header {
+    .hero-header {
       max-width: 80vw;
     }
   }
   @media (max-width: 576px) {
-    .header {
+    .hero-header {
       max-width: 96vw;
     }
-    .contact {
+    .hero-contact {
       margin-bottom: 5vh;
     }
   }
+
+  #siteTitle {
+    opacity: 1;
+  }
+  .siteTitle-animated-word {
+    opacity: 1;
+  }
+  .siteTitle-animated-char {
+    opacity: 1;
+    color: var(--grey-100);
+    display: inline-block;
+  }
+  #titleChar0 {
+    letter-spacing: -.25rem;
+  }
 </style>
+
+<script>
+  import { animate, stagger } from "motion";
+
+  const title = document.getElementById("siteTitle");
+
+  const wordsArr = title.innerText.split(" ");
+  let charIndex = 0; // Track the index of characters
+
+  const spannedWords = wordsArr.map((word, wordIndex) => {
+    const wordCharacters = word.split("");
+    const spannedCharacters = wordCharacters.map((char) => {
+      if (char === " ") {
+        return " "; // Preserve spaces without animation
+      } else {
+        const charId = `titleChar${charIndex}`;
+        charIndex++;
+        return `<span class="siteTitle-animated-char" id="${charId}">${char}</span>`;
+      }
+    });
+
+    return `<span class="siteTitle-animated-word" id="titleWord${wordIndex}" style="white-space: nowrap;">${spannedCharacters.join("")}</span>`;
+  });
+
+  title.innerHTML = spannedWords.join(" ");
+
+  const titleChildren = document.querySelectorAll(".siteTitle-animated-char");
+
+  titleChildren.forEach((el, i) => {
+    const elId = el.id;
+    console.log(el);
+    if (elId && elId.startsWith("titleChar")) {
+      animate(
+        el,
+        {
+          opacity: 1,
+          color: "#1E1510",
+          rotate: [null, 8, 0],
+        },
+        {
+          duration: 0.45,
+          delay: i * 0.018,
+        }
+      );
+    }
+  });
+
+  // animate(
+  //   title,
+  //   {
+  //     opacity: 1,
+  //   },
+  //   {
+  //     duration: 2,
+  //   }
+  // );
+</script>
