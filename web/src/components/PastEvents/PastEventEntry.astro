@@ -57,38 +57,40 @@ const convertedDate = convertDateFormat(eventData.date);
       </div>
     </div>
   </div>
-  <div
-    id="pastEvents-marquee"
-    data-image-count={eventData.images.length}
-    data-index={index}
-  >
-    <div class="pastEvents-image-wrapper">
-      {
-        eventData.images.map((el) => {
-          const imgSrcLarge = `${el.imageSrc}?w=717&fm=webp`;
-          const imgSrcMedium = `${el.imageSrc}?w=378&fm=webp`;
-          const imgSrcSmall = `${el.imageSrc}?w=301&fm=webp`;
-          return (
-            <Image
-              format="webp"
-              src={imgSrcLarge}
-              srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
-              alt={
-                el.altText
-                  ? el.altText
-                  : "No descriptive text was entered for this image, sorry!"
-              }
-              width="563"
-              height="375"
-              widths={[301, 378, 717]}
-              sizes={`(max-width: 576px) 301px, (max-width: 768px) 378px, (max-width: 1600px) 717px`}
-              quality={30}
-              decoding="async"
-              loading="lazy"
-            />
-          );
-        })
-      }
+  <div class="marquee-wrapper">
+    <div
+      id="pastEvents-marquee"
+      data-image-count={eventData.images.length}
+      data-index={index}
+    >
+      <div class="pastEvents-image-wrapper">
+        {
+          eventData.images.map((el) => {
+            const imgSrcLarge = `${el.imageSrc}?w=717&fm=webp`;
+            const imgSrcMedium = `${el.imageSrc}?w=378&fm=webp`;
+            const imgSrcSmall = `${el.imageSrc}?w=301&fm=webp`;
+            return (
+              <Image
+                format="webp"
+                src={imgSrcLarge}
+                srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
+                alt={
+                  el.altText
+                    ? el.altText
+                    : "No descriptive text was entered for this image, sorry!"
+                }
+                width="563"
+                height="375"
+                widths={[301, 378, 717]}
+                sizes={`(max-width: 576px) 301px, (max-width: 768px) 378px, (max-width: 1600px) 717px`}
+                quality={30}
+                decoding="async"
+                loading="lazy"
+              />
+            );
+          })
+        }
+      </div>
     </div>
   </div>
 </div>
@@ -96,6 +98,34 @@ const convertedDate = convertDateFormat(eventData.date);
   #pastEvents-marquee {
     width: 100%;
     overflow: hidden;
+    position: relative;
+  }
+  .marquee-wrapper {
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 5vw;
+      opacity: 1;
+      backdrop-filter: blur(10px);
+      z-index: 1;
+      mask: linear-gradient(to right, transparent, black 95%);
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 5vw;
+      opacity: 1;
+      backdrop-filter: blur(10px);
+      mask: linear-gradient(to left, transparent, black 95%);
+    }
   }
   .event-entry-wrapper {
     margin-bottom: 5rem;
