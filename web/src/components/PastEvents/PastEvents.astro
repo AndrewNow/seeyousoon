@@ -3,8 +3,10 @@ import PastEventEntry from "./PastEventEntry.astro";
 const { data } = Astro.props;
 ---
 
+<div class="title-marquee" id="title-marquee">
+  <h2>Past Events · Past Events ·</h2>
+</div>
 <div class="wrapper">
-  <h1>Past Events</h1>
   {
     data.map((event, i) => {
       return (
