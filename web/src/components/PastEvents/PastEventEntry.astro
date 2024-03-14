@@ -114,6 +114,7 @@ const convertedDate = convertDateFormat(eventData.date);
       backdrop-filter: blur(10px);
       z-index: 1;
       mask: linear-gradient(to right, transparent, black 95%);
+      -webkit-mask: linear-gradient(to right, transparent, black 95%);
     }
     &:after {
       content: "";
@@ -125,6 +126,7 @@ const convertedDate = convertDateFormat(eventData.date);
       opacity: 1;
       backdrop-filter: blur(10px);
       mask: linear-gradient(to left, transparent, black 95%);
+      -webkit-mask: linear-gradient(to left, transparent, black 95%);
     }
   }
   .event-entry-wrapper {
