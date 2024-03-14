@@ -8,7 +8,7 @@
       new marquee(el, {
         duplicated: true,
         gap: 30,
-        speed: 100,
+        speed: 40,
         // pauseOnHover: true,
         startVisible: true,
         recalcResize: false,

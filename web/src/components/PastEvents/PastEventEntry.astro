@@ -20,7 +20,7 @@ function convertDateFormat(inputDate) {
 const convertedDate = convertDateFormat(eventData.date);
 ---
 
-<div>
+<div class="event-entry-wrapper">
   <div class="event-text-wrapper">
     <div class="event-text-inner">
       <div class="event-title-area">
@@ -65,7 +65,7 @@ const convertedDate = convertDateFormat(eventData.date);
     <div class="pastEvents-image-wrapper">
       {
         eventData.images.map((el) => {
-          const imgSrcLarge = `${el.imageSrc}?w=562&fm=webp`;
+          const imgSrcLarge = `${el.imageSrc}?w=717&fm=webp`;
           const imgSrcMedium = `${el.imageSrc}?w=378&fm=webp`;
           const imgSrcSmall = `${el.imageSrc}?w=301&fm=webp`;
           return (
@@ -80,9 +80,9 @@ const convertedDate = convertDateFormat(eventData.date);
               }
               width="563"
               height="375"
-              widths={[301, 378, 562]}
-              sizes={`(max-width: 576px) 301px, (max-width: 768px) 378px, (max-width: 1600px) 562px`}
-              quality={40}
+              widths={[301, 378, 717]}
+              sizes={`(max-width: 576px) 301px, (max-width: 768px) 378px, (max-width: 1600px) 717px`}
+              quality={30}
               decoding="async"
               loading="lazy"
             />
@@ -96,6 +96,12 @@ const convertedDate = convertDateFormat(eventData.date);
   #pastEvents-marquee {
     width: 100%;
     overflow: hidden;
+  }
+  .event-entry-wrapper {
+    margin-bottom: 5rem;
+  }
+  .event-entry-wrapper:first-child {
+    border-top: none;
   }
   .event-text-wrapper {
     width: 95%;
@@ -135,7 +141,7 @@ const convertedDate = convertDateFormat(eventData.date);
     img {
       border-radius: 2px;
       max-width: 100%;
-      height: 375px;
+      height: 475px; // was 375
       width: auto;
       margin-right: 1.5rem;
     }
