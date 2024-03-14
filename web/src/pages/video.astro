@@ -1,0 +1,70 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MagneticHero from "../components/Hero/MagneticHero.astro";
+import HeroContent from "../components/Hero/HeroContent.astro";
+import Toast from "../components/Toast/Toast.astro";
+import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
+import PastEvents from "../components/PastEvents/PastEvents.astro";
+
+import {
+  getHeroImages,
+  getPastEvents,
+  getUpcomingEvent,
+  getUpcomingEvents,
+} from "../sanity/api";
+import Newsletter from "../components/Newsletter.astro";
+import About from "../components/About/About.astro";
+import About2 from "../components/About/About2.astro";
+
+const heroImageData = await getHeroImages();
+const pastEventsData = await getPastEvents();
+const upcomingEventsData = await getUpcomingEvents();
+const upcomingEventToastData = await getUpcomingEvent();
+---
+
+<Layout title="See you soon">
+  <section class="hero" id="magneticHero-wrapper">
+    <Toast data={upcomingEventToastData} />
+    <HeroContent />
+    <MagneticHero data={heroImageData} />
+  </section>
+  <div class="upcoming-events">
+    <UpcomingEvents data={upcomingEventsData} />
+  </div>
+  <section class="about">
+    <About2 />
+    <!-- <About /> -->
+  </section>
+  <section class="past-events">
+    <PastEvents data={pastEventsData} />
+  </section>
+  <Newsletter />
+</Layout>
+
+<style lang="scss">
+  .hero {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 99vh;
+    z-index: 11;
+    background: var(--beige-300);
+  }
+  .upcoming-events {
+    background: var(--beige-300);
+  }
+
+  .past-events,
+  .upcoming-events {
+    position: relative;
+    z-index: 11;
+  }
+
+  @media (max-width: 576px) {
+    .hero {
+      height: 99svh;
+    }
+  }
+</style>
+
+<script src="../components/utils/marquee.js"></script>

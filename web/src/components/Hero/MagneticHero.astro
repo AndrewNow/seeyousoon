@@ -118,7 +118,6 @@ const { data } = Astro.props;
       transform: `translate(-50%, -50%) scale(1)`,
     },
     {
-      delay: 0.35,
       duration: 1,
       easing: spring({ stiffness: 30, damping: 10 }),
     }
@@ -313,17 +312,19 @@ const { data } = Astro.props;
     navigator.msMaxTouchPoints > 0;
 
   document.addEventListener("DOMContentLoaded", () => {
-    if (window.innerWidth > 576 || !isTouchDevice) {
-      const magneticObjects = [
-        new MagneticObject(img4, { lerp: 0.025, recenterLerp: 0.05 }),
-        new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.05 }),
-        new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.05 }),
-        new MagneticObject(img1, { lerp: 0.1, recenterLerp: 0.05 }),
-      ];
+    setTimeout(() => {
+      if (window.innerWidth > 576 || !isTouchDevice) {
+        const magneticObjects = [
+          new MagneticObject(img4, { lerp: 0.025, recenterLerp: 0.05 }),
+          new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.05 }),
+          new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.05 }),
+          new MagneticObject(img1, { lerp: 0.1, recenterLerp: 0.05 }),
+        ];
 
-      magneticObjects.forEach((obj) => {
-        obj.initialize();
-      });
-    }
+        magneticObjects.forEach((obj) => {
+          obj.initialize();
+        });
+      }
+    }, 1000);
   });
 </script>

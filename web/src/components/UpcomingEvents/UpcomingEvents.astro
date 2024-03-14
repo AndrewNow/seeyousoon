@@ -299,9 +299,10 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 
   const containerEl = document.querySelector("#upcoming-events");
   const data = JSON.parse(containerEl.getAttribute("data-cms"));
-
+  console.log(data);
   let BOX_WIDTH = 550;
   let BOX_HEIGHT = 250;
+  let RESIDENCY_BOX_HEIGHT = 360;
 
   let ground, leftWall, rightWall;
 
@@ -318,6 +319,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     if (window.innerWidth >= 1440) {
       BOX_WIDTH = 550;
       BOX_HEIGHT = 250;
+      RESIDENCY_BOX_HEIGHT = 360;
     } else if (window.innerWidth >= 576) {
       BOX_WIDTH = 490;
       BOX_HEIGHT = 235;
@@ -383,6 +385,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     Matter.Composite.add(engine.world, [ground, leftWall, rightWall]);
 
     data.forEach((cmsEntry, i) => {
+      console.log(cmsEntry);
       const existingBox = boxArr.find((box) => box.boxData.label === `box${i}`);
 
       if (!existingBox) {
@@ -392,11 +395,17 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
           ? 3.0 + Math.random()
           : -3.0 - Math.random();
 
+        // let calculatedBoxHeight = BOX_HEIGHT;
+        // if (cmsEntry.isResidency) {
+        //   calculatedBoxHeight = RESIDENCY_BOX_HEIGHT;
+        // }
+
         const boxData = Matter.Bodies.rectangle(
           containerEl.offsetWidth / randomX,
           -containerEl.offsetHeight / 2,
           BOX_WIDTH,
           BOX_HEIGHT,
+          // calculatedBoxHeight,
           {
             angle: Math.PI / randomAngle,
             label: `box${i}`,

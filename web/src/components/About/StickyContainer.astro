@@ -1,0 +1,109 @@
+---
+import sysvid1 from "../../assets/about/sysvid1.mp4";
+import sysvid2 from "../../assets/about/sysvid2.mp4";
+import sysvid3 from "../../assets/about/sysvid3.mp4";
+---
+
+<div class="about-sticky-container">
+  <div class="about-sticky-el">
+    <div class="sticky-contents">
+      <video
+        class="about-sticky-video-media"
+        preload="metadata"
+        loading="lazy"
+        autoplay
+        playsinline
+        muted
+        loop
+      >
+        <source src={sysvid1} type="video/mp4" />
+      </video>
+    </div>
+    <div class="sticky-contents">
+      <video
+        class="about-sticky-video-media"
+        preload="metadata"
+        loading="lazy"
+        autoplay
+        playsinline
+        muted
+        loop
+      >
+        <source src={sysvid2} type="video/mp4" />
+      </video>
+    </div>
+    <div class="sticky-contents">
+      <video
+        class="about-sticky-video-media"
+        preload="metadata"
+        loading="lazy"
+        autoplay
+        playsinline
+        muted
+        loop
+      >
+        <source src={sysvid3} type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</div>
+
+<style lang="scss" is:global>
+  .about-sticky-container {
+    height: 400vh;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+    margin-top: 10rem;
+    // background: var(--grey-200);
+  }
+  .about-sticky-el {
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 300vh;
+    // background: var(--grey-100);
+    display: flex;
+    place-items: center;
+    padding-left: 25%;
+    opacity: 1;
+  }
+  .about-sticky-video-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sticky-contents {
+    border-radius: 8px;
+    position: relative;
+    height: 95%;
+    width: calc(100% / 3);
+    margin: 3rem;
+    display: grid;
+    place-items: center;
+    color: white;
+    overflow: hidden;
+    video {
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  }
+</style>
+
+<script>
+  import { animate, timeline, scroll } from "motion";
+
+  const scrollTrack = document.querySelector(".about-sticky-container");
+  const stickyEl = document.querySelector(".about-sticky-el");
+
+  console.log(stickyEl);
+  scroll(
+    animate(stickyEl, {
+      transform: `translateX(-60%)`,
+      // opacity: [0, 1],
+      // transform: `translateX(100%)`,
+    }),
+    { target: scrollTrack }
+  );
+</script>
