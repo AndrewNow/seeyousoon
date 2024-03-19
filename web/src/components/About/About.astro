@@ -1,5 +1,4 @@
 ---
-import aboutVideo from "../../assets/footer/footer.mp4";
 import SysWritten from "../../assets/syswritten.png";
 import { Image } from "astro:assets";
 ---
@@ -37,7 +36,10 @@ import { Image } from "astro:assets";
         muted
         loop
       >
-        <source src={aboutVideo} type="video/mp4" />
+        <source
+          src="https://sys-video.s3.ca-central-1.amazonaws.com/sys-about.mp4"
+          type="video/mp4"
+        />
       </video>
     </div>
   </div>

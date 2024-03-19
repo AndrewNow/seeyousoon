@@ -1,7 +1,5 @@
 ---
 import Image from "astro/components/Image.astro";
-// import footer from "../assets/footer/footer.png";
-import footerSrc from "../assets/footer/footer.mp4";
 ---
 
 <footer class="wrapper" id="footerTrack">
@@ -23,9 +21,11 @@ import footerSrc from "../assets/footer/footer.mp4";
         muted
         loop
       >
-        <source src={footerSrc} type="video/mp4" />
+        <source
+          src="https://sys-video.s3.ca-central-1.amazonaws.com/sys-footer.mp4"
+          type="video/mp4"
+        />
       </video>
-      <!-- <Image src={footer} alt="video" class="video-media" /> -->
     </div>
     <div class="credits">
       <div class="credits-item">
@@ -50,7 +50,7 @@ import footerSrc from "../assets/footer/footer.mp4";
   const video = document.getElementById("footerVideo");
 
   const sequence = [[video, { height: "90vh" }]];
-  
+
   scroll(timeline(sequence), {
     target: scrollTrack,
   });
