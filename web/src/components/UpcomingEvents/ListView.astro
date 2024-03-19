@@ -101,7 +101,7 @@ cmsData.forEach((post) => {
                 </a>
               </p>
             </div>
-            <a class="reserve" href={event.eventLink}>
+            <a class="reserve-link" href={event.eventLink}>
               <small>Reserve</small>
             </a>
           </div>
@@ -167,13 +167,45 @@ cmsData.forEach((post) => {
       margin-bottom: 0;
     }
   }
-  .reserve {
+  .reserve-link {
+    position: relative;
+    display: grid;
+    place-items: center;
     padding: 0.75rem 2.5rem;
     border-radius: 6px;
     background: var(--beige-200);
-    border: 1px solid var(--grey-100);
+    outline: 1px solid var(--grey-100);
     color: var(--brown-300);
     text-decoration: none;
+    transition: all 0.4s ease;
+    overflow: hidden;
+    small {
+      transition: all 0.4s ease;
+    }
+  }
+  .reserve-link:after {
+    transition: all 0.4s ease;
+    content: "Reserve";
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 250%);
+    color: var(--beige-300);
+    font-family: "Denim-Regular";
+    line-height: 130%;
+  }
+  .reserve-link:hover {
+    background: var(--brown-200);
+    small {
+      opacity: 0;
+      transform: translateY(-150%);
+      color: var(--beige-300);
+    }
+  }
+  .reserve-link:hover:after {
+    transform: translate(-50%, -50%);
   }
   .dancing-img {
     padding-top: 3rem;
@@ -181,69 +213,80 @@ cmsData.forEach((post) => {
     opacity: 0.5;
     transform: rotate(1deg);
   }
-
-  @media (max-width: 768px) {
+  @media (max-width: 1500px) {
     .listView-wrapper {
-      transform: rotate(-0.5deg);
-      padding: 0;
-      width: 90%;
-    }
-    .entry {
-      .details-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      p {
-        font-size: 14px;
-        svg {
-          max-width: 18px;
-        }
-      }
-    }
-    .reserve {
-      display: block;
-      width: 100%;
-      padding: 0;
+      padding: 2rem 1.5rem;
+      max-width: min(550px, 98vw);
     }
     .dancing-img {
       padding-top: 0rem;
-      scale: 0.75;
+      padding-bottom: 1rem;
+      scale: 0.85;
+    }
+  }
+  @media (max-width: 992px) {
+    .listView-wrapper {
+      max-width: min(450px, 75vw);
     }
   }
   @media (max-width: 576px) {
     .listView-wrapper {
+      max-width: min(550px, 90vw);
+      transform: rotate(-1deg);
       padding: 0;
+      width: 90%;
+
       .title {
         margin: 2rem auto;
         font-size: 22px;
       }
     }
-    .reserve {
-      margin-top: 0.75rem;
-      text-align: center;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      small {
-        font-size: 16px;
-      }
-    }
+
     .entry {
       margin: 0 auto;
       margin-top: 0.75rem;
       width: 85%;
       padding-bottom: 1rem;
+
       .details-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
         p {
           svg {
             padding-right: 0.5rem;
           }
         }
       }
+
+      p {
+        margin-bottom: 0.25rem;
+        font-size: 14px;
+
+        svg {
+          max-width: 18px;
+        }
+      }
     }
+
+    .reserve-link {
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin-top: 0.75rem;
+      text-align: center;
+      height: 48px;
+      display: grid;
+      place-items: center;
+
+      small {
+        font-size: 16px;
+      }
+    }
+
     .dancing-img {
-      scale: .7;
-      transform: rotate(1.5deg);
+      padding-top: 0rem;
+      padding-bottom: 1rem;
+      scale: 0.67;
     }
   }
 </style>

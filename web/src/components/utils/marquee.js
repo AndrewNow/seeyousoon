@@ -1,25 +1,25 @@
  import marquee from "vanilla-marquee";
 
   document.addEventListener("DOMContentLoaded", function () {
-    const titleMarquees = document.querySelectorAll("#title-marquee");
+    // const titleMarquees = document.querySelectorAll("#title-marquee");
 
-    let windowWidth = window.innerWidth
-    titleMarquees.forEach((el) => {
-      new marquee(el, {
-        duplicated: true,
-        gap: 30,
-        speed: 40,
-        // pauseOnHover: true,
-        startVisible: true,
-        recalcResize: false,
-      });
-      window.addEventListener('resize', () => {
-        if (window.innerWidth != windowWidth) {
-          windowWidth = window.innerWidth
-          marquee.refresh()
-        }
-      })
-    });
+    // let windowWidth = window.innerWidth
+    // titleMarquees.forEach((el) => {
+    //   new marquee(el, {
+    //     duplicated: true,
+    //     gap: 30,
+    //     speed: 40,
+    //     // pauseOnHover: true,
+    //     startVisible: true,
+    //     recalcResize: false,
+    //   });
+    //   window.addEventListener('resize', () => {
+    //     if (window.innerWidth != windowWidth) {
+    //       windowWidth = window.innerWidth
+    //       marquee.refresh()
+    //     }
+    //   })
+    // });
 
     const pastEventsMarquees = document.querySelectorAll("#pastEvents-marquee");
     // Calculate marquee speed based on the number of images

@@ -123,11 +123,17 @@ small, label {
 
 @media (max-width: 1440px) {
   h3 {
-    font-size: 32px;
+    font-size: 28px;
   }
+ h4 {
+  font-size: 32px;
+ }
   h6 {
     font-size: 18px;
   }
+  p, input {
+    font-size: 18px;
+}
 }
 @media (max-width: 1280px) {
   h1 {
@@ -140,6 +146,13 @@ small, label {
   }
   h3 {
     font-size: 24px;
+  }
+  h4 {
+    font-size: 24px;
+  }
+  p, input {
+    font-size: 16px;
+    line-height: 140%;
   }
 }
 @media (max-width: 576px) {
@@ -154,18 +167,11 @@ small, label {
   h3 {
     font-size: 21px;
   }
-  h4 {
-    font-size: 28px;
-  }
   h5 {
     font-size: 22px;
   }
   h6 {
     font-size: 14px;
-  }
-  p, input {
-    font-size: 16px;
-    line-height: 140%;
   }
   small, label {
     font-size: 12px;
@@ -286,5 +292,14 @@ small, label {
     }
     50% {
       opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      background: var(--brown-200);
+    }
+    100% {
+      background: var(--brown-100);
     }
   }

@@ -8,7 +8,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 <div>
   <div class="upcomingEvents-wrapper">
     <div class="carousel-buttons">
-      <div class="carousel-btn-bg"></div>
+      <!-- <div class="carousel-btn-bg"></div> -->
       <button class="carousel-card-view active">
         <p>Card view</p>
       </button>
@@ -62,7 +62,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     border-radius: 8px;
   }
   .carousel-buttons {
-    background: var(--beige-300);
+    // background: var(--beige-300);
     position: absolute;
     top: 2rem;
     right: 2rem;
@@ -89,6 +89,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     button.active {
       color: var(--beige-300);
       // background: var(--brown-300);
+    }
+    button.active:hover {
+      opacity: 1;
     }
   }
   .carousel-btn-bg {
@@ -168,6 +171,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     width: 100%;
     border-radius: 6px;
     margin-bottom: 1.5rem;
+    animation: pulse 2s infinite alternate-reverse ease-in-out;
   }
   .upcomingEvents-reserve-link {
     display: grid;
@@ -290,11 +294,13 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   }
   @media (max-width: 576px) {
     .carousel-buttons {
-      // width: 60%;
-      top: 1.5rem;
-      left: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 1rem;
+      left: 0;
       right: unset;
-      transform: translateX(-50%);
       border-radius: 4px;
     }
     .upcomingEvents-residency-badge {
@@ -368,21 +374,21 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 
     const cardButton = document.querySelector(".carousel-card-view");
     const listButton = document.querySelector(".carousel-list-view");
-    const cardToggleBg = document.querySelector(".carousel-btn-bg");
+    // const cardToggleBg = document.querySelector(".carousel-btn-bg");
 
     cardButton.addEventListener("click", () => {
       cardButton.classList.add("active");
       listButton.classList.toggle("active");
-      cardToggleBg.style.left = "var(--padding)";
-      cardToggleBg.style.width = "86px";
+      // cardToggleBg.style.left = "var(--padding)";
+      // cardToggleBg.style.width = "86px";
       viewCanvasEl();
     });
 
     listButton.addEventListener("click", () => {
       cardButton.classList.toggle("active");
       listButton.classList.add("active");
-      cardToggleBg.style.left = "calc(55% - var(--padding))";
-      cardToggleBg.style.width = "76px";
+      // cardToggleBg.style.left = "calc(55% - var(--padding))";
+      // cardToggleBg.style.width = "76px";
       viewListEl();
     });
   });
