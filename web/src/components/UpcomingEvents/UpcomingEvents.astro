@@ -143,6 +143,10 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     display: grid;
     place-items: center;
   }
+
+  .box.residency {
+    height: 360px;
+  }
   .upcomingEvents-inner {
     height: 80%;
     width: 90%;
@@ -154,6 +158,16 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   .upcomingEvents-location-link:hover {
     opacity: 0.7;
     transition: all 0.2s ease;
+  }
+  .upcomingEvents-residency-badge {
+    display: grid;
+    place-items: center;
+    height: 60px;
+    background: var(--brown-100);
+    color: var(--beige-300);
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
   }
   .upcomingEvents-reserve-link {
     display: grid;
@@ -200,6 +214,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   }
 
   .upcomingEvents-header {
+    width: 100%;
     h3 {
       color: var(--brown-200);
       line-height: 100%;
@@ -242,6 +257,37 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       height: 235px;
     }
   }
+  @media (max-width: 1280px) {
+    .upcomingEvents-header {
+      h3 {
+        font-size: 28px;
+      }
+    }
+    .upcomingEvents-details {
+      h6 {
+        font-size: 18px;
+      }
+    }
+  }
+  @media (max-width: 992px) {
+    .upcomingEvents-header {
+      h3 {
+        font-size: 28px;
+      }
+    }
+    .upcomingEvents-details {
+      h6 {
+        font-size: 16px;
+      }
+    }
+    .upcomingEvents-residency-badge {
+      margin-bottom: 1rem;
+    }
+    .upcomingEvents-residency-badge,
+    .upcomingEvents-reserve-link {
+      height: 48px;
+    }
+  }
   @media (max-width: 576px) {
     .carousel-buttons {
       // width: 60%;
@@ -250,6 +296,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       right: unset;
       transform: translateX(-50%);
       border-radius: 4px;
+    }
+    .upcomingEvents-residency-badge {
+      height: 40px;
     }
     .upcomingEvents-wrapper {
       height: 120vh;
@@ -268,6 +317,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       width: 275px;
       height: 170px;
     }
+    .box.residency {
+      height: 240px;
+    }
     .upcomingEvents-header {
       h3 {
         font-size: 22px;
@@ -278,6 +330,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     }
     .upcomingEvents-details {
       h6 {
+        padding-bottom: 0.25rem;
         font-size: 14px;
         .svg-wrapper {
           width: 20px;
@@ -364,11 +417,13 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       BOX_HEIGHT = 250;
       RESIDENCY_BOX_HEIGHT = 360;
     } else if (window.innerWidth >= 576) {
-      BOX_WIDTH = 490;
+      BOX_WIDTH = 350;
       BOX_HEIGHT = 235;
+      RESIDENCY_BOX_HEIGHT = 300;
     } else {
       BOX_WIDTH = 275;
       BOX_HEIGHT = 170;
+      RESIDENCY_BOX_HEIGHT = 240;
     }
 
     if (engine == null || undefined) {
@@ -434,33 +489,40 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       if (!existingBox) {
         const randomX = 1.75 + Math.random() * 0.5;
         const isPositive = Math.random() < 0.5;
-        const randomAngle = isPositive
-          ? 3.0 + Math.random()
-          : -3.0 - Math.random();
 
-        // let calculatedBoxHeight = BOX_HEIGHT;
-        // if (cmsEntry.isResidency) {
-        //   calculatedBoxHeight = RESIDENCY_BOX_HEIGHT;
-        // }
+        let randomAngle;
+        if (window.innerWidth > 576) {
+          randomAngle = isPositive ? 3.0 + Math.random() : -3.0 - Math.random();
+        } else {
+          randomAngle = isPositive ? 5.0 + Math.random() : 5.0 - Math.random();
+        }
+
+        let calculatedBoxHeight = BOX_HEIGHT;
+
+        if (cmsEntry.isResidency) {
+          calculatedBoxHeight = RESIDENCY_BOX_HEIGHT;
+        }
 
         const boxData = Matter.Bodies.rectangle(
           containerEl.offsetWidth / randomX,
           -containerEl.offsetHeight / 2,
           BOX_WIDTH,
-          BOX_HEIGHT,
-          // calculatedBoxHeight,
+          calculatedBoxHeight,
           {
             angle: Math.PI / randomAngle,
             label: `box${i}`,
-            restitution: 0.6,
+            restitution: 0.76,
             render: { fillStyle: "transparent" },
           }
         );
         boxArr.push({ boxData, cmsEntry });
 
-        setTimeout(() => {
-          Matter.Composite.add(engine.world, boxData);
-        }, 750 * (i + 1));
+        setTimeout(
+          () => {
+            Matter.Composite.add(engine.world, boxData);
+          },
+          750 * (i + 1)
+        );
       }
     });
 
@@ -501,7 +563,16 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       );
 
       Matter.Events.on(runner, "afterUpdate", function () {
-        updateHtmlBox(`box${i}`, box.boxData.position, box.boxData.angle);
+        let calculatedBoxHeight = BOX_HEIGHT;
+        if (box.cmsEntry.isResidency) {
+          calculatedBoxHeight = RESIDENCY_BOX_HEIGHT;
+        }
+        updateHtmlBox(
+          `box${i}`,
+          box.boxData.position,
+          box.boxData.angle,
+          calculatedBoxHeight
+        );
       });
     });
 
@@ -557,9 +628,11 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
   function createHtmlBox(id, x, y, cmsEntry) {
     const htmlBox = document.createElement("div");
     htmlBox.id = id;
-    htmlBox.className = "box";
+    htmlBox.className = cmsEntry.isResidency ? "box residency" : "box";
     htmlBox.style.width = `${BOX_WIDTH}px`;
-    htmlBox.style.height = `${BOX_HEIGHT}px`;
+    htmlBox.style.height = cmsEntry.isResidency
+      ? `${RESIDENCY_BOX_HEIGHT}px`
+      : `${BOX_HEIGHT}px`;
     htmlBox.style.left = `${x - BOX_WIDTH / 2}px`;
     htmlBox.style.top = `${y - BOX_HEIGHT / 2}px`;
     htmlBox.style.position = "absolute";
@@ -615,7 +688,14 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     htmlBox.innerHTML = `
     <div class='upcomingEvents-inner'>
       <div class='upcomingEvents-header'>
-        <h3>${cmsEntry.title} ${cmsEntry.isResidency}</h3>
+        ${
+          cmsEntry.isResidency
+            ? `<p class="upcomingEvents-residency-badge">
+                Residency
+              </p>`
+            : ""
+        }
+        <h3>${cmsEntry.title}</h3>
         <div class='upcomingEvents-details'>
           <h6>
             <span class='svg-wrapper'>
@@ -647,15 +727,15 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     containerEl.appendChild(htmlBox);
   }
 
-  function updateHtmlBox(id, position, angle) {
+  function updateHtmlBox(id, position, angle, calculatedBoxHeight) {
     const htmlBox = document.getElementById(id);
+
     if (htmlBox) {
       const updatedX = position.x;
       const updatedY = position.y;
       const updatedAngle = angle;
-
       htmlBox.style.left = `${updatedX - BOX_WIDTH / 2}px`;
-      htmlBox.style.top = `${updatedY - BOX_HEIGHT / 2}px`;
+      htmlBox.style.top = `${updatedY - calculatedBoxHeight / 2}px`;
       htmlBox.style.transform = `rotate(${updatedAngle}rad)`;
     }
   }
