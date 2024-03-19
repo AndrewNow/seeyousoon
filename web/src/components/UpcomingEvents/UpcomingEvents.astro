@@ -6,9 +6,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 ---
 
 <div>
-  <div class="title-marquee" id="title-marquee">
-    <h2>Upcoming Events · Upcoming Events ·</h2>
-  </div>
   <div class="upcomingEvents-wrapper">
     <div class="carousel-buttons">
       <div class="carousel-btn-bg"></div>
@@ -461,12 +458,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
         );
         boxArr.push({ boxData, cmsEntry });
 
-        setTimeout(
-          () => {
-            Matter.Composite.add(engine.world, boxData);
-          },
-          750 * (i + 1)
-        );
+        setTimeout(() => {
+          Matter.Composite.add(engine.world, boxData);
+        }, 750 * (i + 1));
       }
     });
 
@@ -606,7 +600,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       const endMonth = endDate ? new Date(endDate).getMonth() : null;
 
       if (endMonth !== null && startMonth === endMonth) {
-        return `${formattedStartDate} to ${formattedEndDate.substr(formattedEndDate.indexOf(" ") + 1)}`;
+        return `${formattedStartDate} to ${formattedEndDate.substr(
+          formattedEndDate.indexOf(" ") + 1
+        )}`;
       } else {
         return `${formattedStartDate} to ${formattedEndDate}`;
       }
