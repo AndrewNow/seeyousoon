@@ -1,3 +1,7 @@
+---
+const { data } = Astro.props;
+---
+
 <footer class="wrapper" id="footerTrack">
   <div class="spacer-el"></div>
   <div class="sticky-inner">
@@ -26,7 +30,8 @@
     <div class="credits">
       <div class="credits-item">
         <small class="location-flex">
-          <span class="current-location"> Currently in:</span>Toronto</small
+          <span class="current-location"> Currently in</span>
+          {data.location ? data.location : "Toronto"}</small
         >
       </div>
       <div class="credits-item">

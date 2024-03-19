@@ -11,6 +11,7 @@ import {
   getPastEvents,
   getUpcomingEvent,
   getUpcomingEvents,
+  getCurrentLocation,
 } from "../sanity/api";
 import Newsletter from "../components/Newsletter.astro";
 import About from "../components/About/About.astro";
@@ -19,9 +20,10 @@ const heroImageData = await getHeroImages();
 const pastEventsData = await getPastEvents();
 const upcomingEventsData = await getUpcomingEvents();
 const upcomingEventToastData = await getUpcomingEvent();
+const currentLocationData = await getCurrentLocation();
 ---
 
-<Layout title="See you soon">
+<Layout title="See you soon" data={currentLocationData}>
   <section class="hero" id="magneticHero-wrapper">
     <Toast data={upcomingEventToastData} />
     <HeroContent />

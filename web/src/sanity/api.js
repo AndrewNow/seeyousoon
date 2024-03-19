@@ -61,3 +61,14 @@ export async function getUpcomingEvent() {
 
   return data;
 }
+
+export async function getCurrentLocation() {
+  const data = await sanityClient.fetch(
+    `*[_type == "currentLocation"] [0] {
+      _id,
+      location
+    }`
+  );
+
+  return data;
+}

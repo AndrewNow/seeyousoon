@@ -401,7 +401,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 
   const containerEl = document.querySelector("#upcoming-events");
   const data = JSON.parse(containerEl.getAttribute("data-cms"));
-  console.log(data);
   let BOX_WIDTH = 550;
   let BOX_HEIGHT = 250;
   let RESIDENCY_BOX_HEIGHT = 360;
@@ -489,7 +488,6 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     Matter.Composite.add(engine.world, [ground, leftWall, rightWall]);
 
     data.forEach((cmsEntry, i) => {
-      console.log(cmsEntry);
       const existingBox = boxArr.find((box) => box.boxData.label === `box${i}`);
 
       if (!existingBox) {
