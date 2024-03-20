@@ -10,7 +10,9 @@ const { data } = Astro.props;
   <div class="sticky-inner">
     <div class="video" id="footerVideo">
       <div class="video-text">
-        <TextLogo />
+        <div class="text-logo">
+          <TextLogo />
+        </div>
         <div class="social-links-flex">
           <a
             class="instagram-link"
@@ -121,8 +123,8 @@ const { data } = Astro.props;
     }
   }
   .social-links-flex {
-    display: flex;  
-
+    display: flex;
+    width: 100%;
     justify-content: center;
     position: relative;
     margin-top: 2rem;
@@ -226,6 +228,23 @@ const { data } = Astro.props;
   }
 
   @media (max-width: 576px) {
+    .text-logo {
+      width: 70vw;
+      height: 100px;
+      position: relative;
+      svg {
+        height: 100px;
+        width: 100px;
+      }
+    }
+    .social-links-flex {
+      .instagram-link {
+        width: 100px;
+      }
+      .email-link {
+        width: 50px;
+      }
+    }
     .credits {
       height: 11px;
       align-items: center;
