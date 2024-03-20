@@ -1,0 +1,54 @@
+---
+import "../styles/reset.css";
+import "../styles/global.scss";
+import NewFooter from "../components/NewFooter.astro";
+// import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title, data } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <!-- <Footer data={data} /> -->
+    <NewFooter data={data} />
+  </body>
+</html>
+
+<style>
+  body {
+    background: var(--beige-300);
+  }
+</style>
+<script>
+  console.log(`
+  Made with love by\n
+ ad88888ba   88  88                            
+d8'     '8b  88  ''                            
+Y8,          88                                
+\`Y8aaaaa,    88  88  8b,dPPYba,    ,adPPYb,d8  
+  \`''''''8b, 88  88  88P'   \`'8a  a8'    \`Y88  
+        \`8b  88  88  88       88  8b       88  
+Y8a     a8P  88  88  88       88  '8a,   ,d88  
+ 'Y88888P'   88  88  88       88   ''YbbdP'Y8  
+                                   aa,    ,88  
+                                    'Y8bbdP'   
+`);
+  console.log(
+    "%c https://www.sling.online/",
+    "color: #CDDF00; font-size: 16px; font-family: Arial; font-stretch: condensed;"
+  );
+</script>
