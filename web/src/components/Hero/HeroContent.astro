@@ -1,7 +1,3 @@
----
-
----
-
 <div class="hero-content-wrapper">
   <div class="hero-header">
     <h1 id="heroTitle">
@@ -114,16 +110,18 @@
     }
   );
 
-  animate(
-    heroContact,
-    {
-      y: "-48px",
-    },
-    {
-      delay: 2,
-    }
-  );
-  toastDismissBtn.addEventListener("click", () => {
+  if (window.innerWidth < 567 ) {
+
+    animate(
+      heroContact,
+      {
+        y: "-48px",
+      },
+      {
+        delay: 2,
+      }
+      );
+      toastDismissBtn.addEventListener("click", () => {
     animate(
       heroContact,
       {
@@ -134,4 +132,5 @@
       }
     );
   });
+}
 </script>

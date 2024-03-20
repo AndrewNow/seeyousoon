@@ -1,7 +1,7 @@
 ---
-// import settings from "../data/settings.js";
 import "../styles/reset.css";
 import "../styles/global.scss";
+import NewFooter from "../components/NewFooter.astro";
 import Footer from "../components/Footer.astro";
 
 interface Props {
@@ -23,7 +23,8 @@ const { title, data } = Astro.props;
   </head>
   <body>
     <slot />
-    <Footer data={data} />
+    <!-- <Footer data={data} /> -->
+    <NewFooter data={data} />
   </body>
 </html>
 
@@ -34,7 +35,7 @@ const { title, data } = Astro.props;
 </style>
 <script>
   console.log(`
-  %c Made with love by\n
+  Made with love by\n
  ad88888ba   88  88                            
 d8'     '8b  88  ''                            
 Y8,          88                                
