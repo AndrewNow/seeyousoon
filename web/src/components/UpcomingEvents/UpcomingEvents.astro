@@ -143,7 +143,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     box-sizing: border-box;
     position: relative;
     height: 235px;
-    width: 600px;
+    width: 525px;
     display: grid;
     place-items: center;
   }
@@ -413,7 +413,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 
   const containerEl = document.querySelector("#upcoming-events");
   const data = JSON.parse(containerEl.getAttribute("data-cms"));
-  let BOX_WIDTH = 600;
+  let BOX_WIDTH = 525;
   let BOX_HEIGHT = 235;
   let RESIDENCY_BOX_HEIGHT = 325;
 
@@ -430,7 +430,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 
   const init = () => {
     if (window.innerWidth >= 1440) {
-      BOX_WIDTH = 600;
+      BOX_WIDTH = 525;
       BOX_HEIGHT = 235;
       RESIDENCY_BOX_HEIGHT = 325;
     } else if (window.innerWidth >= 576) {
