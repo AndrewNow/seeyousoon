@@ -65,18 +65,51 @@ const eventTitle = JSON.stringify(data.title);
     font-variant-numeric: tabular-nums;
   }
   .reserve-btn {
-    display: block;
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 60px;
     width: 100%;
     text-align: center;
     margin-top: 1rem;
-    padding: 1rem 0;
     border-radius: 4px;
     border: 1px solid var(--grey-100);
     background: var(--beige-100);
     color: var(--brown-300);
     text-decoration: none;
+    overflow: hidden;
     font-family: "Denim-Regular";
+    p {
+      padding: 1rem 0;
+      transition: all 0.4s ease;
+      color: var(--brown-300);
+    }
   }
+  .reserve-btn:after {
+    padding: 1rem 0;
+    transition: all 0.4s ease;
+    content: "Reserve";
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 250%);
+    font-family: "Denim-Regular";
+    font-size: 20px;
+    line-height: 130%;
+  }
+  .reserve-btn:hover {
+    p {
+      opacity: 0;
+      transform: translateY(-150%);
+      color: var(--beige-300);
+    }
+  }
+  .reserve-btn:hover:after {
+    transform: translate(-50%, -50%);
+  }
+  
   .toast-close {
     position: absolute;
     top: 1rem;
@@ -184,16 +217,20 @@ const eventTitle = JSON.stringify(data.title);
     let countdownText = "";
 
     // Construct the countdown text based on remaining days, hours, and minutes
-    if (days >= 0) {
+    if (days > 0) {
       countdownText += `${days} day${days > 1 || days === 0 ? "s" : ""}, `;
       // if (isBeforeStartOfEvent === true) {
       //   countdownText += `in ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
       // } else {
       //   countdownText += `for ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
       // }
+    } else if (days === 0) {
+      countdownText;
     }
-    if (hours >= 0) {
+    if (hours >= 0 && days > 0) {
       countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
+    } else if (hours >= 0 && days === 0) {
+      countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""} `;
     }
     countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;
 

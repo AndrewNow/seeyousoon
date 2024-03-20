@@ -307,17 +307,25 @@ const endDate = JSON.stringify(data.dateEnd);
 
       let countdownText = "";
       // Construct the countdown text based on remaining days, hours, and minutes
-      if (days >= 0) {
+      if (days > 0) {
         if (isBeforeStartOfEvent === true) {
           countdownText += `in ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
         } else {
           countdownText += `for ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
         }
+      } else if (days === 0) {
+        if (isBeforeStartOfEvent === true) {
+          countdownText += `in `;
+        } else {
+          countdownText += `for `;
+        }
       }
-      if (hours >= 0) {
+      if (hours >= 0 && days > 0) {
         countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
+      } else if (hours >= 0 && days === 0) {
+        countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""} `;
       }
-      countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;
+      countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}...`;
       // Set the countdown text to the formatted string
       el.textContent = countdownText;
     }
