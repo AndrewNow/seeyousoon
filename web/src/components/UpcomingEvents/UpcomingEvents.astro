@@ -138,25 +138,26 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     position: absolute;
     // overflow: hidden;
     border-radius: 8px;
-    background: var(--beige-100);
-    outline: 1px solid var(--grey-200);
+    background: var(--beige-300);
+    border: 1px solid var(--grey-200);
+    box-sizing: border-box;
     position: relative;
-    height: 250px;
-    width: 500px;
+    height: 235px;
+    width: 600px;
     display: grid;
     place-items: center;
   }
 
   .box.residency {
-    height: 360px;
+    height: 325px;
   }
   .upcomingEvents-inner {
-    height: 80%;
-    width: 90%;
+    height: 90%;
+    width: 92.5%;
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
   .upcomingEvents-location-link:hover {
     opacity: 0.7;
@@ -170,7 +171,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     color: var(--beige-300);
     width: 100%;
     border-radius: 6px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     animation: pulse 2s infinite alternate-reverse ease-in-out;
   }
   .upcomingEvents-reserve-link {
@@ -185,7 +186,7 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     position: relative;
     transition: all 0.4s ease;
     overflow: hidden;
-    p {
+    h6 {
       transition: all 0.4s ease;
       color: var(--brown-300);
     }
@@ -201,13 +202,13 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     transform: translate(-50%, 250%);
     color: var(--beige-300);
     font-family: "Denim-Regular";
-    font-size: 20px;
+    font-size: 24px;
     line-height: 130%;
   }
 
   .upcomingEvents-reserve-link:hover {
     background: var(--brown-200);
-    p {
+    h6 {
       opacity: 0;
       transform: translateY(-150%);
       color: var(--beige-300);
@@ -257,8 +258,11 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 
   @media (max-width: 1440px) {
     .box {
-      width: 490px;
+      width: 475px;
       height: 235px;
+    }
+    .box.residency {
+      height: 325px;
     }
   }
   @media (max-width: 1280px) {
@@ -293,6 +297,14 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
     }
   }
   @media (max-width: 576px) {
+    .box {
+      border-radius: 4px;
+      width: 250px;
+      height: 190px;
+    }
+    .box.residency {
+      height: 250px;
+    }
     .carousel-buttons {
       width: 100%;
       display: flex;
@@ -310,6 +322,10 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       height: 120vh;
       margin-top: 0.5rem;
     }
+    .upcomingEvents-reserve-link,
+    .upcomingEvents-residency-badge {
+      border-radius: 4px;
+    }
     .upcomingEvents-reserve-link:after {
       font-size: 16px;
       line-height: 140%;
@@ -318,26 +334,22 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       padding-top: 1rem;
       padding-bottom: 1rem;
     }
-    .box {
-      border-radius: 4px;
-      width: 275px;
-      height: 170px;
-    }
-    .box.residency {
-      height: 240px;
-    }
+
     .upcomingEvents-header {
       h3 {
         font-size: 22px;
       }
     }
     .upcomingEvents-inner {
-      height: 85%;
+      height: 90%;
+      width: 87.5%;
+      justify-content: space-evenly;
     }
     .upcomingEvents-details {
       h6 {
-        padding-bottom: 0.25rem;
+        padding-bottom: 0.5rem;
         font-size: 14px;
+        align-items: flex-start;
         .svg-wrapper {
           width: 20px;
           height: 20px;
@@ -401,9 +413,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 
   const containerEl = document.querySelector("#upcoming-events");
   const data = JSON.parse(containerEl.getAttribute("data-cms"));
-  let BOX_WIDTH = 550;
-  let BOX_HEIGHT = 250;
-  let RESIDENCY_BOX_HEIGHT = 360;
+  let BOX_WIDTH = 600;
+  let BOX_HEIGHT = 235;
+  let RESIDENCY_BOX_HEIGHT = 325;
 
   let ground, leftWall, rightWall;
 
@@ -418,17 +430,17 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
 
   const init = () => {
     if (window.innerWidth >= 1440) {
-      BOX_WIDTH = 550;
-      BOX_HEIGHT = 250;
-      RESIDENCY_BOX_HEIGHT = 360;
-    } else if (window.innerWidth >= 576) {
-      BOX_WIDTH = 350;
+      BOX_WIDTH = 600;
       BOX_HEIGHT = 235;
-      RESIDENCY_BOX_HEIGHT = 300;
+      RESIDENCY_BOX_HEIGHT = 325;
+    } else if (window.innerWidth >= 576) {
+      BOX_WIDTH = 475;
+      BOX_HEIGHT = 235;
+      RESIDENCY_BOX_HEIGHT = 325;
     } else {
-      BOX_WIDTH = 275;
-      BOX_HEIGHT = 170;
-      RESIDENCY_BOX_HEIGHT = 240;
+      BOX_WIDTH = 250;
+      BOX_HEIGHT = 190;
+      RESIDENCY_BOX_HEIGHT = 250;
     }
 
     if (engine == null || undefined) {
@@ -694,9 +706,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
       <div class='upcomingEvents-header'>
         ${
           cmsEntry.isResidency
-            ? `<p class="upcomingEvents-residency-badge">
+            ? `<h6 class="upcomingEvents-residency-badge">
                 Residency
-              </p>`
+              </h6>`
             : ""
         }
         <h3>${cmsEntry.title}</h3>
@@ -722,9 +734,9 @@ const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest ev
         </div>
       </div>
       <a class="upcomingEvents-reserve-link" href='${cmsEntry.eventLink}' target="_blank" rel='noreferrer'>
-        <p>
+        <h6>
           Reserve
-        </p>
+        </h6>
       </a>
     </div>
   `;
