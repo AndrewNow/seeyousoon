@@ -74,7 +74,7 @@
       max-width: 96vw;
     }
     .hero-contact {
-      margin-bottom: 6.5vh;
+      // margin-bottom: 6.5vh;
     }
   }
 
@@ -90,6 +90,7 @@
 
   const heroTitle = document.getElementById("heroTitle");
   const heroContact = document.getElementById("heroContact");
+  const toastDismissBtn = document.getElementById("closeToastMobile");
 
   animate(
     heroTitle,
@@ -112,4 +113,25 @@
       duration: 0.6,
     }
   );
+
+  animate(
+    heroContact,
+    {
+      y: "-48px",
+    },
+    {
+      delay: 2,
+    }
+  );
+  toastDismissBtn.addEventListener("click", () => {
+    animate(
+      heroContact,
+      {
+        y: "0",
+      },
+      {
+        duration: 0.75,
+      }
+    );
+  });
 </script>
