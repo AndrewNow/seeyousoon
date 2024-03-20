@@ -9,7 +9,14 @@ const { data } = Astro.props;
       <div class="video-text">
         <h2 class="sys-text">see you soon!</h2>
         <div class="socials">
-          <h3>Instagram <a class="socials-link">@seeyousoon.to</a></h3>
+          <h3>
+            Instagram <a
+              class="socials-link"
+              href="https://www.instagram.com/seeyousoon.to/"
+              rel="noreferrer"
+              target="_blank">@seeyousoon.to</a
+            >
+          </h3>
           <h3>Email <a class="socials-link">info@seeyousoon.to</a></h3>
         </div>
       </div>
@@ -120,7 +127,6 @@ const { data } = Astro.props;
   }
   .socials {
     color: var(--beige-100);
-
     .socials-link:before {
       content: "";
       display: block;
@@ -142,6 +148,14 @@ const { data } = Astro.props;
         font-family: "Bradford-Light-Italic";
       }
     }
+  }
+  .socials-link {
+    cursor: pointer;
+    color: var(--beige-100);
+    text-decoration: none;
+  }
+  .socials-link:hover {
+    animation: wiggle 0.112005s;
   }
 
   .credits {
@@ -258,6 +272,7 @@ const { data } = Astro.props;
     }
     .sys-text {
       margin: 0 auto;
+      font-size: 16vw;
       letter-spacing: -0.1rem;
     }
   }

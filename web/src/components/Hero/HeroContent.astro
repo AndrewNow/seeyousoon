@@ -7,13 +7,19 @@
   <div class="hero-contact" id="heroContact">
     <!-- <h5>Contact</h5> -->
     <a
+      class="hero-contact-item"
       href="https://www.instagram.com/seeyousoon.to/"
       target="_blank"
       rel="noreferrer"
     >
       <h5>@seeyousoon.to</h5>
     </a>
-    <a href="mailto:info@seeyousoon.to" target="_blank" rel="noreferrer">
+    <a
+      class="hero-contact-item"
+      href="mailto:info@seeyousoon.to"
+      target="_blank"
+      rel="noreferrer"
+    >
       <h5>info@seeyousoon.to</h5>
     </a>
   </div>
@@ -36,6 +42,13 @@
     max-width: 60vw;
     color: var(--brown-300);
     z-index: 3;
+  }
+  .hero-contact-item {
+    display: block;
+    transform-origin: center;
+  }
+  .hero-contact-item:hover {
+    animation: wiggle 0.15s ease;
   }
   .hero-contact {
     margin-left: 2.5vw;
@@ -110,8 +123,7 @@
     }
   );
 
-  if (window.innerWidth < 567 ) {
-
+  if (window.innerWidth < 567) {
     animate(
       heroContact,
       {
@@ -120,17 +132,17 @@
       {
         delay: 2,
       }
-      );
-      toastDismissBtn.addEventListener("click", () => {
-    animate(
-      heroContact,
-      {
-        y: "0",
-      },
-      {
-        duration: 0.75,
-      }
     );
-  });
-}
+    toastDismissBtn.addEventListener("click", () => {
+      animate(
+        heroContact,
+        {
+          y: "0",
+        },
+        {
+          duration: 0.75,
+        }
+      );
+    });
+  }
 </script>
