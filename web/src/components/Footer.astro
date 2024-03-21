@@ -1,4 +1,7 @@
 ---
+import TextLogo from "../assets/footer/svg/TextLogo.astro";
+import Email from "../assets/footer/svg/Email.astro";
+import Instagram from "../assets/footer/svg/Instagram.astro";
 const { data } = Astro.props;
 ---
 
@@ -7,17 +10,21 @@ const { data } = Astro.props;
   <div class="sticky-inner">
     <div class="video" id="footerVideo">
       <div class="video-text">
-        <h2 class="sys-text">see you soon!</h2>
-        <div class="socials">
-          <h3>
-            Instagram <a
-              class="socials-link"
-              href="https://www.instagram.com/seeyousoon.to/"
-              rel="noreferrer"
-              target="_blank">@seeyousoon.to</a
-            >
-          </h3>
-          <h3>Email <a class="socials-link">info@seeyousoon.to</a></h3>
+        <div class="text-logo">
+          <TextLogo />
+        </div>
+        <div class="social-links-flex">
+          <a
+            class="instagram-link"
+            href="https://www.instagram.com/seeyousoon.to/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <Instagram />
+          </a>
+          <a class="email-link" href="mailto:info@seeyousoon.to">
+            <Email />
+          </a>
         </div>
       </div>
       <video
@@ -99,9 +106,6 @@ const { data } = Astro.props;
       object-fit: cover;
       object-position: top;
       filter: brightness(0.7);
-      // width: 100%;
-      // object-fit: cover;
-      // filter: brightness(0.7);
     }
 
     .video-text {
@@ -113,7 +117,33 @@ const { data } = Astro.props;
       left: 50%;
       transform: translate(-50%, -50%);
       display: flex;
+      flex-direction: column;
+      align-items: center; // remove after
       justify-content: space-between;
+    }
+  }
+  .social-links-flex {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+    margin-top: 2rem;
+
+    .instagram-link {
+      display: block;
+      width: 140px;
+      height: 40px;
+      margin-right: 4rem;
+      cursor: pointer;
+    }
+    .email-link {
+      height: 40px;
+      width: 70px;
+      cursor: pointer;
+    }
+    svg {
+      width: auto;
+      height: 100%;
     }
   }
 
@@ -122,11 +152,12 @@ const { data } = Astro.props;
     font-family: "Bradford-Light-Italic";
     letter-spacing: -0.4rem;
     line-height: unset;
-    font-size: 8.3vw;
+    font-size: 160px;
     transform: rotate(-4.5deg) translateY(-30px);
   }
   .socials {
     color: var(--beige-100);
+
     .socials-link:before {
       content: "";
       display: block;
@@ -148,17 +179,6 @@ const { data } = Astro.props;
         font-family: "Bradford-Light-Italic";
       }
     }
-  }
-  .socials-link {
-    cursor: pointer;
-    color: var(--beige-100);
-    text-decoration: none;
-  }
-  .socials-link:hover {
-    animation: wiggle 0.25s;
-  }
-  .socials-link:before:hover {
-    animation: none;
   }
 
   .credits {
@@ -206,42 +226,25 @@ const { data } = Astro.props;
       text-decoration: underline;
     }
   }
-  @media (max-width: 1200px) {
-    .sys-text {
-      font-size: 9vw;
-      letter-spacing: -0.2rem;
-    }
-  }
-  @media (max-width: 992px) {
-    .sys-text {
-      font-size: 14vw;
-      letter-spacing: -0.2rem;
-      margin: 0 auto;
-    }
-    .video {
-      .video-media {
-        max-width: 100%;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: top;
-        filter: brightness(0.7);
-        // width: 100%;
-        // object-fit: cover;
-        // filter: brightness(0.7);
-      }
-      .video-text {
-        flex-direction: column;
-      }
-      .socials {
-        h3 {
-          font-size: 34px;
-        }
-      }
-    }
-  }
 
   @media (max-width: 576px) {
+    .text-logo {
+      width: 70vw;
+      height: 100px;
+      position: relative;
+      svg {
+        height: 100px;
+        width: 100px;
+      }
+    }
+    .social-links-flex {
+      .instagram-link {
+        width: 100px;
+      }
+      .email-link {
+        width: 50px;
+      }
+    }
     .credits {
       height: 11px;
       align-items: center;
@@ -261,6 +264,17 @@ const { data } = Astro.props;
     }
 
     .video {
+      .video-media {
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        filter: brightness(0.7);
+        // width: 100%;
+        // object-fit: cover;
+        // filter: brightness(0.7);
+      }
       .video-text {
         width: 100%;
         flex-direction: column;
@@ -271,12 +285,12 @@ const { data } = Astro.props;
             margin-bottom: 0.5rem;
           }
         }
+        .sys-text {
+          margin: 0 auto;
+          font-size: 60px;
+          letter-spacing: -0.1rem;
+        }
       }
-    }
-    .sys-text {
-      margin: 0 auto;
-      font-size: 18vw;
-      letter-spacing: -0.1rem;
     }
   }
 </style>
