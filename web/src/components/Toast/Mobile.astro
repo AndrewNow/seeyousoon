@@ -1,7 +1,12 @@
 ---
 const { data } = Astro.props;
-const startDate = JSON.stringify(data.dateStart);
-const endDate = JSON.stringify(data.dateEnd);
+let startDate;
+let endDate;
+
+if (data.length) {
+  startDate = JSON.stringify(data.dateStart);
+  endDate = JSON.stringify(data.dateEnd);
+}
 ---
 
 <div class="mobile-toast-wrapper">

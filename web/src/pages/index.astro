@@ -5,11 +5,9 @@ import HeroContent from "../components/Hero/HeroContent.astro";
 import Toast from "../components/Toast/Toast.astro";
 import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
-
 import {
   getHeroImages,
   getPastEvents,
-  getUpcomingEvent,
   getUpcomingEvents,
   getCurrentLocation,
 } from "../sanity/api";
@@ -19,19 +17,34 @@ import About from "../components/About/About.astro";
 const heroImageData = await getHeroImages();
 const pastEventsData = await getPastEvents();
 const upcomingEventsData = await getUpcomingEvents();
-const upcomingEventToastData = await getUpcomingEvent();
-console.log(upcomingEventToastData);
 const currentLocationData = await getCurrentLocation();
+
+const currentDate = new Date(); // Get the current date
+
+const earliestEvent = upcomingEventsData
+  .filter((event) => new Date(event.dateEnd) >= currentDate) // Filter out events with end dates on or after today
+  .reduce((earliest, current) => {
+    if (!earliest) return current; // If there's no earliest event yet, return the current one
+    const earliestDate = new Date(earliest.dateStart);
+    const currentDate = new Date(current.dateStart);
+    return earliestDate < currentDate ? earliest : current;
+  }, null); // Initialize the accumulator with null to handle empty arrays
+
+const upcomingEvents = upcomingEventsData.filter((event) => {
+  const endDate = new Date(event.dateEnd);
+  return endDate > currentDate; // Filter out events with end dates after today
+});
+
 ---
 
 <Layout title="See you soon" data={currentLocationData}>
   <section class="hero" id="magneticHero-wrapper">
-    <Toast data={upcomingEventToastData} />
+    <Toast data={earliestEvent} />
     <HeroContent />
     <MagneticHero data={heroImageData} />
   </section>
   <div class="upcoming-events">
-    <UpcomingEvents data={upcomingEventsData} />
+    <UpcomingEvents data={upcomingEvents} />
   </div>
   <section class="about">
     <About />

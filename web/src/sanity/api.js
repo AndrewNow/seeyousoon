@@ -45,33 +45,6 @@ export async function getUpcomingEvents() {
 }
 
 
-export async function getUpcomingEvent() {
-  const data = await sanityClient.fetch(
-    `*[_type == "upcomingEvents"] | order(dateStart asc) [0] {
-      _id,
-      title,
-      isResidency,
-      eventLink,
-      dateStart,
-      dateEnd,
-      location,
-      locationLink
-    }`
-    // `*[_type == "upcomingEvents" && dateStart >= now()] | order(dateStart asc) [0] {
-    //   _id,
-    //   title,
-    //   isResidency,
-    //   eventLink,
-    //   dateStart,
-    //   dateEnd,
-    //   location,
-    //   locationLink
-    // }`
-  );
-
-  return data;
-}
-
 export async function getCurrentLocation() {
   const data = await sanityClient.fetch(
     `*[_type == "currentLocation"] [0] {

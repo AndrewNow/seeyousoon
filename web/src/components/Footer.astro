@@ -122,13 +122,34 @@ const { data } = Astro.props;
       justify-content: space-between;
     }
   }
+  .text-logo {
+    width: 45vw;
+    aspect-ratio: 888/142;
+
+    opacity: 1;
+    height: auto;
+    position: relative;
+    svg {
+      height: 100px;
+      width: 100px;
+    }
+  }
+
   .social-links-flex {
     display: flex;
     width: 100%;
     justify-content: center;
     position: relative;
     margin-top: 2rem;
-
+    .instagram-link,
+    .email-link {
+      transition: 0.3s all ease;
+    }
+    .instagram-link:hover,
+    .email-link:hover {
+      animation: 0.3s wiggle;
+      opacity: 0.75;
+    }
     .instagram-link {
       display: block;
       width: 140px;
@@ -137,6 +158,7 @@ const { data } = Astro.props;
       cursor: pointer;
     }
     .email-link {
+      display: block;
       height: 40px;
       width: 70px;
       cursor: pointer;
