@@ -31,7 +31,6 @@ cmsData.forEach((post) => {
           break;
       }
     }
-
     return `${monthAndDay}${suffix}`;
   }
 
@@ -57,12 +56,14 @@ cmsData.forEach((post) => {
   const formattedDateRange = formatRange(startDate, endDate);
   formattedDates.push(formattedDateRange);
 });
+
 ---
 
 <div class="listView-wrapper">
   <h4 class="title">Upcoming events</h4>
   {
     cmsData.map((event, i) => {
+
       return (
         <div class="entry">
           <h4>{event.title}</h4>

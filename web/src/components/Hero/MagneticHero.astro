@@ -52,24 +52,23 @@ const { data } = Astro.props;
 
   .landing-image-wrapper {
     position: absolute;
-    aspect-ratio: 856/608;
-    width: 45%;
-    max-width: 856px;
-    max-height: 608px;
-    height: auto;
-    width: 100%;
     will-change: transform;
     position: absolute;
   }
   .landing-image-animation {
+    will-change: transform;
     width: 100%;
     height: 100%;
     transform: scale(0);
     opacity: 0;
   }
   .landing-image {
+    aspect-ratio: 856/608;
+    width: 45%;
+    max-width: 856px;
+    max-height: 608px;
+    height: auto;
     width: 100%;
-    height: 100%;
     --radius: 3px;
     // transform: scale(0);
     // transition: opacity 0.5s ease-in-out;
@@ -107,15 +106,19 @@ const { data } = Astro.props;
 
     #heroImage-mobile-anim1 {
       animation: float 2s linear infinite;
+      animation-delay: 1.25s;
     }
     #heroImage-mobile-anim2 {
       animation: float 3s linear infinite;
+      animation-delay: 1.25s;
     }
     #heroImage-mobile-anim3 {
       animation: float 4s linear infinite;
+      animation-delay: 1.25s;
     }
     #heroImage-mobile-anim4 {
       animation: float 5s linear infinite;
+      animation-delay: 1.25s;
     }
   }
 </style>
@@ -323,16 +326,16 @@ const { data } = Astro.props;
     setTimeout(() => {
       if (window.innerWidth > 576 || !isTouchDevice) {
         const magneticObjects = [
-          new MagneticObject(img4, { lerp: 0.025, recenterLerp: 0.05 }),
-          new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.05 }),
-          new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.05 }),
-          new MagneticObject(img1, { lerp: 0.1, recenterLerp: 0.05 }),
+          new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.015 }),
+          new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.015 }),
+          new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.015 }),
+          new MagneticObject(img4, { lerp: 0.1, recenterLerp: 0.015 }),
         ];
 
         magneticObjects.forEach((obj) => {
           obj.initialize();
         });
       }
-    }, 450);
+    }, 950);
   });
 </script>
