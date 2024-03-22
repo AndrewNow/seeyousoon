@@ -29,7 +29,7 @@ const { data } = Astro.props;
     h1 {
       color: var(--beige-300);
       text-align: center;
-      margin-top: 5rem;
+      margin: 5rem 0;
     }
   }
 
@@ -41,6 +41,14 @@ const { data } = Astro.props;
     .wrapper {
       // width: 100%;
       // border-radius: 0;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .wrapper {
+      h1 {
+        margin: 3rem 0;
+      }
     }
   }
 </style>

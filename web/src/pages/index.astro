@@ -34,10 +34,9 @@ const upcomingEvents = upcomingEventsData.filter((event) => {
   const endDate = new Date(event.dateEnd);
   return endDate > currentDate; // Filter out events with end dates after today
 });
-
 ---
 
-<Layout title="See you soon" data={currentLocationData}>
+<Layout title="see you soon" data={currentLocationData}>
   <section class="hero" id="magneticHero-wrapper">
     <Toast data={earliestEvent} />
     <HeroContent />

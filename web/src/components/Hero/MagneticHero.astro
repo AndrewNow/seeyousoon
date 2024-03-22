@@ -11,20 +11,24 @@ const { data } = Astro.props;
       const imgSrcMedium = `${el.imageSrc}?w=581&fm=webp`;
       const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`;
       return (
-        <Image
-          class="landing-image"
-          src={imgSrcLarge}
-          srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
-          alt=""
-          quality={15}
-          width="856"
-          height="608"
-          id={`image${i + 1}`}
-          widths={[380, 581, 856]}
-          sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 856px`}
-          decoding="async"
-          loading="lazy"
-        />
+        <div class="landing-image-wrapper" id={`image${i + 1}`}>
+          <div class="landing-image-animation">
+            <Image
+              id={`heroImage-mobile-anim${i + 1}`}
+              class="landing-image"
+              src={imgSrcLarge}
+              srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
+              alt=""
+              quality={15}
+              width="856"
+              height="608"
+              widths={[380, 581, 856]}
+              sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 856px`}
+              decoding="async"
+              loading="lazy"
+            />
+          </div>
+        </div>
       );
     })
   }
@@ -36,29 +40,39 @@ const { data } = Astro.props;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
+    // transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%);
     display: grid;
     place-items: center;
     aspect-ratio: 1738/1232;
     width: 100%;
     height: 100%;
-    // height: auto;
-    // overflow: hidden;
-    opacity: 0;
+    // opacity: 0;
   }
 
-  .landing-image {
-    will-change: transform;
+  .landing-image-wrapper {
+    position: absolute;
     aspect-ratio: 856/608;
     width: 45%;
     max-width: 856px;
     max-height: 608px;
     height: auto;
+    width: 100%;
+    will-change: transform;
     position: absolute;
-    --radius: 3px; // animation for mobile
-    // opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-
+  }
+  .landing-image-animation {
+    width: 100%;
+    height: 100%;
+    transform: scale(0);
+    opacity: 0;
+  }
+  .landing-image {
+    width: 100%;
+    height: 100%;
+    --radius: 3px;
+    // transform: scale(0);
+    // transition: opacity 0.5s ease-in-out;
     svg {
       display: block;
       max-width: 100%;
@@ -70,37 +84,37 @@ const { data } = Astro.props;
     }
   }
 
-  .cursor-container.images-loaded .landing-image {
-    opacity: 1;
-  }
+  // .cursor-container.images-loaded .landing-image {
+  //   opacity: 1;
+  // }
 
   @media (max-width: 1440px) {
-    .landing-image {
+    .landing-image-wrapper {
       width: 55%;
     }
   }
   @media (max-width: 992px) {
-    .landing-image {
+    .landing-image-wrapper {
       width: 70%;
       max-width: 581px;
     }
   }
   @media (max-width: 768px) {
-    .landing-image {
+    .landing-image-wrapper {
       width: 90%;
       max-width: 380px;
     }
 
-    #image1 {
+    #heroImage-mobile-anim1 {
       animation: float 2s linear infinite;
     }
-    #image2 {
+    #heroImage-mobile-anim2 {
       animation: float 3s linear infinite;
     }
-    #image3 {
+    #heroImage-mobile-anim3 {
       animation: float 4s linear infinite;
     }
-    #image4 {
+    #heroImage-mobile-anim4 {
       animation: float 5s linear infinite;
     }
   }
@@ -109,41 +123,35 @@ const { data } = Astro.props;
 <script>
   import { animate, spring } from "motion";
 
+  const layers = document.querySelectorAll(".landing-image-animation");
   const cursorContainer = document.querySelector(".cursor-container");
 
-  animate(
-    cursorContainer,
-    {
-      opacity: 1,
-      transform: `translate(-50%, -50%) scale(1)`,
-    },
-    {
-      duration: 1,
-      easing: spring({ stiffness: 30, damping: 10 }),
-    }
-  );
-  // const img1 = document.getElementById("image1");
-  // const img2 = document.getElementById("image2");
-  // const img3 = document.getElementById("image3");
-  // const img4 = document.getElementById("image4");
+  layers.forEach((layer, i) => {
+    animate(
+      layer,
+      {
+        opacity: 1,
+        transform: `scale(1)`,
+      },
+      {
+        duration: 0.36,
+        delay: i * 0.15,
+        easing: spring({ stiffness: 30, damping: 10 }),
+      }
+    );
+  });
 
-  // function checkAllImagesLoaded(images, callback) {
-  //   let loadedImages = 0;
-  //   images.forEach((image) => {
-  //     window.addEventListener("load", () => {
-  //       loadedImages++;
-  //       if (loadedImages === images.length) {
-  //         callback();
-  //       }
-  //     });
-  //   });
-  // }
-  // const images = [img1, img2, img3, img4];
-
-  // checkAllImagesLoaded(images, () => {
-  //   const cursorContainer = document.querySelector(".cursor-container");
-  //  cursorContainer.classList.add("images-loaded");
-  // });
+  // animate(
+  //   cursorContainer,
+  //   {
+  //     opacity: 1,
+  //     transform: `translate(-50%, -50%) scale(1)`,
+  //   },
+  //   {
+  //     duration: 1,
+  //     easing: spring({ stiffness: 30, damping: 10 }),
+  //   }
+  // );
 </script>
 
 <script>
@@ -325,6 +333,6 @@ const { data } = Astro.props;
           obj.initialize();
         });
       }
-    }, 1000);
+    }, 450);
   });
 </script>
