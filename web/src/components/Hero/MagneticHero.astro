@@ -66,9 +66,9 @@ const { data } = Astro.props;
   .landing-image {
     width: 100%;
     height: 100%;
-    opacity: 0;
-    transform: scale(0);
-    // animation: scaleAnimation 1s ease forwards;
+    // opacity: 0;
+    // transform: scale(0);
+    animation: scaleAnimation 1s ease forwards;
   }
 
   @media (max-width: 1440px) {
@@ -91,64 +91,66 @@ const { data } = Astro.props;
 </style>
 
 <script>
-  import { animate, spring } from "motion";
+  // import { animate, spring } from "motion";
 
-  const landingImages = document.querySelectorAll(".landing-image");
+  // const landingImages = document.querySelectorAll(".landing-image");
 
-  landingImages.forEach((layer, i) => {
-    animate(
-      layer,
-      {
-        opacity: 1,
-        transform: `scale(1)`,
-      },
-      {
-        duration: 0.36,
-        delay: i * 0.15,
-        // easing: spring({ stiffness: 30, damping: 10 }),
-      }
-    );
-  });
+  // landingImages.forEach((layer, i) => {
+  //   animate(
+  //     layer,
+  //     {
+  //       opacity: 1,
+  //       transform: `scale(1)`,
+  //     },
+  //     {
+  //       duration: 0.36,
+  //       delay: i * 0.15,
+  //       // easing: spring({ stiffness: 30, damping: 10 }),
+  //     }
+  //   );
+  // });
 
-  const landingImageAnimation = document.querySelectorAll(
-    ".landing-image-animation"
-  );
+  // const landingImageAnimation = document.querySelectorAll(
+  //   ".landing-image-animation"
+  // );
 
-  if (window.innerWidth < 576) {
-    landingImageAnimation.forEach((img, i) => {
-      animate(
-        img,
-        {
-          transform: [
-            "translate(calc(cos(11.25deg) * 3px), calc(sin(11.25deg) * 3px))",
-            "translate(calc(cos(22.5deg) * 3px), calc(sin(22.5deg) * 3px))",
-            "translate(calc(cos(45deg) * 3px), calc(sin(45deg) * 3px))",
-            "translate(calc(cos(67.5deg) * 3px), calc(sin(67.5deg) * 3px))",
-            "translate(calc(cos(90deg) * 3px), calc(sin(90deg) * 3px))",
-            "translate(calc(cos(112.5deg) * 3px), calc(sin(112.5deg) * 3px))",
-            "translate(calc(cos(135deg) * 3px), calc(sin(135deg) * 3px))",
-            "translate(calc(cos(157.5deg) * 3px), calc(sin(157.5deg) * 3px))",
-            "translate(calc(cos(180deg) * 3px), calc(sin(180deg) * 3px))",
-            "translate(calc(cos(202.5deg) * 3px), calc(sin(202.5deg) * 3px))",
-            "translate(calc(cos(225deg) * 3px), calc(sin(225deg) * 3px))",
-            "translate(calc(cos(247.5deg) * 3px), calc(sin(247.5deg) * 3px))",
-            "translate(calc(cos(270deg) * 3px), calc(sin(270deg) * 3px))",
-            "translate(calc(cos(292.5deg) * 3px), calc(sin(292.5deg) * 3px))",
-            "translate(calc(cos(315deg) * 3px), calc(sin(315deg) * 3px))",
-            "translate(calc(cos(337.5deg) * 3px), calc(sin(337.5deg) * 3px))",
-            "translate(calc(cos(360deg) * 3px), calc(sin(360deg) * 3px))",
-          ],
-        },
-        {
-          delay: 1,
-          duration: i + 2,
-          repeat: Infinity,
-          easing: "linear",
-        }
-      );
-    });
-  }
+  // if (window.innerWidth < 576) {
+  //   landingImageAnimation.forEach((img, i) => {
+  //     animate(
+  //       img,
+  //       {
+  //         transform: [
+  //           "translate(calc(cos(11.25deg) * 3px), calc(sin(11.25deg) * 3px))",
+  //           "translate(calc(cos(22.5deg) * 3px), calc(sin(22.5deg) * 3px))",
+  //           "translate(calc(cos(45deg) * 3px), calc(sin(45deg) * 3px))",
+  //           "translate(calc(cos(67.5deg) * 3px), calc(sin(67.5deg) * 3px))",
+  //           "translate(calc(cos(90deg) * 3px), calc(sin(90deg) * 3px))",
+  //           "translate(calc(cos(112.5deg) * 3px), calc(sin(112.5deg) * 3px))",
+  //           "translate(calc(cos(135deg) * 3px), calc(sin(135deg) * 3px))",
+  //           "translate(calc(cos(157.5deg) * 3px), calc(sin(157.5deg) * 3px))",
+  //           "translate(calc(cos(180deg) * 3px), calc(sin(180deg) * 3px))",
+  //           "translate(calc(cos(202.5deg) * 3px), calc(sin(202.5deg) * 3px))",
+  //           "translate(calc(cos(225deg) * 3px), calc(sin(225deg) * 3px))",
+  //           "translate(calc(cos(247.5deg) * 3px), calc(sin(247.5deg) * 3px))",
+  //           "translate(calc(cos(270deg) * 3px), calc(sin(270deg) * 3px))",
+  //           "translate(calc(cos(292.5deg) * 3px), calc(sin(292.5deg) * 3px))",
+  //           "translate(calc(cos(315deg) * 3px), calc(sin(315deg) * 3px))",
+  //           "translate(calc(cos(337.5deg) * 3px), calc(sin(337.5deg) * 3px))",
+  //           "translate(calc(cos(360deg) * 3px), calc(sin(360deg) * 3px))",
+  //         ],
+  //       },
+  //       {
+  //         delay: 1,
+  //         duration: i + 2,
+  //         repeat: Infinity,
+  //         easing: "linear",
+  //       }
+  //     );
+  //   });
+  // }
+</script>
 
+<script>
   const lerp = (current, target, factor) =>
     current * (1 - factor) + target * factor;
 
