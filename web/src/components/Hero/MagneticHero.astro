@@ -12,9 +12,8 @@ const { data } = Astro.props;
       const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`;
       return (
         <div class="landing-image-wrapper" id={`image${i + 1}`}>
-          <div class="landing-image-animation">
+          <div class="landing-image-animation" id={`mobile-anim${i + 1}`}>
             <Image
-              id={`heroImage-mobile-anim${i + 1}`}
               class="landing-image"
               src={imgSrcLarge}
               srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
@@ -58,7 +57,7 @@ const { data } = Astro.props;
     will-change: transform;
     width: 100%;
     height: 100%;
-    transform: scale(0);
+    transform: translate(0, 0) scale(0);
     opacity: 0;
   }
   .landing-image {
@@ -103,45 +102,75 @@ const { data } = Astro.props;
       max-width: 380px;
     }
 
-    #image1 {
-      animation: float 2s linear infinite;
-      animation-delay: 1.25s;
-    }
-    #image2 {
-      animation: float 3s linear infinite;
-      animation-delay: 1.25s;
-    }
-    #image3 {
-      animation: float 4s linear infinite;
-      animation-delay: 1.25s;
-    }
-    #image4 {
-      animation: float 5s linear infinite;
-      animation-delay: 1.25s;
-    }
+    // #mobile-anim1 {
+    //   animation: float 2s linear infinite;
+    //   animation-delay: 1.25s;
+    // }
+    // #mobile-anim2 {
+    //   animation: float 3s linear infinite;
+    //   animation-delay: 1.25s;
+    // }
+    // #mobile-anim3 {
+    //   animation: float 4s linear infinite;
+    //   animation-delay: 1.25s;
+    // }
+    // #mobile-anim4 {
+    //   animation: float 5s linear infinite;
+    //   animation-delay: 1.25s;
+    // }
   }
 </style>
 
 <script>
-  // import { animate, spring } from "motion";
+  import { animate, spring } from "motion";
 
-  // const layers = document.querySelectorAll(".landing-image-animation");
-  // const cursorContainer = document.querySelector(".cursor-container");
+  const layers = document.querySelectorAll(".landing-image-animation");
+  const cursorContainer = document.querySelector(".cursor-container");
 
-  // layers.forEach((layer, i) => {
-  //   animate(
-  //     layer,
-  //     {
-  //       opacity: 1,
-  //       transform: `scale(1)`,
-  //     },
-  //     {
-  //       duration: 0.36,
-  //       delay: i * 0.15,
-  //       easing: spring({ stiffness: 30, damping: 10 }),
-  //     }
-  //   );
-  // });
+  layers.forEach((layer, i) => {
+    animate(
+      layer,
+      {
+        opacity: 1,
+        transform: `translate(0, 0) scale(1)`,
+      },
+      {
+        duration: 0.36,
+        delay: i * 0.15,
+        easing: spring({ stiffness: 30, damping: 10 }),
+      }
+    ).finished.then(() => {
+      animate(
+        layer,
+        {
+          transform: [
+            "translate(calc(cos(0deg) * 3px), calc(sin(0deg) * 3px)) scale(1)",
+            "translate(calc(cos(22.5deg) * 3px), calc(sin(22.5deg) * 3px)) scale(1)",
+            "translate(calc(cos(45deg) * 3px), calc(sin(45deg) * 3px)) scale(1)",
+            "translate(calc(cos(67.5deg) * 3px), calc(sin(67.5deg) * 3px)) scale(1)",
+            "translate(calc(cos(90deg) * 3px), calc(sin(90deg) * 3px)) scale(1)",
+            "translate(calc(cos(112.5deg) * 3px), calc(sin(112.5deg) * 3px)) scale(1)",
+            "translate(calc(cos(135deg) * 3px), calc(sin(135deg) * 3px)) scale(1)",
+            "translate(calc(cos(157.5deg) * 3px), calc(sin(157.5deg) * 3px)) scale(1)",
+            "translate(calc(cos(180deg) * 3px), calc(sin(180deg) * 3px)) scale(1)",
+            "translate(calc(cos(202.5deg) * 3px), calc(sin(202.5deg) * 3px)) scale(1)",
+            "translate(calc(cos(225deg) * 3px), calc(sin(225deg) * 3px)) scale(1)",
+            "translate(calc(cos(247.5deg) * 3px), calc(sin(247.5deg) * 3px)) scale(1)",
+            "translate(calc(cos(270deg) * 3px), calc(sin(270deg) * 3px)) scale(1)",
+            "translate(calc(cos(292.5deg) * 3px), calc(sin(292.5deg) * 3px)) scale(1)",
+            "translate(calc(cos(315deg) * 3px), calc(sin(315deg) * 3px)) scale(1)",
+            "translate(calc(cos(337.5deg) * 3px), calc(sin(337.5deg) * 3px)) scale(1)",
+            "translate(calc(cos(360deg) * 3px), calc(sin(360deg) * 3px)) scale(1)",
+          ],
+        },
+        {
+          duration: i + 2,
+          repeat: Infinity,
+          easing: "linear",
+        }
+      );
+    });
+  });
 
   // animate(
   //   cursorContainer,
