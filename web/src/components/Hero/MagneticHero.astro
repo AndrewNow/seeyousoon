@@ -12,21 +12,19 @@ const { data } = Astro.props;
       const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`;
       return (
         <div class="landing-image-wrapper" id={`image${i + 1}`}>
-          <div class="landing-image-animation">
-            <Image
-              class="landing-image"
-              src={imgSrcLarge}
-              srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
-              alt=""
-              quality={15}
-              width="856"
-              height="608"
-              widths={[380, 581, 856]}
-              sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 856px`}
-              decoding="async"
-              loading="lazy"
-            />
-          </div>
+          <Image
+            class="landing-image"
+            src={imgSrcLarge}
+            srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
+            alt=""
+            quality={15}
+            width="856"
+            height="608"
+            widths={[380, 581, 856]}
+            sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 856px`}
+            decoding="async"
+            loading="lazy"
+          />
         </div>
       );
     })
@@ -51,6 +49,13 @@ const { data } = Astro.props;
   .landing-image-wrapper {
     position: absolute;
     will-change: transform;
+    aspect-ratio: 856/608;
+    width: 45%;
+    max-width: 856px;
+    max-height: 608px;
+    height: auto;
+    width: 100%;
+    --radius: 3px;
   }
   .landing-image-animation {
     will-change: transform;
@@ -59,14 +64,8 @@ const { data } = Astro.props;
     // opacity: 0;
   }
   .landing-image {
-    aspect-ratio: 856/608;
-    width: 45%;
-    max-width: 856px;
-    max-height: 608px;
-    height: auto;
     width: 100%;
-    --radius: 3px;
-
+    height: 100%;
     opacity: 0;
     transform: scale(0);
   }
@@ -110,9 +109,9 @@ const { data } = Astro.props;
     );
   });
 
-  const landingImageAnimation = document.querySelectorAll(
-    ".landing-image-animation"
-  );
+  // const landingImageAnimation = document.querySelectorAll(
+  //   ".landing-image-animation"
+  // );
 
   // if (window.innerWidth < 576) {
   //   landingImageAnimation.forEach((img, i) => {
@@ -166,7 +165,10 @@ const { data } = Astro.props;
     isCursorInsideContainer = false;
   });
 
-  let mousePosition = { x: 0, y: 0 };
+  let mousePosition = {
+    x: cursorContainer.offsetWidth / 2,
+    y: cursorContainer.offsetHeight / 2,
+  }; // Initialize mouse position to the center
 
   window.addEventListener("mousemove", (e) => {
     const container = document.querySelector(".cursor-container");
