@@ -53,14 +53,13 @@ const { data } = Astro.props;
   .landing-image-wrapper {
     position: absolute;
     will-change: transform;
-    position: absolute;
   }
   .landing-image-animation {
     will-change: transform;
     width: 100%;
     height: 100%;
-    // transform: scale(0);
-    // opacity: 0;
+    transform: scale(0);
+    opacity: 0;
   }
   .landing-image {
     aspect-ratio: 856/608;
@@ -104,45 +103,45 @@ const { data } = Astro.props;
       max-width: 380px;
     }
 
-    #heroImage-mobile-anim1 {
-      animation: float 2s linear infinite;
-      animation-delay: 1.25s;
-    }
-    #heroImage-mobile-anim2 {
-      animation: float 3s linear infinite;
-      animation-delay: 1.25s;
-    }
-    #heroImage-mobile-anim3 {
-      animation: float 4s linear infinite;
-      animation-delay: 1.25s;
-    }
-    #heroImage-mobile-anim4 {
-      animation: float 5s linear infinite;
-      animation-delay: 1.25s;
-    }
+    // #image1 {
+    //   animation: float 2s linear infinite;
+    //   animation-delay: 1.25s;
+    // }
+    // #image2 {
+    //   animation: float 3s linear infinite;
+    //   animation-delay: 1.25s;
+    // }
+    // #image3 {
+    //   animation: float 4s linear infinite;
+    //   animation-delay: 1.25s;
+    // }
+    // #image4 {
+    //   animation: float 5s linear infinite;
+    //   animation-delay: 1.25s;
+    // }
   }
 </style>
 
 <script>
-  // import { animate, spring } from "motion";
+  import { animate, spring } from "motion";
 
-  // const layers = document.querySelectorAll(".landing-image-animation");
-  // const cursorContainer = document.querySelector(".cursor-container");
+  const layers = document.querySelectorAll(".landing-image-animation");
+  const cursorContainer = document.querySelector(".cursor-container");
 
-  // layers.forEach((layer, i) => {
-  //   animate(
-  //     layer,
-  //     {
-  //       opacity: 1,
-  //       transform: `scale(1)`,
-  //     },
-  //     {
-  //       duration: 0.36,
-  //       delay: i * 0.15,
-  //       easing: spring({ stiffness: 30, damping: 10 }),
-  //     }
-  //   );
-  // });
+  layers.forEach((layer, i) => {
+    animate(
+      layer,
+      {
+        opacity: 1,
+        transform: `scale(1)`,
+      },
+      {
+        duration: 0.36,
+        delay: i * 0.15,
+        easing: spring({ stiffness: 30, damping: 10 }),
+      }
+    );
+  });
 
   // animate(
   //   cursorContainer,
