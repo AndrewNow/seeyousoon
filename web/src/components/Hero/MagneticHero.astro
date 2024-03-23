@@ -39,14 +39,14 @@ const { data } = Astro.props;
     position: absolute;
     top: 50%;
     left: 50%;
-    // transform: translate(-50%, -50%) scale(0.5);
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.5);
+    // transform: translate(-50%, -50%);
     display: grid;
     place-items: center;
     aspect-ratio: 1738/1232;
     width: 100%;
     height: 100%;
-    // opacity: 0;
+    opacity: 0;
   }
 
   .landing-image-wrapper {
@@ -68,7 +68,7 @@ const { data } = Astro.props;
     height: auto;
     width: 100%;
     --radius: 3px;
-    opacity: 0;
+    // opacity: 0;
     // transform: scale(0);
     // transition: opacity 0.5s ease-in-out;
   }
@@ -96,23 +96,25 @@ const { data } = Astro.props;
   import { animate, spring } from "motion";
   const cursorContainer = document.querySelector(".cursor-container");
 
-  const landingImages = document.querySelectorAll(".landing-image");
-  const landingImageWrappers = document.querySelectorAll(".landing-image-wrapper");
+  // const landingImages = document.querySelectorAll(".landing-image");
+  const landingImageWrappers = document.querySelectorAll(
+    ".landing-image-wrapper"
+  );
 
-  landingImages.forEach((layer, i) => {
-    animate(
-      layer,
-      {
-        opacity: 1,
-        // transform: `scale(1)`,
-      },
-      {
-        duration: 0.36,
-        delay: i * 0.15,
-        easing: spring({ stiffness: 30, damping: 10 }),
-      }
-    );
-  });
+  // landingImages.forEach((layer, i) => {
+  //   animate(
+  //     layer,
+  //     {
+  //       opacity: 1,
+  //       // transform: `scale(1)`,
+  //     },
+  //     {
+  //       duration: 0.36,
+  //       delay: i * 0.15,
+  //       easing: spring({ stiffness: 30, damping: 10 }),
+  //     }
+  //   );
+  // });
 
   if (window.innerWidth <= 576) {
     landingImageWrappers.forEach((wrapper, i) => {
@@ -162,17 +164,17 @@ const { data } = Astro.props;
   }
   // });
 
-  // animate(
-  //   cursorContainer,
-  //   {
-  //     opacity: 1,
-  //     transform: `translate(-50%, -50%) scale(1)`,
-  //   },
-  //   {
-  //     duration: 1,
-  //     easing: spring({ stiffness: 30, damping: 10 }),
-  //   }
-  // );
+  animate(
+    cursorContainer,
+    {
+      opacity: 1,
+      transform: `translate(-50%, -50%) scale(1)`,
+    },
+    {
+      duration: 1,
+      easing: spring({ stiffness: 30, damping: 10 }),
+    }
+  );
 </script>
 
 <script>
