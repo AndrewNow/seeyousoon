@@ -114,9 +114,10 @@ const { data } = Astro.props;
         transform: `translate(0, 0) scale(1)`,
       },
       {
-        duration: 0.36,
+        // duration: 0.36,
+        duration: 0.6,
         delay: i * 0.15,
-        easing: spring({ stiffness: 30, damping: 10 }),
+        // easing: spring({ stiffness: 30, damping: 10 }),
       }
     ).finished.then(() => {
       if (window.innerWidth <= 576) {
