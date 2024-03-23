@@ -39,20 +39,20 @@ const { data } = Astro.props;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%);
     // transform: translate(-50%, -50%);
     display: grid;
     place-items: center;
     aspect-ratio: 1738/1232;
     width: 100%;
     height: 100%;
-    opacity: 0;
   }
 
   .landing-image-wrapper {
     position: absolute;
     will-change: transform;
-    transform: translate(0, 0);
+    background: #fff99f94;
+    outline: 1px solid;
   }
   .landing-image-animation {
     will-change: transform;
@@ -68,9 +68,9 @@ const { data } = Astro.props;
     height: auto;
     width: 100%;
     --radius: 3px;
-    // opacity: 0;
-    // transform: scale(0);
-    // transition: opacity 0.5s ease-in-out;
+
+    opacity: 0;
+    transform: scale(0);
   }
 
   @media (max-width: 1440px) {
@@ -94,44 +94,32 @@ const { data } = Astro.props;
 
 <script>
   import { animate, spring } from "motion";
-  const cursorContainer = document.querySelector(".cursor-container");
 
-  // const landingImages = document.querySelectorAll(".landing-image");
-  const landingImageWrappers = document.querySelectorAll(
-    ".landing-image-wrapper"
+  const landingImages = document.querySelectorAll(".landing-image");
+
+  landingImages.forEach((layer, i) => {
+    animate(
+      layer,
+      {
+        opacity: 1,
+        transform: `scale(1)`,
+      },
+      {
+        duration: 0.36,
+        delay: i * 0.15,
+        easing: spring({ stiffness: 30, damping: 10 }),
+      }
+    );
+  });
+
+  const landingImageAnimation = document.querySelectorAll(
+    ".landing-image-animation"
   );
 
-  // landingImages.forEach((layer, i) => {
-  //   animate(
-  //     layer,
-  //     {
-  //       opacity: 1,
-  //       // transform: `scale(1)`,
-  //     },
-  //     {
-  //       duration: 0.36,
-  //       delay: i * 0.15,
-  //       easing: spring({ stiffness: 30, damping: 10 }),
-  //     }
-  //   );
-  // });
-
   if (window.innerWidth <= 576) {
-    landingImageWrappers.forEach((wrapper, i) => {
-      // animate(
-      //   wrapper,
-      //   {
-      //     opacity: 1,
-      //     transform: `translate(0, 0) scale(1)`,
-      //   },
-      //   {
-      //     duration: 0.36,
-      //     delay: i * 0.15,
-      //     easing: spring({ stiffness: 30, damping: 10 }),
-      //   }
-      // ).finished.then(() => {
+    landingImageAnimation.forEach((img, i) => {
       animate(
-        wrapper,
+        img,
         {
           transform: [
             "translate(calc(cos(11.25deg) * 3px), calc(sin(11.25deg) * 3px))",
@@ -162,200 +150,4 @@ const { data } = Astro.props;
       );
     });
   }
-  // });
-
-  animate(
-    cursorContainer,
-    {
-      opacity: 1,
-      transform: `translate(-50%, -50%) scale(1)`,
-    },
-    {
-      duration: 1,
-      easing: spring({ stiffness: 30, damping: 10 }),
-    }
-  );
-</script>
-
-<script>
-  const lerp = (current, target, factor) =>
-    current * (1 - factor) + target * factor;
-
-  const cursorContainer = document.getElementById("magneticHero-wrapper");
-  let isCursorInsideContainer = true;
-  let shouldRender = true; // Added variable to control rendering
-
-  cursorContainer.addEventListener("mouseenter", () => {
-    isCursorInsideContainer = true;
-  });
-
-  cursorContainer.addEventListener("mouseleave", () => {
-    isCursorInsideContainer = false;
-  });
-
-  let mousePosition = { x: 0, y: 0 };
-
-  window.addEventListener("mousemove", (e) => {
-    const container = document.querySelector(".cursor-container");
-    const containerRect = container.getBoundingClientRect();
-
-    mousePosition.x = Math.max(
-      containerRect.left,
-      Math.min(containerRect.right, e.clientX)
-    );
-    mousePosition.y = Math.max(
-      containerRect.top,
-      Math.min(containerRect.bottom, e.clientY)
-    );
-  });
-
-  const calculateDistance = (x1, y1, x2, y2) => Math.hypot(x1 - x2, y1 - y2);
-
-  class MagneticObject {
-    constructor(domElement, { lerp, recenterLerp }) {
-      this.imageElement = domElement;
-      this.triggerArea = 2000;
-      this.lerpFactor = lerp;
-      this.recenterLerpFactor = recenterLerp;
-      this.isRecentering = false;
-
-      this.lerpingData = {
-        x: { current: 0, target: 0 },
-        y: { current: 0, target: 0 },
-      };
-
-      this.resizeObserver = new ResizeObserver(() => {
-        this.boundingClientRect = this.imageElement.getBoundingClientRect();
-      });
-
-      const intersectionOptions = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0,
-      };
-
-      this.intersectionObserver = new IntersectionObserver((entries) => {
-        const isInView = entries[0].isIntersecting;
-        if (!isInView) {
-          this.pauseAnimation();
-        } else {
-          this.resumeAnimation();
-        }
-      }, intersectionOptions);
-    }
-
-    resize() {
-      this.resizeObserver.observe(this.imageElement);
-      this.intersectionObserver.observe(cursorContainer);
-    }
-
-    render() {
-      if (!shouldRender) return;
-
-      const { left, width, top, height } = this.boundingClientRect || {};
-      const distanceFromMouseToCenter = calculateDistance(
-        mousePosition.x,
-        mousePosition.y,
-        left + width / 2,
-        top + height / 2
-      );
-
-      let targetHolder = { x: 0, y: 0 };
-
-      if (
-        isCursorInsideContainer &&
-        distanceFromMouseToCenter < this.triggerArea
-      ) {
-        this.imageElement.classList.add("focus");
-
-        targetHolder.x = (mousePosition.x - (left + width / 2)) * 0.2;
-        targetHolder.y = (mousePosition.y - (top + height / 2)) * 0.2;
-
-        if (this.isRecentering) {
-          this.isRecentering = false;
-          this.lerpingData.x.current = targetHolder.x;
-          this.lerpingData.y.current = targetHolder.y;
-        }
-      } else {
-        this.imageElement.classList.remove("focus");
-
-        if (!isCursorInsideContainer && !this.isRecentering) {
-          this.isRecentering = true;
-
-          targetHolder.x = 0;
-          targetHolder.y = 0;
-        }
-      }
-
-      this.lerpingData.x.target = targetHolder.x;
-      this.lerpingData.y.target = targetHolder.y;
-
-      for (const item in this.lerpingData) {
-        this.lerpingData[item].current = lerp(
-          this.lerpingData[item].current,
-          this.lerpingData[item].target,
-          isCursorInsideContainer ? this.lerpFactor : this.recenterLerpFactor
-        );
-      }
-
-      if (
-        this.lerpingData.x.current !== 0 ||
-        this.lerpingData.y.current !== 0
-      ) {
-        this.imageElement.style.transform = `translate3d(${this.lerpingData.x.current}px, ${this.lerpingData.y.current}px, 0)`;
-      }
-
-      this.resizeObserver.observe(this.imageElement);
-      this.intersectionObserver.observe(cursorContainer);
-
-      requestAnimationFrame(() => this.render());
-    }
-
-    initialize() {
-      this.render();
-      this.resize();
-    }
-
-    pauseAnimation() {
-      shouldRender = false;
-      this.imageElement.style.transform = "translate3d(0, 0, 0)";
-      this.lerpingData.x.current = 0;
-      this.lerpingData.y.current = 0;
-    }
-
-    resumeAnimation() {
-      shouldRender = true;
-      this.imageElement.style.transform = "translate3d(0, 0, 0)";
-      this.lerpingData.x.current = 0;
-      this.lerpingData.y.current = 0;
-      requestAnimationFrame(() => this.render());
-    }
-  }
-
-  const img1 = document.getElementById("image1");
-  const img2 = document.getElementById("image2");
-  const img3 = document.getElementById("image3");
-  const img4 = document.getElementById("image4");
-
-  const isTouchDevice =
-    "ontouchstart" in window ||
-    navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0;
-
-  document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-      if (window.innerWidth >= 576 || !isTouchDevice) {
-        const magneticObjects = [
-          new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.015 }),
-          new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.015 }),
-          new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.015 }),
-          new MagneticObject(img4, { lerp: 0.1, recenterLerp: 0.015 }),
-        ];
-
-        magneticObjects.forEach((obj) => {
-          obj.initialize();
-        });
-      }
-    }, 950);
-  });
 </script>
