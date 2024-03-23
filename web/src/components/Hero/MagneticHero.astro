@@ -12,7 +12,7 @@ const { data } = Astro.props;
       const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`;
       return (
         <div class="landing-image-wrapper" id={`image${i + 1}`}>
-          <div class="landing-image-animation" id={`mobile-anim${i + 1}`}>
+          <div class="landing-image-animation">
             <Image
               class="landing-image"
               src={imgSrcLarge}
@@ -52,12 +52,12 @@ const { data } = Astro.props;
   .landing-image-wrapper {
     position: absolute;
     will-change: transform;
+    transform: translate(0, 0);
   }
   .landing-image-animation {
     will-change: transform;
     width: 100%;
     height: 100%;
-    transform: translate(0, 0);
     // opacity: 0;
   }
   .landing-image {
@@ -103,12 +103,12 @@ const { data } = Astro.props;
 
 <script>
   import { animate, spring } from "motion";
-
-  const imageLayers = document.querySelectorAll(".landing-image");
-  const layers = document.querySelectorAll(".landing-image-animation");
   const cursorContainer = document.querySelector(".cursor-container");
 
-  imageLayers.forEach((layer, i) => {
+  const landingImages = document.querySelectorAll(".landing-image");
+  const landingImageWrappers = document.querySelectorAll(".landing-image-wrapper");
+
+  landingImages.forEach((layer, i) => {
     animate(
       layer,
       {
@@ -124,9 +124,9 @@ const { data } = Astro.props;
   });
 
   if (window.innerWidth <= 576) {
-    layers.forEach((layer, i) => {
+    landingImageWrappers.forEach((wrapper, i) => {
       // animate(
-      //   layer,
+      //   wrapper,
       //   {
       //     opacity: 1,
       //     transform: `translate(0, 0) scale(1)`,
@@ -138,10 +138,9 @@ const { data } = Astro.props;
       //   }
       // ).finished.then(() => {
       animate(
-        layer,
+        wrapper,
         {
           transform: [
-            null,
             "translate(calc(cos(11.25deg) * 3px), calc(sin(11.25deg) * 3px))",
             "translate(calc(cos(22.5deg) * 3px), calc(sin(22.5deg) * 3px))",
             "translate(calc(cos(45deg) * 3px), calc(sin(45deg) * 3px))",
