@@ -38,8 +38,6 @@ const { data } = Astro.props;
     position: absolute;
     top: 0;
     left: 0;
-    // transform: translate(-50%, -50%);
-    // transform: translate(-50%, -50%);
     display: grid;
     place-items: center;
     aspect-ratio: 1738/1232;
@@ -106,31 +104,14 @@ const { data } = Astro.props;
 </style>
 
 <script>
-  import { animate, spring } from "motion";
+  import { animate } from "motion";
 
-  // const landingImages = document.querySelectorAll(".landing-image");
-
-  // landingImages.forEach((layer, i) => {
-  //   animate(
-  //     layer,
-  //     {
-  //       opacity: 1,
-  //       transform: `scale(1)`,
-  //     },
-  //     {
-  //       duration: 0.36,
-  //       delay: i * 0.15,
-  //       // easing: spring({ stiffness: 30, damping: 10 }),
-  //     }
-  //   );
-  // });
-
-  const landingImageAnimation = document.querySelectorAll(
+  const imageMobileAnimation = document.querySelectorAll(
     ".landing-image-wrapper"
   );
 
   if (window.innerWidth < 576) {
-    landingImageAnimation.forEach((img, i) => {
+    imageMobileAnimation.forEach((img, i) => {
       animate(
         img,
         {
@@ -155,7 +136,7 @@ const { data } = Astro.props;
           ],
         },
         {
-          delay: 1.45,
+          delay: 1.25,
           duration: i + 2,
           repeat: Infinity,
           easing: "linear",
