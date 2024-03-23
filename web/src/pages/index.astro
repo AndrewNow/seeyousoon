@@ -42,9 +42,7 @@ const upcomingEvents = upcomingEventsData.filter((event) => {
     <HeroContent />
     <MagneticHero data={heroImageData} />
   </section>
-  <div class="upcoming-events">
-    <UpcomingEvents data={upcomingEvents} />
-  </div>
+  {upcomingEvents.length ? <div class="upcoming-events"></div> : null}
   <section class="about">
     <About />
   </section>

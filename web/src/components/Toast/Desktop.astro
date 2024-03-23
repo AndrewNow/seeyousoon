@@ -3,6 +3,7 @@ const { data } = Astro.props;
 const startDate = JSON.stringify(data.dateStart);
 const endDate = JSON.stringify(data.dateEnd);
 const eventTitle = JSON.stringify(data.title);
+console.log("HELLO", data);
 ---
 
 <div class="desktop-toast-wrapper" id="toastWrapper">

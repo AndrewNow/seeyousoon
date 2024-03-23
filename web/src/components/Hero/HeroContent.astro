@@ -103,6 +103,12 @@
   const heroContact = document.getElementById("heroContact");
   const toastDismissBtn = document.getElementById("closeToastMobile");
 
+  let upcomingEventExists = "";
+
+  if (toastDismissBtn) {
+    upcomingEventExists = toastDismissBtn.getAttribute("data-has-event");
+  }
+
   animate(
     heroTitle,
     {
@@ -125,7 +131,7 @@
     }
   );
 
-  if (window.innerWidth < 567) {
+  if (window.innerWidth < 567 && toastDismissBtn && upcomingEventExists) {
     animate(
       heroContact,
       {

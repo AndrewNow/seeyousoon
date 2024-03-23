@@ -10,7 +10,11 @@ const endDate = JSON.stringify(data.dateEnd);
     <div class="loading-progress" id="loadingProgress"></div>
   </div>
   <div class="content-flex" id="toastContent">
-    <button class="close-toast" aria-label="Close toast" id="closeToastMobile"
+    <button
+      class="close-toast"
+      aria-label="Close toast"
+      id="closeToastMobile"
+      data-has-event={data.length > 0}
       ><svg
         width="24"
         height="24"
