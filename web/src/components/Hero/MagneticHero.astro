@@ -81,9 +81,6 @@ const { data } = Astro.props;
     }
   }
 
-  // .cursor-container.images-loaded .landing-image {
-  //   opacity: 1;
-  // }
 
   @media (max-width: 1440px) {
     .landing-image-wrapper {
@@ -101,23 +98,6 @@ const { data } = Astro.props;
       width: 90%;
       max-width: 380px;
     }
-
-    // #mobile-anim1 {
-    //   animation: float 2s linear infinite;
-    //   animation-delay: 1.25s;
-    // }
-    // #mobile-anim2 {
-    //   animation: float 3s linear infinite;
-    //   animation-delay: 1.25s;
-    // }
-    // #mobile-anim3 {
-    //   animation: float 4s linear infinite;
-    //   animation-delay: 1.25s;
-    // }
-    // #mobile-anim4 {
-    //   animation: float 5s linear infinite;
-    //   animation-delay: 1.25s;
-    // }
   }
 </style>
 
@@ -140,35 +120,37 @@ const { data } = Astro.props;
         easing: spring({ stiffness: 30, damping: 10 }),
       }
     ).finished.then(() => {
-      animate(
-        layer,
-        {
-          transform: [
-            "translate(calc(cos(0deg) * 3px), calc(sin(0deg) * 3px)) scale(1)",
-            "translate(calc(cos(22.5deg) * 3px), calc(sin(22.5deg) * 3px)) scale(1)",
-            "translate(calc(cos(45deg) * 3px), calc(sin(45deg) * 3px)) scale(1)",
-            "translate(calc(cos(67.5deg) * 3px), calc(sin(67.5deg) * 3px)) scale(1)",
-            "translate(calc(cos(90deg) * 3px), calc(sin(90deg) * 3px)) scale(1)",
-            "translate(calc(cos(112.5deg) * 3px), calc(sin(112.5deg) * 3px)) scale(1)",
-            "translate(calc(cos(135deg) * 3px), calc(sin(135deg) * 3px)) scale(1)",
-            "translate(calc(cos(157.5deg) * 3px), calc(sin(157.5deg) * 3px)) scale(1)",
-            "translate(calc(cos(180deg) * 3px), calc(sin(180deg) * 3px)) scale(1)",
-            "translate(calc(cos(202.5deg) * 3px), calc(sin(202.5deg) * 3px)) scale(1)",
-            "translate(calc(cos(225deg) * 3px), calc(sin(225deg) * 3px)) scale(1)",
-            "translate(calc(cos(247.5deg) * 3px), calc(sin(247.5deg) * 3px)) scale(1)",
-            "translate(calc(cos(270deg) * 3px), calc(sin(270deg) * 3px)) scale(1)",
-            "translate(calc(cos(292.5deg) * 3px), calc(sin(292.5deg) * 3px)) scale(1)",
-            "translate(calc(cos(315deg) * 3px), calc(sin(315deg) * 3px)) scale(1)",
-            "translate(calc(cos(337.5deg) * 3px), calc(sin(337.5deg) * 3px)) scale(1)",
-            "translate(calc(cos(360deg) * 3px), calc(sin(360deg) * 3px)) scale(1)",
-          ],
-        },
-        {
-          duration: i + 2,
-          repeat: Infinity,
-          easing: "linear",
-        }
-      );
+      if (window.innerWidth <= 576) {
+        animate(
+          layer,
+          {
+            transform: [
+              "translate(calc(cos(0deg) * 3px), calc(sin(0deg) * 3px)) scale(1)",
+              "translate(calc(cos(22.5deg) * 3px), calc(sin(22.5deg) * 3px)) scale(1)",
+              "translate(calc(cos(45deg) * 3px), calc(sin(45deg) * 3px)) scale(1)",
+              "translate(calc(cos(67.5deg) * 3px), calc(sin(67.5deg) * 3px)) scale(1)",
+              "translate(calc(cos(90deg) * 3px), calc(sin(90deg) * 3px)) scale(1)",
+              "translate(calc(cos(112.5deg) * 3px), calc(sin(112.5deg) * 3px)) scale(1)",
+              "translate(calc(cos(135deg) * 3px), calc(sin(135deg) * 3px)) scale(1)",
+              "translate(calc(cos(157.5deg) * 3px), calc(sin(157.5deg) * 3px)) scale(1)",
+              "translate(calc(cos(180deg) * 3px), calc(sin(180deg) * 3px)) scale(1)",
+              "translate(calc(cos(202.5deg) * 3px), calc(sin(202.5deg) * 3px)) scale(1)",
+              "translate(calc(cos(225deg) * 3px), calc(sin(225deg) * 3px)) scale(1)",
+              "translate(calc(cos(247.5deg) * 3px), calc(sin(247.5deg) * 3px)) scale(1)",
+              "translate(calc(cos(270deg) * 3px), calc(sin(270deg) * 3px)) scale(1)",
+              "translate(calc(cos(292.5deg) * 3px), calc(sin(292.5deg) * 3px)) scale(1)",
+              "translate(calc(cos(315deg) * 3px), calc(sin(315deg) * 3px)) scale(1)",
+              "translate(calc(cos(337.5deg) * 3px), calc(sin(337.5deg) * 3px)) scale(1)",
+              "translate(calc(cos(360deg) * 3px), calc(sin(360deg) * 3px)) scale(1)",
+            ],
+          },
+          {
+            duration: i + 2,
+            repeat: Infinity,
+            easing: "linear",
+          }
+        );
+      }
     });
   });
 
@@ -352,7 +334,7 @@ const { data } = Astro.props;
 
   document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
-      if (window.innerWidth > 576 || !isTouchDevice) {
+      if (window.innerWidth >= 576 || !isTouchDevice) {
         const magneticObjects = [
           new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.015 }),
           new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.015 }),
