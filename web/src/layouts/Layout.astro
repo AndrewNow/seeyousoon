@@ -31,8 +31,7 @@ const description = "See you soon";
   </head>
   <body>
     <slot />
-    <Footer data={data} />
-    <!-- <NewFooter data={data} /> -->
+    {Astro.url.pathname != "/404" && <Footer data={data} />}
   </body>
 </html>
 

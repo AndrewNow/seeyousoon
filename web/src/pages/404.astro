@@ -1,0 +1,136 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import Star404 from "../assets/404-sign.png";
+import StarSad from "../assets/404-sad.png";
+---
+
+<Layout title="oh no, 404!">
+  <div class="wrapper">
+    <div class="text-wrapper">
+      <h2>so embarassing for you!</h2>
+      <a class="return-btn" href="/"><p>Return home</p></a>
+    </div>
+  </div>
+  <div class="image-wrapper">
+    <Image
+      class="left-img"
+      src={Star404}
+      alt="star holding up a 404 sign"
+      quality={80}
+      width={1205}
+      height={952}
+    />
+    <Image
+      class="right-img"
+      src={StarSad}
+      alt="star holding up a 404 sign"
+      quality={80}
+      width={1136}
+      height={780}
+    />
+  </div>
+</Layout>
+
+<style lang="scss">
+  .wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+  .text-wrapper {
+    h2 {
+      font-family: "Bradford-Light-Italic";
+      text-align: center;
+      margin-top: 25vh;
+      color: var(--brown-300);
+    }
+  }
+  .return-btn {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 60px;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 2rem;
+    border-radius: 4px;
+    border: 1px solid var(--grey-100);
+    background: var(--beige-100);
+    color: var(--brown-300);
+    text-decoration: none;
+    overflow: hidden;
+    font-family: "Denim-Regular";
+    cursor: pointer;
+    p {
+      padding: 1rem 0;
+      transition: all 0.4s ease;
+      color: var(--brown-300);
+    }
+  }
+  .return-btn:after {
+    padding: 1rem 0;
+    transition: all 0.4s ease;
+    content: "Return home";
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 250%);
+    font-family: "Denim-Regular";
+    font-size: 20px;
+    line-height: 130%;
+  }
+  .return-btn:hover {
+    p {
+      opacity: 0;
+      transform: translateY(-150%);
+      color: var(--beige-300);
+    }
+  }
+  .return-btn:hover:after {
+    transform: translate(-50%, -50%);
+  }
+  .image-wrapper {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .left-img {
+    aspect-ratio: 1204/952;
+    position: absolute;
+    bottom: -3vh;
+    left: -0.5vw;
+    width: 55vw;
+    height: auto;
+    // opacity: .6;
+  }
+  .right-img {
+    aspect-ratio: 1137/780;
+    position: absolute;
+    bottom: -3vh;
+    right: -12vw;
+    width: 55vw;
+    height: auto;
+    // opacity: .6;
+  }
+  @media (max-width: 1440px) {
+    .return-btn:after {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 576px) {
+    .return-btn:after {
+      font-size: 16px;
+    }
+  }
+</style>
