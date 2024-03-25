@@ -3,7 +3,6 @@ const { data } = Astro.props;
 const startDate = JSON.stringify(data.dateStart);
 const endDate = JSON.stringify(data.dateEnd);
 const eventTitle = JSON.stringify(data.title);
-console.log("HELLO", data);
 ---
 
 <div class="desktop-toast-wrapper" id="toastWrapper">
@@ -52,7 +51,7 @@ console.log("HELLO", data);
     background: var(--brown-200);
     color: var(--beige-300);
     padding: 1rem;
-    border-radius: 6px;
+    border-radius: 8px;
     small {
       color: var(--grey-200);
     }
@@ -138,7 +137,7 @@ console.log("HELLO", data);
   animate(
     wrapper,
     {
-      transform: `translateX(0px)`,
+      transform: `translateX(-.5vw)`,
       opacity: 1,
       // filter: ` blur(0px)`,
     },

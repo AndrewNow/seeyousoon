@@ -1,0 +1,306 @@
+---
+const wordData = `[
+  {
+    "word": "No",
+    "height": 65,
+    "width": 83
+  },
+  {
+    "word": "upcoming",
+    "height": 74,
+    "width": 278
+  },
+  {
+    "word": "events",
+    "height": 69,
+    "width": 178
+  },
+  {
+    "word": "planned!",
+    "height": 63,
+    "width": 232
+  }
+]
+`;
+---
+
+<div class="upcomingEvents-toggle-track">
+  <div
+    class="upcomingEvents-canvas-container"
+    id="upcoming-events-fallback"
+    data-words={wordData}
+  >
+  </div>
+</div>
+
+<style lang="scss" is:global>
+
+  .event-word {
+    height: auto;
+    width: auto;
+    color: var(--beige-300);
+  }
+</style>
+
+<script>
+  import * as Matter from "matter-js";
+
+  const containerEl = document.querySelector("#upcoming-events-fallback");
+  const wordData = JSON.parse(containerEl.getAttribute("data-words"));
+
+  let ground, leftWall, rightWall;
+
+  let wordArr = [];
+
+  let engine,
+    render,
+    runner = null;
+
+  let debouncedResize;
+  let prevWindowWidth = window.innerWidth;
+
+  const init = () => {
+    // if (window.innerWidth >= 1440) {
+    //   BOX_WIDTH = 525;
+    //   BOX_HEIGHT = 235;
+    //   RESIDENCY_BOX_HEIGHT = 325;
+    // } else if (window.innerWidth >= 576) {
+    //   BOX_WIDTH = 475;
+    //   BOX_HEIGHT = 235;
+    //   RESIDENCY_BOX_HEIGHT = 325;
+    // } else {
+    //   BOX_WIDTH = 250;
+    //   BOX_HEIGHT = 190;
+    //   RESIDENCY_BOX_HEIGHT = 250;
+    // }
+
+    if (engine == null || undefined) {
+      engine = Matter.Engine.create();
+    }
+
+    render = Matter.Render.create({
+      element: containerEl,
+      engine: engine,
+      options: {
+        width: containerEl.offsetWidth,
+        height: containerEl.offsetHeight,
+        wireframes: false,
+        background: "transparent",
+      },
+    });
+
+    ground = Matter.Bodies.rectangle(
+      containerEl.offsetWidth / 2,
+      containerEl.offsetHeight,
+      containerEl.offsetWidth,
+      10,
+      {
+        isStatic: true,
+        render: { fillStyle: "transparent" },
+        sleep: true,
+        label: "wall",
+      }
+    );
+
+    leftWall = Matter.Bodies.rectangle(
+      0,
+      containerEl.offsetHeight / 2,
+      10,
+      containerEl.offsetHeight * 2,
+      {
+        isStatic: true,
+        render: { fillStyle: "transparent" },
+        sleep: true,
+        label: "wall",
+      }
+    );
+
+    rightWall = Matter.Bodies.rectangle(
+      containerEl.offsetWidth,
+      containerEl.offsetHeight / 2,
+      10,
+      containerEl.offsetHeight * 2,
+      {
+        isStatic: true,
+        render: { fillStyle: "transparent" },
+        sleep: true,
+        label: "wall",
+      }
+    );
+
+    Matter.Composite.add(engine.world, [ground, leftWall, rightWall]);
+
+    wordData.forEach((word, i) => {
+      const existingWord = wordArr.find(
+        (word) => word.wordData.label === `word-${word}`
+      );
+
+      if (!existingWord) {
+        const randomX = 1.75 + Math.random() * 0.5;
+        const isPositive = Math.random() < 0.5;
+
+        let randomAngle;
+        if (window.innerWidth > 576) {
+          randomAngle = isPositive ? 3.0 + Math.random() : -3.0 - Math.random();
+        } else {
+          randomAngle = isPositive ? 5.0 + Math.random() : 5.0 - Math.random();
+        }
+
+        const wordData = Matter.Bodies.rectangle(
+          containerEl.offsetWidth / randomX,
+          -containerEl.offsetHeight / 2,
+          word.width,
+          word.height,
+          {
+            angle: Math.PI / randomAngle,
+            label: `word-${word}`,
+            restitution: 0.76,
+            // render: { fillStyle: "transparent" },
+          }
+        );
+        wordArr.push({ wordData, word });
+
+        setTimeout(
+          () => {
+            Matter.Composite.add(engine.world, wordData);
+          },
+          750 * (i + 1)
+        );
+      }
+    });
+
+    Matter.Render.run(render);
+
+    render.canvas.width = containerEl.offsetWidth;
+    render.canvas.height = containerEl.offsetHeight;
+
+    if (runner === null) {
+      runner = Matter.Runner.create();
+    } else {
+      runner.enabled = true;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            Matter.Runner.run(runner, engine);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.5,
+      }
+    );
+
+    observer.observe(containerEl);
+
+    wordArr.forEach((word, i) => {
+      createHtmlWord(
+        `word-${word}`,
+        word.wordData.position.x,
+        word.wordData.position.y,
+        word.word
+      );
+
+      Matter.Events.on(runner, "afterUpdate", function () {
+        updateHtmlWord(
+          `word-${word}`,
+          word.wordData.position,
+          word.wordData.angle,
+          word.width,
+          word.height
+        );
+      });
+    });
+
+    initResize();
+  };
+  init();
+
+  function initResize() {
+    debouncedResize = debounce(() => {
+      resize();
+    }, 1000);
+    window.addEventListener("resize", debouncedResize);
+  }
+
+  function resize() {
+    const currentWindowWidth = window.innerWidth;
+    if (currentWindowWidth === prevWindowWidth) {
+      // No change in window width, exit without resizing
+      return;
+    }
+    prevWindowWidth = currentWindowWidth;
+
+    window.removeEventListener("resize", debouncedResize);
+    Matter.Runner.stop(runner);
+    Matter.Render.stop(render);
+    Matter.Runner.stop(runner);
+    Matter.World.clear(engine.world);
+    Matter.Engine.clear(engine);
+
+    Matter.Composite.allBodies(engine.world).forEach((body) => {
+      if (body.label !== "wall") {
+        Matter.Composite.remove(engine.world, body);
+      }
+    });
+
+    wordArr = [];
+
+    const htmlWords = document.querySelectorAll(".word");
+    htmlWords.forEach((word) => {
+      word.remove();
+    });
+
+    const canvas = containerEl.querySelector("canvas");
+    if (canvas) {
+      canvas.remove();
+    }
+
+    setTimeout(() => {
+      init();
+    }, 1000);
+  }
+
+  function createHtmlWord(id, x, y, word) {
+    const htmlWord = document.createElement("div");
+    htmlWord.id = id;
+    htmlWord.className = "word";
+    htmlWord.style.width = `${word.width}px`;
+    htmlWord.style.height = `${word.height}px`;
+    htmlWord.style.left = `${x - word.width / 2}px`;
+    htmlWord.style.top = `${y - word.height / 2}px`;
+    htmlWord.style.position = "absolute";
+    htmlWord.style.zIndex = "1";
+
+    htmlWord.innerHTML = `
+      <h1 class='event-word'>${word.word}</h1>
+  `;
+    containerEl.appendChild(htmlWord);
+  }
+
+  function updateHtmlWord(id, position, angle, width, height) {
+    const htmlWord = document.getElementById(id);
+
+    if (htmlWord) {
+      const updatedX = position.x;
+      const updatedY = position.y;
+      const updatedAngle = angle;
+      htmlWord.style.left = `${updatedX - width / 2}px`;
+      htmlWord.style.top = `${updatedY - height / 2}px`;
+      htmlWord.style.transform = `rotate(${updatedAngle}rad)`;
+    }
+  }
+
+  function debounce(func, delay) {
+    let timeout;
+
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+</script>

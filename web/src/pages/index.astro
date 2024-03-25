@@ -4,6 +4,7 @@ import MagneticHero from "../components/Hero/MagneticHero.astro";
 import HeroContent from "../components/Hero/HeroContent.astro";
 import Toast from "../components/Toast/Toast.astro";
 import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
+import UpcomingEventsFallback from "../components/UpcomingEvents/EventContainerFallback.astro";
 import PastEvents from "../components/PastEvents/PastEvents.astro";
 import {
   getHeroImages,
@@ -29,11 +30,6 @@ const earliestEvent = upcomingEventsData
     const currentDate = new Date(current.dateStart);
     return earliestDate < currentDate ? earliest : current;
   }, null); // Initialize the accumulator with null to handle empty arrays
-
-const upcomingEvents = upcomingEventsData.filter((event) => {
-  const endDate = new Date(event.dateEnd);
-  return endDate > currentDate; // Filter out events with end dates after today
-});
 ---
 
 <Layout title="see you soon" data={currentLocationData}>
@@ -42,7 +38,10 @@ const upcomingEvents = upcomingEventsData.filter((event) => {
     <HeroContent />
     <MagneticHero data={heroImageData} />
   </section>
-  {upcomingEvents.length ? <div class="upcoming-events"></div> : null}
+  <section class="upcoming-events">
+    <UpcomingEvents data={upcomingEventsData} />
+  </section>
+  <!-- {upcomingEvents.length ? <UpcomingEvents /> : <UpcomingEventsFallback />} -->
   <section class="about">
     <About />
   </section>
@@ -61,13 +60,18 @@ const upcomingEvents = upcomingEventsData.filter((event) => {
     z-index: 11;
     background: var(--beige-300);
   }
-  .upcoming-events {
-  }
 
-  .past-events,
+  .about { 
+    display: block;
+    position: relative;
+  }
   .upcoming-events {
     position: relative;
-    z-index: 11;
+    z-index: 10;
+  }
+  .past-events {
+    position: relative;
+    z-index: 10;
   }
 
   @media (max-width: 576px) {

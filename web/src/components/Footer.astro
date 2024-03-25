@@ -10,7 +10,7 @@ const { data } = Astro.props;
   <div class="sticky-inner">
     <div class="video" id="footerVideo">
       <div class="video-text">
-        <div class="text-logo">
+        <div class="text-logo" id="footer-written-logo">
           <TextLogo />
         </div>
         <div class="social-links-flex">
@@ -63,8 +63,21 @@ const { data } = Astro.props;
 
   const scrollTrack = document.getElementById("footerTrack");
   const video = document.getElementById("footerVideo");
+  const sysLogo = document.getElementById("footer-written-logo");
 
-  const sequence = [[video, { height: "92.5svh" }]];
+  const sequence = [
+    // [video, { height: "92.5svh" }],
+    [video, { height: "95svh", width: [null, "100%"] }],
+    [
+      sysLogo,
+      {
+        transform: [null, "scale(.65)"],
+      },
+      {
+        at: "-.5",
+      },
+    ],
+  ];
 
   scroll(timeline(sequence), {
     target: scrollTrack,
@@ -80,6 +93,9 @@ const { data } = Astro.props;
     z-index: 11;
     position: relative;
   }
+  #footer-written-logo {
+    transform: scale(0.5);
+  }
   .spacer-el {
     height: 100vh; // was 150 or 200vh
   }
@@ -89,8 +105,7 @@ const { data } = Astro.props;
   }
   .video {
     will-change: height;
-    background: var(--grey-100);
-    border-radius: 8px;
+    border-radius: 20px; // was 8
     width: 100%;
     height: 60vh;
     position: relative;
@@ -289,6 +304,7 @@ const { data } = Astro.props;
     }
 
     .video {
+      border-radius: 8px;
       .video-media {
         max-width: 100%;
         width: 100%;

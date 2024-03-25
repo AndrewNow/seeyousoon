@@ -11,13 +11,13 @@ import house from "../assets/house.png";
     quality={60}
   />
   <form
-    action=""
+    action="https://seeyousoon.us18.list-manage.com/subscribe/post?u=5fd9d6ba53f3750f80eee4933&id=4cd9b9b8b9&f_id=00af2ce1f0"
     method="post"
     id="mc-embedded-subscribe-form"
     name="mc-embedded-subscribe-form"
     class="validate"
-    target="_blank"
-    novalidate
+    target="_self"
+    novalidate=""
   >
     <div id="mc_embed_signup_scroll">
       <h1>Missed an event?</h1>
@@ -65,7 +65,7 @@ import house from "../assets/house.png";
       <div style="position: absolute; left: -5000px;" aria-hidden="true">
         <input
           type="text"
-          name="b_f12a49713f2b8fffa5a2a5870_113a135fd8"
+          name="b_5fd9d6ba53f3750f80eee4933_4cd9b9b8b9"
           tabindex="-1"
           value=""
         />
@@ -76,13 +76,10 @@ import house from "../assets/house.png";
 
 <style lang="scss" is:global>
   .mce_inline_error {
-    // font-size: 14px;
     font-family: "Denim-Regular";
     background: unset;
     background-color: unset !important;
     color: var(--red) !important;
-    // margin: unset !important;
-    text-align: left;
   }
   .sys-house-image {
     margin: 0 auto;
@@ -162,6 +159,7 @@ import house from "../assets/house.png";
       // height: 52px;
       height: calc(100% - 16px);
       font-size: 18px;
+      overflow: hidden;
 
       .subscribe-btn-label {
         z-index: 1;
@@ -214,9 +212,16 @@ import house from "../assets/house.png";
     line-height: 130%;
   }
 
+  #mce-responses {
+    font-family: "Denim-Regular";
+    margin: 1rem auto;
+    color: var(--brown-300);
+  }
+
   @media (max-width: 576px) {
     .newsletter-wrapper {
       padding: 7rem 0;
+      padding-bottom: 10rem;
     }
     .newsletter-wrapper {
       width: 95%;
@@ -243,6 +248,9 @@ import house from "../assets/house.png";
           font-size: 14px !important;
         }
       }
+    }
+    .subscribe-btn-wrapper:after {
+      font-size: 14px;
     }
   }
 </style>

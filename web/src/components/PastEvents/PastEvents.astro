@@ -1,8 +1,20 @@
 ---
+import { Image } from "astro:assets";
+import SysStar from "../../assets/sys-star.png";
 import PastEventEntry from "./PastEventEntry.astro";
 const { data } = Astro.props;
 ---
 
+<div class="mobile-star-wrapper">
+  <Image
+    src={SysStar}
+    alt="sys star"
+    class="mobile-star"
+    quality="low"
+    width="50"
+    height="50"
+  />
+</div>
 <div class="wrapper">
   <h1>Past Events</h1>
   {
@@ -17,12 +29,15 @@ const { data } = Astro.props;
 </div>
 
 <style lang="scss">
+  .mobile-star-wrapper {
+    display: none;
+  }
   .wrapper {
     width: 98%;
     margin: 0 auto;
     margin-top: 1rem;
     background: var(--brown-400);
-    border-radius: 8px;
+    border-radius: 20px; // was 8
     overflow: hidden;
     position: relative;
 
@@ -34,7 +49,7 @@ const { data } = Astro.props;
   }
 
   .pastevent-entry-wrapper {
-    margin: 5rem auto;
+    margin: 4rem auto;
   }
 
   @media (max-width: 768px) {
@@ -42,13 +57,27 @@ const { data } = Astro.props;
       // width: 100%;
       // border-radius: 0;
     }
+
+    .mobile-star-wrapper {
+      display: block;
+      padding: 3rem 0;
+      padding-top: 0;
+      .mobile-star {
+        margin: 0 auto;
+      }
+    }
   }
 
   @media (max-width: 576px) {
     .wrapper {
+      border-radius: 8px;
       h1 {
         margin: 3rem 0;
       }
+    }
+    .pastevent-entry-wrapper {
+      margin: 3rem auto;
+      display: block;
     }
   }
 </style>

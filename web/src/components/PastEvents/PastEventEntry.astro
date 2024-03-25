@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+
 const { eventData, index } = Astro.props;
 function convertDateFormat(inputDate) {
   // Parse the input date string in the "YYYY-MM-DD" format
@@ -65,30 +66,37 @@ const convertedDate = convertDateFormat(eventData.date);
     >
       <div class="pastEvents-image-wrapper">
         {
-          eventData.images.map((el) => {
-            const imgSrcLarge = `${el.imageSrc}?w=717&fm=webp`;
-            const imgSrcMedium = `${el.imageSrc}?w=378&fm=webp`;
-            const imgSrcSmall = `${el.imageSrc}?w=301&fm=webp`;
-            return (
-              <Image
-                format="webp"
-                src={imgSrcLarge}
-                srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
-                alt={
-                  el.altText
-                    ? el.altText
-                    : "No descriptive text was entered for this image, sorry!"
-                }
-                width="563"
-                height="375"
-                widths={[401, 378, 717]}
-                sizes={`(max-width: 576px) 401px, (max-width: 768px) 378px, (max-width: 1600px) 717px`}
-                quality={30}
-                decoding="async"
-                loading="lazy"
-              />
-            );
-          })
+          eventData.images &&
+            eventData.images.map((el) => {
+              let imgSrcLarge;
+              let imgSrcMedium;
+              let imgSrcSmall;
+
+              if (el.imageSrc) {
+                imgSrcLarge = `${el.imageSrc}?w=717&fm=webp`;
+                imgSrcMedium = `${el.imageSrc}?w=378&fm=webp`;
+                imgSrcSmall = `${el.imageSrc}?w=301&fm=webp`;
+              }
+              return (
+                <Image
+                  format="webp"
+                  src={imgSrcLarge}
+                  srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
+                  alt={
+                    el.altText != null
+                      ? el.altText
+                      : "No descriptive text was entered for this image, sorry!"
+                  }
+                  width="563"
+                  height="375"
+                  widths={[401, 378, 717]}
+                  sizes={`(max-width: 576px) 401px, (max-width: 768px) 378px, (max-width: 1600px) 717px`}
+                  quality={30}
+                  decoding="async"
+                  loading="lazy"
+                />
+              );
+            })
         }
       </div>
     </div>
@@ -96,8 +104,10 @@ const convertedDate = convertDateFormat(eventData.date);
 </div>
 <style lang="scss">
   #pastEvents-marquee {
-    width: 100%;
+    width: 97.5%;
     overflow: hidden;
+    margin: 0 auto;
+    border-radius: 8px;
     position: relative;
   }
   .marquee-wrapper {
@@ -111,10 +121,10 @@ const convertedDate = convertDateFormat(eventData.date);
     //   height: 100%;
     //   width: 5vw;
     //   opacity: 1;
-    //   backdrop-filter: blur(10px);
+    //   backdrop-filter: blur(9px);
     //   z-index: 1;
-    //   mask: linear-gradient(to right, transparent, black 95%);
-    //   -webkit-mask: linear-gradient(to right, transparent, black 95%);
+    //   mask: linear-gradient(to right, transparent, black 99%);
+    //   -webkit-mask: linear-gradient(to right, transparent, black 99%);
     // }
     // &:after {
     //   content: "";
@@ -124,20 +134,18 @@ const convertedDate = convertDateFormat(eventData.date);
     //   height: 100%;
     //   width: 5vw;
     //   opacity: 1;
-    //   backdrop-filter: blur(10px);
-    //   mask: linear-gradient(to left, transparent, black 95%);
-    //   -webkit-mask: linear-gradient(to left, transparent, black 95%);
+    //   backdrop-filter: blur(9px);
+    //   mask: linear-gradient(to left, transparent, black 99%);
+    //   -webkit-mask: linear-gradient(to left, transparent, black 99%);
     // }
   }
-  .event-entry-wrapper {
-    margin-bottom: 5rem;
-  }
+
   .event-entry-wrapper:first-child {
     border-top: none;
     margin-top: 0;
   }
   .event-text-wrapper {
-    width: 95%;
+    width: 97.5%;
     margin: 5rem auto;
     padding-top: 2.5rem;
     border-top: 1px solid var(--brown-100);
@@ -172,7 +180,7 @@ const convertedDate = convertDateFormat(eventData.date);
   .pastEvents-image-wrapper {
     display: flex;
     img {
-      border-radius: 4px;
+      border-radius: 8px;
       max-width: 100%;
       height: 475px;
       width: auto;
@@ -182,7 +190,8 @@ const convertedDate = convertDateFormat(eventData.date);
 
   @media (max-width: 768px) {
     .event-text-wrapper {
-      margin-bottom: 2.5rem;
+      width: 95%;
+      margin-bottom: 2rem;
     }
     .event-text-inner {
       flex-direction: column;
@@ -207,6 +216,16 @@ const convertedDate = convertDateFormat(eventData.date);
   }
 
   @media (max-width: 576px) {
+    #pastEvents-marquee {
+      width: 95%;
+      border-radius: 8px;
+    }
+    .event-entry-wrapper:first-child {
+      margin-top: 0 !important;
+    }
+    .event-text-wrapper {
+      margin-top: 0rem;
+    }
     #pastEvents-marquee {
       margin: 0 0.5rem;
       overflow-x: scroll;

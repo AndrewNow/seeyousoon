@@ -27,12 +27,15 @@
       // Adjust these values as needed to control the speed based on the image count
       const minSpeed = 10; // Lower bound speed
       const maxSpeed = 100; // Upper bound speed
+      // Define the maximum and minimum image counts for scaling
+      const minImageCount = 1;
+      const maxImageCount = 10; // Adjust this value as needed
 
-      // Calculate the speed based on the image count
-      const calculatedSpeed =
-        minSpeed + (maxSpeed - minSpeed) * (imageCount / 10);
+      // Scale the imageCount to fit within the speed range
+      const marqueeSpeed = minSpeed + ((imageCount - minImageCount) / (maxImageCount - minImageCount)) * (maxSpeed - minSpeed);
 
-      return calculatedSpeed;
+      // Ensure the calculated speed value stays within the bounds
+      return Math.min(maxSpeed, Math.max(minSpeed, marqueeSpeed));
     };
 
     // console.log("pastEventsMarquees", pastEventsMarquees);
@@ -58,7 +61,7 @@
         
         const isOdd = isOddOrEven(index);
 
-        const direction = isOdd ? "left" : "right"
+        // const direction = isOdd ? "left" : "right"
 
         // const imageCount = el.getAttribute("data-image-count");
         const speed = marqueeSpeed ? marqueeSpeed : 50;
@@ -66,7 +69,7 @@
           duplicated: true,
           gap: 0,
           speed: speed,
-          direction: direction,
+          direction: "left",
           // pauseOnHover: true,
           startVisible: true,
           // recalcResize: true,

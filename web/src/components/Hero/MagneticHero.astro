@@ -7,7 +7,7 @@ const { data } = Astro.props;
 <div class="cursor-container">
   {
     data.images.map((el, i) => {
-      const imgSrcLarge = `${el.imageSrc}?w=856&fm=webp`;
+      const imgSrcLarge = `${el.imageSrc}?w=775&fm=webp`;
       const imgSrcMedium = `${el.imageSrc}?w=581&fm=webp`;
       const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`;
       return (
@@ -21,8 +21,8 @@ const { data } = Astro.props;
             quality={15}
             width="856"
             height="608"
-            widths={[380, 581, 856]}
-            sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 856px`}
+            widths={[380, 581, 775]}
+            sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 775px`}
             decoding="async"
             loading="lazy"
           />
@@ -50,8 +50,7 @@ const { data } = Astro.props;
     will-change: transform;
     aspect-ratio: 856/608;
     width: 45%;
-    max-width: 856px;
-    max-height: 608px;
+    max-width: 775px;
     height: auto;
     width: 100%;
     --radius: 3px;
