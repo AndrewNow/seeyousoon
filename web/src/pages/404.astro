@@ -6,29 +6,33 @@ import StarSad from "../assets/404-sad.png";
 ---
 
 <LayoutFooter title="oh no, 404!">
-  <div class="wrapper">
-    <div class="text-wrapper">
-      <h2>so embarassing for you!</h2>
-      <a class="return-btn" href="/"><p>Return home</p></a>
+  <div id="404-magnetic-wrapper">
+    <div class="wrapper">
+      <div class="text-wrapper">
+        <h2>so embarassing for you!</h2>
+        <a class="return-btn" href="/"><p>Return home</p></a>
+      </div>
     </div>
-  </div>
-  <div class="image-wrapper">
-    <Image
-      class="left-img"
-      src={Star404}
-      alt="star holding up a 404 sign"
-      quality={80}
-      width={1205}
-      height={952}
-    />
-    <Image
-      class="right-img"
-      src={StarSad}
-      alt="star holding up a 404 sign"
-      quality={80}
-      width={1136}
-      height={780}
-    />
+    <div class="image-wrapper" id="404-cursor-container">
+      <Image
+        id="404-img1"
+        class="left-img"
+        src={Star404}
+        alt="star holding up a 404 sign"
+        quality={80}
+        width={1205}
+        height={952}
+      />
+      <Image
+        id="404-img2"
+        class="right-img"
+        src={StarSad}
+        alt="star holding up a 404 sign"
+        quality={80}
+        width={1136}
+        height={780}
+      />
+    </div>
   </div>
 </LayoutFooter>
 
@@ -46,6 +50,7 @@ import StarSad from "../assets/404-sad.png";
       text-align: center;
       margin-top: 25vh;
       color: var(--brown-300);
+      font-size: 5vw;
     }
   }
   .return-btn {
@@ -108,7 +113,7 @@ import StarSad from "../assets/404-sad.png";
   .left-img {
     aspect-ratio: 1204/952;
     position: absolute;
-    bottom: -3vh;
+    bottom: -10vh;
     left: -0.5vw;
     width: 55vw;
     height: auto;
@@ -117,13 +122,36 @@ import StarSad from "../assets/404-sad.png";
   .right-img {
     aspect-ratio: 1137/780;
     position: absolute;
-    bottom: -3vh;
-    right: -12vw;
+    bottom: -10vh;
+    right: -14vw;
     width: 55vw;
     height: auto;
     // opacity: .6;
   }
   @media (max-width: 1440px) {
+    .left-img {
+      aspect-ratio: 1204/952;
+      position: absolute;
+      bottom: -3vh;
+      left: -0.5vw;
+      width: 55vw;
+      height: auto;
+      // opacity: .6;
+    }
+    .right-img {
+      aspect-ratio: 1137/780;
+      position: absolute;
+      bottom: -3vh;
+      right: -12vw;
+      width: 55vw;
+      height: auto;
+      // opacity: .6;
+    }
+    .text-wrapper {
+      h2 {
+        font-size: 7vw;
+      }
+    }
     .return-btn:after {
       font-size: 18px;
     }
@@ -133,6 +161,9 @@ import StarSad from "../assets/404-sad.png";
       width: 90%;
       margin-left: auto;
       margin-right: auto;
+      h2 {
+        font-size: 48px;
+      }
     }
     .return-btn:after {
       font-size: 16px;
@@ -146,3 +177,186 @@ import StarSad from "../assets/404-sad.png";
     }
   }
 </style>
+
+<script>
+  const lerp = (current, target, factor) =>
+    current * (1 - factor) + target * factor;
+
+  const cursorContainer = document.getElementById("404-magnetic-wrapper");
+  let isCursorInsideContainer = true;
+  let shouldRender = true; // Added variable to control rendering
+
+  cursorContainer.addEventListener("mouseenter", () => {
+    isCursorInsideContainer = true;
+  });
+
+  cursorContainer.addEventListener("mouseleave", () => {
+    isCursorInsideContainer = false;
+  });
+
+  let mousePosition = {
+    x: cursorContainer.offsetWidth / 2,
+    y: cursorContainer.offsetHeight / 2,
+  }; // Initialize mouse position to the center
+
+  window.addEventListener("mousemove", (e) => {
+    const container = document.getElementById("404-cursor-container");
+    const containerRect = container.getBoundingClientRect();
+
+    mousePosition.x = Math.max(
+      containerRect.left,
+      Math.min(containerRect.right, e.clientX)
+    );
+    mousePosition.y = Math.max(
+      containerRect.top,
+      Math.min(containerRect.bottom, e.clientY)
+    );
+  });
+
+  const calculateDistance = (x1, y1, x2, y2) => Math.hypot(x1 - x2, y1 - y2);
+
+  class MagneticObject {
+    constructor(domElement, { lerp, recenterLerp }) {
+      this.imageElement = domElement;
+      this.triggerArea = 2000;
+      this.lerpFactor = lerp;
+      this.recenterLerpFactor = recenterLerp;
+      this.isRecentering = false;
+
+      this.lerpingData = {
+        x: { current: 0, target: 0 },
+        y: { current: 0, target: 0 },
+      };
+
+      this.resizeObserver = new ResizeObserver(() => {
+        this.boundingClientRect = this.imageElement.getBoundingClientRect();
+      });
+
+      const intersectionOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0,
+      };
+
+      this.intersectionObserver = new IntersectionObserver((entries) => {
+        const isInView = entries[0].isIntersecting;
+        if (!isInView) {
+          this.pauseAnimation();
+        } else {
+          this.resumeAnimation();
+        }
+      }, intersectionOptions);
+    }
+
+    resize() {
+      this.resizeObserver.observe(this.imageElement);
+      this.intersectionObserver.observe(cursorContainer);
+    }
+
+    render() {
+      if (!shouldRender) return;
+
+      const { left, width, top, height } = this.boundingClientRect || {};
+      const distanceFromMouseToCenter = calculateDistance(
+        mousePosition.x,
+        mousePosition.y,
+        left + width / 2,
+        top + height / 2
+      );
+
+      let targetHolder = { x: 0, y: 0 };
+
+      if (
+        isCursorInsideContainer &&
+        distanceFromMouseToCenter < this.triggerArea
+      ) {
+        this.imageElement.classList.add("focus");
+
+        targetHolder.x = (mousePosition.x - (left + width / 2)) * 0.1;
+        targetHolder.y = (mousePosition.y - (top + height / 2)) * 0.1;
+
+        if (this.isRecentering) {
+          this.isRecentering = false;
+          this.lerpingData.x.current = targetHolder.x;
+          this.lerpingData.y.current = targetHolder.y;
+        }
+      } else {
+        this.imageElement.classList.remove("focus");
+
+        if (!isCursorInsideContainer && !this.isRecentering) {
+          this.isRecentering = true;
+
+          targetHolder.x = 0;
+          targetHolder.y = 0;
+        }
+      }
+
+      this.lerpingData.x.target = targetHolder.x;
+      this.lerpingData.y.target = targetHolder.y;
+
+      for (const item in this.lerpingData) {
+        this.lerpingData[item].current = lerp(
+          this.lerpingData[item].current,
+          this.lerpingData[item].target,
+          isCursorInsideContainer ? this.lerpFactor : this.recenterLerpFactor
+        );
+      }
+
+      if (
+        this.lerpingData.x.current !== 0 ||
+        this.lerpingData.y.current !== 0
+      ) {
+        this.imageElement.style.transform = `translate3d(${this.lerpingData.x.current}px, ${this.lerpingData.y.current}px, 0)`;
+      }
+
+      this.resizeObserver.observe(this.imageElement);
+      this.intersectionObserver.observe(cursorContainer);
+
+      requestAnimationFrame(() => this.render());
+    }
+
+    initialize() {
+      this.render();
+      this.resize();
+    }
+
+    pauseAnimation() {
+      shouldRender = false;
+      this.imageElement.style.transform = "translate3d(0, 0, 0)";
+      this.lerpingData.x.current = 0;
+      this.lerpingData.y.current = 0;
+    }
+
+    resumeAnimation() {
+      shouldRender = true;
+      this.imageElement.style.transform = "translate3d(0, 0, 0)";
+      this.lerpingData.x.current = 0;
+      this.lerpingData.y.current = 0;
+      requestAnimationFrame(() => this.render());
+    }
+  }
+
+  const img1 = document.getElementById("404-img1");
+  const img2 = document.getElementById("404-img2");
+
+  const isTouchDevice =
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      if (window.innerWidth >= 1080 || !isTouchDevice) {
+        const magneticObjects = [
+          new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.015 }),
+          new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.015 }),
+        ];
+        console.log(magneticObjects);
+
+        magneticObjects.forEach((obj) => {
+          obj.initialize();
+        });
+      }
+    }, 950);
+  });
+</script>

@@ -22,7 +22,7 @@ const { data } = Astro.props;
             width="856"
             height="608"
             widths={[380, 581, 775]}
-            sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1500px) 775px`}
+            sizes={`(max-width: 576px) 380px, (max-width: 1080px) 581px, (max-width: 1500px) 775px`}
             decoding="async"
             loading="lazy"
           />
@@ -87,7 +87,7 @@ const { data } = Astro.props;
       width: 45%;
     }
   }
-  @media (max-width: 992px) {
+  @media (max-width: 1080px) {
     .landing-image-wrapper {
       width: 70%;
       max-width: 581px;
@@ -108,7 +108,7 @@ const { data } = Astro.props;
     ".landing-image-wrapper"
   );
 
-  if (window.innerWidth < 576) {
+  if (window.innerWidth <= 1080) {
     imageMobileAnimation.forEach((img, i) => {
       animate(
         img,
@@ -314,7 +314,7 @@ const { data } = Astro.props;
 
   document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
-      if (window.innerWidth > 576 || !isTouchDevice) {
+      if (window.innerWidth >= 1080 || !isTouchDevice) {
         const magneticObjects = [
           new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.015 }),
           new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.015 }),

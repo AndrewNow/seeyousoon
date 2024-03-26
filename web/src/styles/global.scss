@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6, p, small {
 }
 
 h1 {
-  font-size: 64px;
+  font-size: 3.333vw;
   line-height: 130%;
   letter-spacing: -0.02rem;
   font-family: "Bradford-Light";
@@ -143,7 +143,7 @@ small, label {
 }
 @media (max-width: 1280px) {
   h1 {
-    font-size: 48px;
+    font-size: 42px;
   }
 }
 @media (max-width: 992px) {
