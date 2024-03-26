@@ -22,7 +22,7 @@ const { data } = Astro.props;
             width="856"
             height="608"
             widths={[380, 581, 775]}
-            sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1600px) 775px`}
+            sizes={`(max-width: 576px) 380px, (max-width: 720px) 581px, (max-width: 1500px) 775px`}
             decoding="async"
             loading="lazy"
           />
@@ -82,9 +82,9 @@ const { data } = Astro.props;
     animation: scaleAnimation 1s ease forwards 0.45s;
   }
 
-  @media (max-width: 1440px) {
+  @media (max-width: 1500px) {
     .landing-image-wrapper {
-      width: 55%;
+      width: 45%;
     }
   }
   @media (max-width: 992px) {
