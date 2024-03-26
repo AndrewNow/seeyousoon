@@ -4,14 +4,14 @@ import SysWritten from "../../assets/syswritten.png";
 ---
 
 <div class="sticky-area-0" id="sticky-container-0">
-  <div class="sticky-container-0" id="sticky-el">
+  <div class="sticky-container-0">
     <div class="text-wrapper-0">
       <h4 id="sys-0">"see you soon"</h4>
     </div>
   </div>
 </div>
 <div class="sticky-area-1" id="sticky-container-1">
-  <div class="sticky-container-1" id="sticky-el">
+  <div class="sticky-container-1">
     <div class="text-wrapper" id="bio-wrapper">
       <!-- <h4 id="sys">- "See you soon"</h4> -->
       <h1 id="sys-bio">
@@ -192,7 +192,7 @@ import SysWritten from "../../assets/syswritten.png";
     overflow-y: hidden;
   }
   #animated-text-container {
-    transform: translateY(2vh);
+    // transform: translateY(2vh);
     opacity: 0;
     filter: blur(10px);
   }
@@ -245,21 +245,52 @@ import SysWritten from "../../assets/syswritten.png";
   const scrollTrack1 = document.getElementById("sticky-container-1");
   const scrollTrack2 = document.getElementById("sticky-container-2");
 
-  const sys = document.getElementById("sys");
   const sys0 = document.getElementById("sys-0");
-  const sysBio = document.getElementById("sys-bio");
 
   const textContainer = document.getElementById("animated-text-container");
   const wordsArr = textContainer.innerText.split(" ");
 
   const textBio = document.getElementById("bio-wrapper");
 
+  const stickyVideoEl = document.getElementById("sticky-el");
+
   inView(textBio, () => {
     animate(sys0, { opacity: 1 }, { duration: 2.5 });
-    return () => {
-      animate(sys0, { opacity: 0 }, { duration: 0.5 });
-    };
+    // return () => {
+    //   animate(sys0, { opacity: 0 }, { duration: 0.5 });
+    // };
+    animate(
+      textContainer,
+      {
+        transform: `translateY(0)`,
+        opacity: 1,
+        filter: `blur(0)`,
+      },
+      {
+        duration: 1,
+      }
+    );
   });
+
+  inView(
+    stickyVideoEl,
+    () => {
+      console.log("sticky in view");
+      animate(
+        sys0,
+        {
+          opacity: 0,
+        },
+        { duration: 0.5 }
+      );
+      return () => {
+        animate(sys0, { opacity: 1 }, { duration: 0.5 });
+      };
+    },
+    {
+      margin: "0px -100px 0px 0px",
+    }
+  );
 
   let charIndex = 0; // Track the index of characters
 
@@ -281,20 +312,14 @@ import SysWritten from "../../assets/syswritten.png";
   textContainer.innerHTML = spannedWords.join(" ");
 
   let sequence1 = [
-    [
-      sys,
-      {
-        opacity: 1,
-      },
-    ],
-    [
-      textContainer,
-      {
-        transform: `translateY(0)`,
-        opacity: 1,
-        filter: `blur(0)`,
-      },
-    ],
+    // [
+    //   textContainer,
+    //   {
+    //     transform: `translateY(0)`,
+    //     opacity: 1,
+    //     filter: `blur(0)`,
+    //   },
+    // ],
   ];
 
   const animatedChars = document.querySelectorAll(".about-animated-word");

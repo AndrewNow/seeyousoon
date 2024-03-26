@@ -1,0 +1,187 @@
+---
+import { Image } from "astro:assets";
+import FooterPng from "../assets/footer/footer.png";
+---
+
+<section class="image-section">
+  <div class="second-loop-container">
+    <div class="images-wrapper">
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+    </div>
+    <div class="images-wrapper">
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+      <div class="image-container">
+        <Image src={FooterPng} alt="" class="image-class" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    background: rgb(39, 10, 10);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    min-height: 75vh;
+  }
+
+  .loop-container {
+    margin-top: 500px;
+    white-space: nowrap;
+    font-weight: 100;
+    font-size: 9vw;
+    letter-spacing: 5px;
+    /* transform: rotate(7deg); */
+  }
+
+  .item {
+    position: absolute;
+  }
+
+  /* ----------------------------------------------------- */
+
+  .image-section {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    min-height: 75vh;
+  }
+
+  .second-loop-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .images-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding-right: 2rem;
+    position: absolute;
+  }
+
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+    /* width: 300px; */
+    /* height: 440px; */
+  }
+
+  .image-container img {
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 100%;
+    pointer-events: none;
+  }
+
+  .item {
+    position: absolute;
+    color: white;
+  }
+</style>
+
+<script>
+  class LoopingElement {
+    constructor(element, currentTranslation, speed) {
+      this.element = element;
+      this.currentTranslation = currentTranslation;
+      this.speed = speed;
+      this.direction = true;
+      this.scrollTop = 0;
+      this.metric = 100;
+      this.dragging = false;
+      this.startX = null;
+
+      this.lerp = {
+        current: this.currentTranslation,
+        target: this.currentTranslation,
+        factor: 0.2,
+      };
+
+      this.events();
+      this.render();
+    }
+
+    events() {
+      window.addEventListener("scroll", (e) => {
+        let direction =
+          window.pageYOffset || document.documentElement.scrollTop;
+        if (direction > this.scrollTop) {
+          this.direction = true;
+          this.lerp.target += this.speed * 5;
+        } else {
+          this.direction = false;
+          this.lerp.target -= this.speed * 5;
+        }
+        this.scrollTop = direction <= 0 ? 0 : direction;
+      });
+    }
+
+    lerpFunc(current, target, factor) {
+      this.lerp.current = current * (1 - factor) + target * factor;
+    }
+
+    goForward() {
+      this.lerp.target += this.speed;
+      if (this.lerp.target > this.metric) {
+        this.lerp.current -= this.metric * 2;
+        this.lerp.target -= this.metric * 2;
+      }
+    }
+
+    goBackward() {
+      this.lerp.target -= this.speed;
+      if (this.lerp.target < -this.metric) {
+        this.lerp.current -= -this.metric * 2;
+        this.lerp.target -= -this.metric * 2;
+      }
+    }
+
+    animate() {
+      this.direction ? this.goForward() : this.goBackward();
+      this.lerpFunc(this.lerp.current, this.lerp.target, this.lerp.factor);
+
+      this.element.style.transform = `translateX(${this.lerp.current}%)`;
+    }
+
+    render() {
+      this.animate();
+      window.requestAnimationFrame(() => this.render());
+    }
+  }
+
+  let imagesArray = document.querySelectorAll(".images-wrapper");
+
+  new LoopingElement(imagesArray[0], 0, 0.1);
+  new LoopingElement(imagesArray[1], -100, 0.1);
+</script>

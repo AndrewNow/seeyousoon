@@ -45,8 +45,9 @@ const { data } = Astro.props;
       <div class="credits-item">
         <small class="location-flex">
           <span class="current-location"> Currently in</span>
-          {data.location ? data.location : "Toronto"}</small
-        >
+          <!-- {data.location != undefined ? data.location : "Toronto"}</small
+        > -->
+        </small>
       </div>
       <div class="credits-item">
         <small>©{new Date().getFullYear()} seeyousoon</small>
