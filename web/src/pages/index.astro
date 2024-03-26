@@ -19,22 +19,11 @@ const heroImageData = await getHeroImages();
 const pastEventsData = await getPastEvents();
 const upcomingEventsData = await getUpcomingEvents();
 const currentLocationData = await getCurrentLocation();
-
-const currentDate = new Date(); // Get the current date
-
-const earliestEvent = upcomingEventsData
-  .filter((event) => new Date(event.dateEnd) >= currentDate) // Filter out events with end dates on or after today
-  .reduce((earliest, current) => {
-    if (!earliest) return current; // If there's no earliest event yet, return the current one
-    const earliestDate = new Date(earliest.dateStart);
-    const currentDate = new Date(current.dateStart);
-    return earliestDate < currentDate ? earliest : current;
-  }, null); // Initialize the accumulator with null to handle empty arrays
 ---
 
 <Layout title="seeyousoon" data={currentLocationData}>
   <section class="hero" id="magneticHero-wrapper">
-    <Toast data={earliestEvent} />
+    <Toast data={upcomingEventsData} />
     <HeroContent />
     <MagneticHero data={heroImageData} />
   </section>
@@ -68,7 +57,7 @@ const earliestEvent = upcomingEventsData
   }
   .upcoming-events {
     position: relative;
-    z-index: 10;
+    z-index: 13;
   }
   .past-events {
     position: relative;

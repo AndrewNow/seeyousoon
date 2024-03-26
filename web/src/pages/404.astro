@@ -1,11 +1,11 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import LayoutFooter from "../layouts/LayoutFooter.astro";
 import { Image } from "astro:assets";
 import Star404 from "../assets/404-sign.png";
 import StarSad from "../assets/404-sad.png";
 ---
 
-<Layout title="oh no, 404!">
+<LayoutFooter title="oh no, 404!">
   <div class="wrapper">
     <div class="text-wrapper">
       <h2>so embarassing for you!</h2>
@@ -30,7 +30,7 @@ import StarSad from "../assets/404-sad.png";
       height={780}
     />
   </div>
-</Layout>
+</LayoutFooter>
 
 <style lang="scss">
   .wrapper {

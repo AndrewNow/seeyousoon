@@ -2,7 +2,6 @@
 import "../styles/reset.css";
 import "../styles/global.scss";
 import Footer from "../components/Footer.astro";
-// import Footer from "../components/Footer.astro";
 
 const { title, data } = Astro.props;
 const description =
@@ -31,7 +30,7 @@ const description =
   </head>
   <body>
     <slot />
-    {Astro.url.pathname != "/404" && <Footer data={data} />}
+    <Footer data={data} />
   </body>
 </html>
 

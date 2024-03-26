@@ -45,285 +45,292 @@ const { data } = Astro.props;
       <div class="credits-item">
         <small class="location-flex">
           <span class="current-location"> Currently in</span>
-          <!-- {data.location != undefined ? data.location : "Toronto"}</small
-        > -->
-        </small>
+          {data.location != undefined ? data.location : "Toronto"}</small
+        >
       </div>
       <div class="credits-item">
-        <small>©{new Date().getFullYear()} seeyousoon</small>
+        <small class="credits-item-copywright"
+          >©{new Date().getFullYear()} seeyousoon</small
+        >
       </div>
       <div class="credits-item">
         <small> Website by <a href="https://www.sling.online/">Sling</a></small>
       </div>
     </div>
   </div>
-</footer>
 
-<script>
-  import { scroll, timeline } from "motion";
+  <script>
+    import { scroll, timeline } from "motion";
 
-  const scrollTrack = document.getElementById("footerTrack");
-  const video = document.getElementById("footerVideo");
-  const sysLogo = document.getElementById("footer-written-logo");
+    const scrollTrack = document.getElementById("footerTrack");
+    const video = document.getElementById("footerVideo");
+    const sysLogo = document.getElementById("footer-written-logo");
 
-  const sequence = [[video, { height: "92.5svh" }]];
+    const sequence = [[video, { height: "92.5svh" }]];
 
-  scroll(timeline(sequence), {
-    target: scrollTrack,
-  });
-</script>
+    scroll(timeline(sequence), {
+      target: scrollTrack,
+    });
+  </script>
 
-<style lang="scss">
-  .wrapper {
-    width: 98%;
-    margin: 0 auto;
-    background: var(--beige-300);
-    // min-height: 150vh;
-    z-index: 11;
-    position: relative;
-  }
-  #footer-written-logo {
-    transform: scale(0.65);
-  }
-  .spacer-el {
-    height: 100vh; // was 150 or 200vh
-  }
-  .sticky-inner {
-    position: sticky;
-    bottom: 1rem;
-  }
-  .video {
-    will-change: height;
-    border-radius: 20px; // was 8
-    width: 100%;
-    height: 60vh;
-    position: relative;
-    overflow: hidden;
-    display: flex; // Use Flexbox
-    flex-direction: column; // Stack children vertically
-    align-items: center; // Center horizontally
-    justify-content: center; // Center vertically
-
-    .video-media {
-      max-width: 100%;
-      width: 100%;
-      object-fit: cover;
-      object-position: top;
-      filter: brightness(0.7);
-    }
-
-    .video-text {
-      width: 90%;
-      margin: 0 auto;
-      position: absolute;
-      z-index: 10;
-      top: 55%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center; // remove after
-      justify-content: space-between;
-    }
-  }
-  .text-logo {
-    width: 45vw;
-    aspect-ratio: 888/142;
-
-    opacity: 1;
-    height: auto;
-    position: relative;
-    svg {
-      height: 100px;
-      width: 100px;
-    }
-  }
-
-  .social-links-flex {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    position: relative;
-    margin-top: 2rem;
-    .instagram-link,
-    .email-link {
-      transition: 0.3s all ease;
-    }
-    .instagram-link:hover,
-    .email-link:hover {
-      animation: 0.3s wiggle;
-      opacity: 0.75;
-    }
-    .instagram-link {
-      display: block;
-      width: 140px;
-      height: 40px;
-      margin-right: 4rem;
-      cursor: pointer;
-    }
-    .email-link {
-      display: block;
-      height: 40px;
-      width: 70px;
-      cursor: pointer;
-    }
-    svg {
-      width: auto;
-      height: 100%;
-    }
-  }
-
-  .sys-text {
-    color: var(--beige-100);
-    font-family: "Bradford-Light-Italic";
-    letter-spacing: -0.4rem;
-    line-height: unset;
-    font-size: 160px;
-    transform: rotate(-4.5deg) translateY(-30px);
-  }
-  .socials {
-    color: var(--beige-100);
-
-    .socials-link:before {
-      content: "";
-      display: block;
-      background: var(--beige-100);
-      height: 1px;
-      width: 32px;
-      margin: 0 1rem;
-    }
-
-    h3 {
-      font-family: "Bradford-Light";
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Bradford-Light-Italic";
-      }
-    }
-  }
-
-  .credits {
-    width: 95%;
-    margin: 1rem auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: "Denim-Regular";
-
-    small {
-      font-size: 14px;
-      color: var(--grey-300);
-    }
-    .location-flex {
-      display: flex;
-    }
-    .current-location {
-      color: var(--brown-300);
-      display: flex;
-      align-content: flex-end;
-      margin-right: 0.25rem;
-    }
-    .current-location:before {
-      content: "";
-      margin-right: 0.5rem;
-      width: 7px;
-      height: 7px;
-      background: #708db5;
-      transform: translateY(5px);
-      display: block;
-      border-radius: 10px;
-      animation: blink 1.6s infinite;
-    }
-  }
-
-  .credits-item {
-    display: flex;
-    a {
-      color: var(--grey-300);
-      text-decoration: none;
-      cursor: pointer;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  }
-
-  @media (max-width: 576px) {
+  <style lang="scss">
     .wrapper {
-      z-index: 10000;
+      width: 98%;
+      margin: 0 auto;
+      background: var(--beige-300);
+      // min-height: 150vh;
+      z-index: 11;
+      position: relative;
     }
     #footer-written-logo {
-      transform: scale(1);
+      transform: scale(0.65);
+    }
+    .spacer-el {
+      height: 100vh; // was 150 or 200vh
+    }
+    .sticky-inner {
+      position: sticky;
+      bottom: 1rem;
+    }
+    .video {
+      will-change: height;
+      border-radius: 20px; // was 8
+      width: 100%;
+      height: 60vh;
+      position: relative;
+      overflow: hidden;
+      display: flex; // Use Flexbox
+      flex-direction: column; // Stack children vertically
+      align-items: center; // Center horizontally
+      justify-content: center; // Center vertically
+
+      .video-media {
+        max-width: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: top;
+        filter: brightness(0.7);
+      }
+
+      .video-text {
+        width: 90%;
+        margin: 0 auto;
+        position: absolute;
+        z-index: 10;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center; // remove after
+        justify-content: space-between;
+      }
     }
     .text-logo {
-      width: 60vw;
-      height: 55px;
+      width: 45vw;
+      aspect-ratio: 888/142;
+
+      opacity: 1;
+      height: auto;
       position: relative;
       svg {
         height: 100px;
         width: 100px;
       }
     }
+
     .social-links-flex {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      position: relative;
+      margin-top: 2rem;
+      .instagram-link,
+      .email-link {
+        transition: 0.3s all ease;
+      }
+      .instagram-link:hover,
+      .email-link:hover {
+        animation: 0.3s wiggle;
+        opacity: 0.75;
+      }
       .instagram-link {
-        width: 100px;
+        display: block;
+        width: 140px;
+        height: 40px;
+        margin-right: 4rem;
+        cursor: pointer;
       }
       .email-link {
-        width: 50px;
+        display: block;
+        height: 40px;
+        width: 70px;
+        cursor: pointer;
       }
-    }
-    .credits {
-      height: 11px;
-      align-items: center;
-      small {
-        font-size: 10px;
-        line-height: 100%;
-      }
-      .current-location {
-        margin-right: 4px;
-      }
-      .current-location:before {
-        transform: translateY(3px);
-        margin-right: 4px;
-        width: 5px;
-        height: 5px;
+      svg {
+        width: auto;
+        height: 100%;
       }
     }
 
-    .video {
-      border-radius: 8px;
-      .video-media {
-        max-width: 100%;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: top;
-        filter: brightness(0.7);
-        // width: 100%;
-        // object-fit: cover;
-        // filter: brightness(0.7);
+    .sys-text {
+      color: var(--beige-100);
+      font-family: "Bradford-Light-Italic";
+      letter-spacing: -0.4rem;
+      line-height: unset;
+      font-size: 160px;
+      transform: rotate(-4.5deg) translateY(-30px);
+    }
+    .socials {
+      color: var(--beige-100);
+
+      .socials-link:before {
+        content: "";
+        display: block;
+        background: var(--beige-100);
+        height: 1px;
+        width: 32px;
+        margin: 0 1rem;
       }
-      .video-text {
-        width: 100%;
-        flex-direction: column;
-        .socials {
-          margin-top: 2rem;
-          h3 {
-            font-size: 22px;
-            margin-bottom: 0.5rem;
-          }
-        }
-        .sys-text {
-          margin: 0 auto;
-          font-size: 60px;
-          letter-spacing: -0.1rem;
+
+      h3 {
+        font-family: "Bradford-Light";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "Bradford-Light-Italic";
         }
       }
     }
-  }
-</style>
+
+    .credits {
+      width: 95%;
+      margin: 1rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: "Denim-Regular";
+
+      small {
+        font-size: 14px;
+        color: var(--grey-300);
+      }
+      .location-flex {
+        display: flex;
+      }
+      .current-location {
+        color: var(--brown-300);
+        display: flex;
+        align-content: flex-end;
+        margin-right: 0.25rem;
+      }
+      .current-location:before {
+        content: "";
+        margin-right: 0.5rem;
+        width: 7px;
+        height: 7px;
+        background: #708db5;
+        transform: translateY(5px);
+        display: block;
+        border-radius: 10px;
+        animation: blink 1.6s infinite;
+      }
+    }
+
+    .credits-item {
+      display: flex;
+      a {
+        color: var(--grey-300);
+        text-decoration: none;
+        cursor: pointer;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+    .credits-item-copywright {
+      transform: translateX(-1vw);
+    }
+
+    @media (max-width: 576px) {
+      .credits-item-copywright {
+        transform: translateX(-2vw);
+      }
+      .wrapper {
+        z-index: 10000;
+      }
+      #footer-written-logo {
+        transform: scale(1);
+      }
+      .text-logo {
+        width: 60vw;
+        height: 55px;
+        position: relative;
+        svg {
+          height: 100px;
+          width: 100px;
+        }
+      }
+      .social-links-flex {
+        .instagram-link {
+          width: 100px;
+        }
+        .email-link {
+          width: 50px;
+        }
+      }
+      .credits {
+        height: 11px;
+        align-items: center;
+        small {
+          font-size: 10px;
+          line-height: 100%;
+        }
+        .current-location {
+          margin-right: 4px;
+        }
+        .current-location:before {
+          transform: translateY(2px);
+          margin-right: 4px;
+          width: 5px;
+          height: 5px;
+        }
+      }
+
+      .video {
+        border-radius: 8px;
+        .video-media {
+          max-width: 100%;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: top;
+          filter: brightness(0.7);
+          // width: 100%;
+          // object-fit: cover;
+          // filter: brightness(0.7);
+        }
+        .video-text {
+          width: 100%;
+          flex-direction: column;
+          .socials {
+            margin-top: 2rem;
+            h3 {
+              font-size: 22px;
+              margin-bottom: 0.5rem;
+            }
+          }
+          .sys-text {
+            margin: 0 auto;
+            font-size: 60px;
+            letter-spacing: -0.1rem;
+          }
+        }
+      }
+    }
+  </style>
+</footer>

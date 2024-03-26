@@ -1,16 +1,27 @@
 ---
-const { data } = Astro.props;
-
 import Desktop from "./Desktop.astro";
 import Mobile from "./Mobile.astro";
+
+const { data } = Astro.props;
+
+const currentDate = new Date(); // Get the current date
+
+const earliestEvent = data
+  .filter((event) => new Date(event.dateEnd) >= currentDate) // Filter out events with end dates on or after today
+  .reduce((earliest, current) => {
+    if (!earliest) return current; // If there's no earliest event yet, return the current one
+    const earliestDate = new Date(earliest.dateStart);
+    const currentDate = new Date(current.dateStart);
+    return earliestDate < currentDate ? earliest : current;
+  }, null); // Initialize the accumulator with null to handle empty arrays
 ---
 
 <div class="toastWrapper">
   {
     data && (
       <>
-        <Desktop data={data} />
-        <Mobile data={data} />
+        <Desktop data={earliestEvent} />
+        <Mobile data={earliestEvent} />
       </>
     )
   }
@@ -22,6 +33,7 @@ import Mobile from "./Mobile.astro";
     position: fixed;
     bottom: 3.5vh;
     right: 1vw;
+    opacity: 1;
   }
 
   @media (max-width: 576px) {
@@ -34,3 +46,33 @@ import Mobile from "./Mobile.astro";
     }
   }
 </style>
+
+<script>
+  import { inView, animate } from "motion";
+
+  const toast = document.querySelector(".toastWrapper");
+  const footer = document.getElementById("footerTrack");
+
+  inView(footer, () => {
+    animate(
+      toast,
+      {
+        opacity: 0,
+      },
+      {
+        duration: 0.35,
+      }
+    );
+    return () => {
+      animate(
+        toast,
+        {
+          opacity: 1,
+        },
+        {
+          duration: 0.45,
+        }
+      );
+    };
+  });
+</script>

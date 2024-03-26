@@ -1,30 +1,35 @@
 ---
 import "../styles/reset.css";
 import "../styles/global.scss";
-import NewFooter from "../components/NewFooter.astro";
-// import Footer from "../components/Footer.astro";
-
-interface Props {
-  title: string;
-}
+import Footer from "../components/Footer.astro";
 
 const { title, data } = Astro.props;
+const description =
+  "seeyousoon is a creative culinary collective founded by Kevin Le, Michael Ovejas and Keith Siu. Their work focuses on creating memorable dining experiences inspired by art and fashion.";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
+    <title>{title ? title : "seeyousoon"}</title>
+    <meta name="title" content={title || settings.title} />
+    <meta name="description" content={description || settings.description} />
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#433e3a" />
+    <meta name="msapplication-TileColor" content="#F9F8F3" />
+    <meta name="theme-color" content="#F9F8F3" />
+    <meta property="og:image" content="https://i.imgur.com/al2S50c.png" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
   </head>
   <body>
     <slot />
-    <!-- <Footer data={data} /> -->
-    <NewFooter data={data} />
   </body>
 </html>
 
