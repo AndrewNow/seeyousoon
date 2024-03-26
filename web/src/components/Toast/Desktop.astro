@@ -129,7 +129,7 @@ const eventTitle = JSON.stringify(data.title);
 </style>
 
 <script>
-  import { animate, spring } from "motion";
+  import { animate, inView } from "motion";
   const wrapper = document.querySelector(".desktop-toast-wrapper");
   const toastWrapper = document.querySelector(".toastWrapper");
   const closeToast = document.getElementById("closeToast");
@@ -139,7 +139,6 @@ const eventTitle = JSON.stringify(data.title);
     {
       transform: `translateX(-.5vw)`,
       opacity: 1,
-      // filter: ` blur(0px)`,
     },
     {
       duration: 1.35,
@@ -164,6 +163,8 @@ const eventTitle = JSON.stringify(data.title);
       toastWrapper.style.display = "none";
     });
   });
+
+  // hide toast if within x pixels of bottom
 </script>
 
 <script>

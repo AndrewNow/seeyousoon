@@ -1,13 +1,13 @@
 ---
 import Image from "astro/components/Image.astro";
-import house from "../assets/house.png";
+import newsletter from "../assets/newsletter.png";
 ---
 
 <section id="mc_embed_signup" class="newsletter-wrapper">
   <Image
-    src={house}
-    alt="SYS house illustration"
-    class="sys-house-image"
+    src={newsletter}
+    alt="A seeyousoon star investigates a newsletter with a magnifying lens."
+    class="sys-newsletter-image"
     quality={60}
   />
   <form
@@ -81,7 +81,7 @@ import house from "../assets/house.png";
     background-color: unset !important;
     color: var(--red) !important;
   }
-  .sys-house-image {
+  .sys-newsletter-image {
     margin: 0 auto;
   }
   .newsletter-wrapper {
@@ -221,7 +221,6 @@ import house from "../assets/house.png";
   @media (max-width: 576px) {
     .newsletter-wrapper {
       padding: 7rem 0;
-      padding-bottom: 10rem;
     }
     .newsletter-wrapper {
       width: 95%;
@@ -231,7 +230,7 @@ import house from "../assets/house.png";
         max-width: 90%;
       }
     }
-    .sys-house-image {
+    .sys-newsletter-image {
       max-width: 150px;
       height: auto;
       margin: 1rem auto;

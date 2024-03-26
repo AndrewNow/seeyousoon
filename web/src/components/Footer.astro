@@ -65,18 +65,7 @@ const { data } = Astro.props;
   const video = document.getElementById("footerVideo");
   const sysLogo = document.getElementById("footer-written-logo");
 
-  const sequence = [
-    [video, { height: "92.5svh" }],
-    [
-      sysLogo,
-      {
-        transform: [null, "scale(.6)"],
-      },
-      {
-        at: "-.5",
-      },
-    ],
-  ];
+  const sequence = [[video, { height: "92.5svh" }]];
 
   scroll(timeline(sequence), {
     target: scrollTrack,
@@ -93,7 +82,7 @@ const { data } = Astro.props;
     position: relative;
   }
   #footer-written-logo {
-    transform: scale(0.5);
+    transform: scale(0.65);
   }
   .spacer-el {
     height: 100vh; // was 150 or 200vh
@@ -267,9 +256,12 @@ const { data } = Astro.props;
     .wrapper {
       z-index: 10000;
     }
+    #footer-written-logo {
+      transform: scale(1);
+    }
     .text-logo {
-      width: 70vw;
-      height: 100px;
+      width: 60vw;
+      height: 55px;
       position: relative;
       svg {
         height: 100px;
