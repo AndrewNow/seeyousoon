@@ -458,6 +458,10 @@ const fallbackWordData = `[
       },
     });
 
+    // Calculate the height of the walls
+    const wallHeight = containerEl.offsetHeight * 3;
+
+    // Create the ground
     ground = Matter.Bodies.rectangle(
       containerEl.offsetWidth / 2,
       containerEl.offsetHeight,
@@ -471,11 +475,12 @@ const fallbackWordData = `[
       }
     );
 
+    // Create the left wall
     leftWall = Matter.Bodies.rectangle(
       0,
       containerEl.offsetHeight / 2,
       10,
-      containerEl.offsetHeight * 2,
+      wallHeight,
       {
         isStatic: true,
         render: { fillStyle: "transparent" },
@@ -484,11 +489,12 @@ const fallbackWordData = `[
       }
     );
 
+    // Create the right wall
     rightWall = Matter.Bodies.rectangle(
       containerEl.offsetWidth,
       containerEl.offsetHeight / 2,
       10,
-      containerEl.offsetHeight * 2,
+      wallHeight,
       {
         isStatic: true,
         render: { fillStyle: "transparent" },
@@ -496,7 +502,9 @@ const fallbackWordData = `[
         label: "wall",
       }
     );
-    Matter.Composite.add(engine.world, [ground, leftWall, rightWall]);
+
+    // Add all bodies to the world
+    Matter.World.add(engine.world, [ground, leftWall, rightWall]);
     // ===============================================================
     // ===============================================================
     // ===============================================================
@@ -893,12 +901,20 @@ const fallbackWordData = `[
 
     const viewCanvasEl = () => {
       track.style.transform = `translateX(0%)`;
-      applyWindForce(7); // Adjust the force value as needed
+      if (window.innerWidth < 576) {
+        applyWindForce(2);
+      } else {
+        applyWindForce(7);
+      }
     };
 
     const viewListEl = () => {
       track.style.transform = `translateX(-100%)`;
-      applyWindForce(-7); // Adjust the force value as needed
+      if (window.innerWidth < 576) {
+        applyWindForce(-2);
+      } else {
+        applyWindForce(-7);
+      }
     };
 
     const cardButton = document.querySelector(".carousel-card-view");
