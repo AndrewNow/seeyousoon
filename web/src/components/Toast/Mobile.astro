@@ -326,11 +326,11 @@ const endDate = JSON.stringify(data.dateEnd);
         }
       }
       if (hours >= 0 && days > 0) {
-        countdownText += `${hours} more hour${hours > 1 || hours === 0 ? "s" : ""}, `;
+        countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
       } else if (hours >= 0 && days === 0) {
         countdownText += `${hours} more hour${hours > 1 || hours === 0 ? "s" : ""} `;
       }
-      countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}`;
+      countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}!`;
       // Set the countdown text to the formatted string
       el.textContent = countdownText;
     }
