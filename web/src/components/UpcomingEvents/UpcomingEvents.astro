@@ -14,10 +14,11 @@ const upcomingEvents = data.filter((event) => {
 <div
   class="upcomingEvents-wrapper"
   style=`height: ${upcomingEvents.length > 1 ? "105vh" : "90vh"}`
+  id="upcomingEvents-wrapper"
 >
   {
     // only show buttons if there are upcoming events
-    upcomingEvents.length > 1 && (
+    upcomingEvents.length >= 1 && (
       <div class="carousel-buttons">
         <button class="carousel-card-view active">
           <p>Card view</p>
@@ -41,6 +42,7 @@ const upcomingEvents = data.filter((event) => {
     background: var(--brown-400);
     overflow: hidden; /* Ensure the canvas doesn't overflow the container */
     border-radius: 20px; // was 8
+    transition: 0.3s all ease;
   }
   .carousel-buttons {
     // background: var(--beige-300);

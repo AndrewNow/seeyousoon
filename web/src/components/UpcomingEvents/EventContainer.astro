@@ -358,43 +358,6 @@ const fallbackWordData = `[
 
 <script>
   // =========================
-  //   toggle list view btns
-  // =========================
-  document.addEventListener("DOMContentLoaded", function () {
-    const track = document.querySelector(".upcomingEvents-toggle-track");
-
-    const viewCanvasEl = () => {
-      track.style.transform = `translateX(0%)`;
-      applyWindForce(7); // Adjust the force value as needed
-    };
-
-    const viewListEl = () => {
-      track.style.transform = `translateX(-100%)`;
-      applyWindForce(-7); // Adjust the force value as needed
-    };
-
-    const cardButton = document.querySelector(".carousel-card-view");
-    const listButton = document.querySelector(".carousel-list-view");
-    // const cardToggleBg = document.querySelector(".carousel-btn-bg");
-
-    cardButton.addEventListener("click", () => {
-      cardButton.classList.add("active");
-      listButton.classList.toggle("active");
-      // cardToggleBg.style.left = "var(--padding)";
-      // cardToggleBg.style.width = "86px";
-      viewCanvasEl();
-    });
-
-    listButton.addEventListener("click", () => {
-      cardButton.classList.toggle("active");
-      listButton.classList.add("active");
-      // cardToggleBg.style.left = "calc(55% - var(--padding))";
-      // cardToggleBg.style.width = "76px";
-      viewListEl();
-    });
-  });
-
-  // =========================
   //   matter.js code
   // =========================
   import * as Matter from "matter-js";
@@ -921,4 +884,45 @@ const fallbackWordData = `[
       timeout = setTimeout(() => func.apply(this, args), delay);
     };
   }
+
+  // =========================
+  //   toggle list view btns
+  // =========================
+  document.addEventListener("DOMContentLoaded", function () {
+    const track = document.querySelector(".upcomingEvents-toggle-track");
+
+    const viewCanvasEl = () => {
+      track.style.transform = `translateX(0%)`;
+      applyWindForce(7); // Adjust the force value as needed
+    };
+
+    const viewListEl = () => {
+      track.style.transform = `translateX(-100%)`;
+      applyWindForce(-7); // Adjust the force value as needed
+    };
+
+    const cardButton = document.querySelector(".carousel-card-view");
+    const listButton = document.querySelector(".carousel-list-view");
+    const upcomingEventsWrapper = document.getElementById(
+      "upcomingEvents-wrapper"
+    );
+    // const cardToggleBg = document.querySelector(".carousel-btn-bg");
+
+    let listViewHeight = data.length < 3 ? "90vh" : "105vh";
+
+    cardButton.addEventListener("click", () => {
+      cardButton.classList.add("active");
+      listButton.classList.toggle("active");
+
+      upcomingEventsWrapper.style.height = listViewHeight;
+      viewCanvasEl();
+    });
+
+    listButton.addEventListener("click", () => {
+      cardButton.classList.toggle("active");
+      listButton.classList.add("active");
+      upcomingEventsWrapper.style.height = "105vh";
+      viewListEl();
+    });
+  });
 </script>
