@@ -1,14 +1,8 @@
 ---
 import ListView from "./ListView.astro";
 
-// const { data } = Astro.props;
-const data = [];
+const { data } = Astro.props;
 const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest event comes first
-// if (window.innerWidth >= 1440) {
-// } else if (window.innerWidth >= 576) {
-// } else {
-// }
-
 const wordData = `[
   {
     "word": "Upcoming",
@@ -400,10 +394,9 @@ const fallbackWordData = `[
     });
   });
 
-  //
-  //
-  //
-  //
+  // =========================
+  //   matter.js code
+  // =========================
   import * as Matter from "matter-js";
 
   const containerEl = document.querySelector("#upcoming-events");
@@ -418,11 +411,11 @@ const fallbackWordData = `[
     wordData = JSON.parse(containerEl.getAttribute("data-words-fallback"));
   }
 
-  // box height/widths
+  // declare box height/widths
   let BOX_WIDTH = 525;
   let BOX_HEIGHT = 235;
   let RESIDENCY_BOX_HEIGHT = 325;
-  // word height/widths
+  // declare word height/widths
   let WORD_HEIGHT;
   let WORD_WIDTH;
   let WORD_WIDTH_ARR_L = {};
@@ -432,11 +425,11 @@ const fallbackWordData = `[
   let WORD_WIDTH_ARR_S = {};
   let WORD_HEIGHT_ARR_S = {};
 
-  // Declare constants for all word width values
+  // Declare constants for all word width values. depending on the word used, render the associated width/height value.
+  // access these values this way, ex: WORD_WIDTH_ARR_L["Upcoming"]; Output: 278
   wordData.forEach((word) => {
     WORD_WIDTH_ARR_L[word.word] = word.width_L;
     WORD_HEIGHT_ARR_L[word.word] = word.height_L;
-    // access these values this way, ex: WORD_WIDTH_ARR_L["Upcoming"]; Output: 278
   });
   wordData.forEach((word) => {
     WORD_WIDTH_ARR_M[word.word] = word.width_M;
@@ -447,11 +440,14 @@ const fallbackWordData = `[
     WORD_HEIGHT_ARR_S[word.word] = word.height_S;
   });
 
-  let ground, leftWall, rightWall;
-
+  // declare holder array for the boxes and words
   let boxArr = [];
   let wordBoxArr = [];
 
+  // declare boundaries
+  let ground, leftWall, rightWall;
+
+  // declare engine
   let engine,
     render,
     runner = null;
@@ -459,6 +455,7 @@ const fallbackWordData = `[
   let debouncedResize;
   let prevWindowWidth = window.innerWidth;
 
+  // initialize the width/height values for the bodies
   const init = () => {
     if (window.innerWidth >= 1440) {
       BOX_WIDTH = 525;
@@ -480,7 +477,9 @@ const fallbackWordData = `[
       WORD_HEIGHT = WORD_HEIGHT_ARR_S;
       WORD_WIDTH = WORD_WIDTH_ARR_S;
     }
-
+    // ===============================================================
+    // ===============================================================
+    // ===============================================================
     if (engine == null || undefined) {
       engine = Matter.Engine.create();
     }
@@ -534,9 +533,10 @@ const fallbackWordData = `[
         label: "wall",
       }
     );
-
     Matter.Composite.add(engine.world, [ground, leftWall, rightWall]);
-
+    // ===============================================================
+    // ===============================================================
+    // ===============================================================
     wordData.forEach((wordEntry, i) => {
       const existingWordBox = wordBoxArr.find(
         (wordBox) => wordBox.wordBoxData.label === `wordBox${i}`
@@ -621,6 +621,9 @@ const fallbackWordData = `[
 
     Matter.Render.run(render);
 
+    // ===============================================================
+    // ===============================================================
+    // ===============================================================
     render.canvas.width = containerEl.offsetWidth;
     render.canvas.height = containerEl.offsetHeight;
 
@@ -646,6 +649,9 @@ const fallbackWordData = `[
     );
 
     observer.observe(containerEl);
+    // ===============================================================
+    // ===============================================================
+    // ===============================================================
 
     // create and update word boxes
     wordBoxArr.forEach((word, i) => {
@@ -693,6 +699,9 @@ const fallbackWordData = `[
   };
   init();
 
+  // ===============================================================
+  // ===============================================================
+  // ===============================================================
   function initResize() {
     debouncedResize = debounce(() => {
       resize();
@@ -744,6 +753,9 @@ const fallbackWordData = `[
     }, 1000);
   }
 
+  // ===============================================================
+  // ===============================================================
+  // ===============================================================
   function createHtmlWordBox(id, x, y, wordEntry) {
     const htmlWordBox = document.createElement("div");
     htmlWordBox.id = id;
@@ -889,7 +901,9 @@ const fallbackWordData = `[
       htmlBox.style.transform = `rotate(${updatedAngle}rad)`;
     }
   }
-
+  // ===============================================================
+  // ===============================================================
+  // ===============================================================
   function applyWindForce(force) {
     boxArr.forEach((box) => {
       Matter.Body.applyForce(box.boxData, box.boxData.position, {
