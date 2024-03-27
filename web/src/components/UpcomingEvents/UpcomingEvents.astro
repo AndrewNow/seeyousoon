@@ -1,6 +1,5 @@
 ---
 import EventContainer from "./EventContainer.astro";
-import EventContainerFallback from "./EventContainerFallback.astro";
 
 const { data } = Astro.props;
 
@@ -29,13 +28,7 @@ const upcomingEvents = data.filter((event) => {
       </div>
     )
   }
-  {
-    upcomingEvents.length > 0 ? (
-      <EventContainer data={upcomingEvents} />
-    ) : (
-      <EventContainerFallback />
-    )
-  }
+  <EventContainer data={upcomingEvents} />
 </div>
 
 <style lang="scss" is:global>
