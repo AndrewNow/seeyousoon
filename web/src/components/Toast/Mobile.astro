@@ -86,9 +86,13 @@ const endDate = JSON.stringify(data.dateEnd);
       </div>
     </div>
   </div>
-  <a class="rsvp" href={data.eventLink} target="_blank" rel="noreferrer">
-    Reserve
-  </a>
+  {
+    data.eventLink && (
+      <a class="rsvp" href={data.eventLink} target="_blank" rel="noreferrer">
+        Reserve
+      </a>
+    )
+  }
 </div>
 
 <style lang="scss">

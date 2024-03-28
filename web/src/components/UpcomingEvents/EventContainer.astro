@@ -187,7 +187,7 @@ const fallbackWordData = `[
     position: relative;
     transition: all 0.4s ease;
     overflow: hidden;
-    h6 {
+    p {
       transition: all 0.4s ease;
       color: var(--brown-300);
     }
@@ -207,9 +207,31 @@ const fallbackWordData = `[
     line-height: 130%;
   }
 
+  .upcomingEvents-reserve-link.no-link {
+    background: var(--grey-100);
+    opacity: 0.8;
+    outline: 1px solid var(--beige-300);
+    cursor: not-allowed;
+    p {
+      color: var(--grey-300);
+    }
+  }
+
+  .upcomingEvents-reserve-link.no-link:hover {
+    background: var(--grey-100);
+    p {
+      color: var(--grey-300);
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .upcomingEvents-reserve-link.no-link:after {
+    transform: none;
+    content: "";
+  }
   .upcomingEvents-reserve-link:hover {
     background: var(--brown-200);
-    h6 {
+    p {
       opacity: 0;
       transform: translateY(-150%);
       color: var(--beige-300);
@@ -255,13 +277,16 @@ const fallbackWordData = `[
     }
   }
 
-  @media (max-width: 1440px) {
+  @media (max-width: 1500px) {
     .box {
       width: 475px;
       height: 235px;
     }
     .box.residency {
       height: 325px;
+    }
+    .upcomingEvents-reserve-link:after {
+      font-size: 18px;
     }
   }
   @media (max-width: 1280px) {
@@ -806,14 +831,27 @@ const fallbackWordData = `[
     const endDate = cmsEntry.dateEnd;
     const formattedDateRange = formatRange(startDate, endDate);
 
+    const upcomingEventsReserveLink = cmsEntry.eventLink
+      ? `<a
+        class="upcomingEvents-reserve-link"
+        href={cmsEntry.eventLink}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <p>Reserve</p>
+      </a>`
+      : `<a class="upcomingEvents-reserve-link no-link">
+        <p>Coming soon!</p>
+      </a>`;
+
     htmlBox.innerHTML = `
     <div class='upcomingEvents-inner'>
       <div class='upcomingEvents-header'>
         ${
           cmsEntry.isResidency
-            ? `<h6 class="upcomingEvents-residency-badge">
+            ? `<p class="upcomingEvents-residency-badge">
                 Residency
-              </h6>`
+              </p>`
             : ""
         }
         <h3>${cmsEntry.title}</h3>
@@ -838,11 +876,7 @@ const fallbackWordData = `[
           </h6>
         </div>
       </div>
-      <a class="upcomingEvents-reserve-link" href='${cmsEntry.eventLink}' target="_blank" rel='noreferrer'>
-        <h6>
-          Reserve
-        </h6>
-      </a>
+      ${upcomingEventsReserveLink}
     </div>
   `;
     containerEl.appendChild(htmlBox);

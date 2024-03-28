@@ -102,9 +102,15 @@ cmsData.forEach((post) => {
                   </a>
                 </p>
               </div>
-              <a class="reserve-link" href={event.eventLink}>
-                <small>Reserve</small>
-              </a>
+              {event.eventLink ? (
+                <a class="reserve-link" href={event.eventLink}>
+                  <small>Reserve</small>
+                </a>
+              ) : (
+                <a class="reserve-link no-link">
+                  <small>Coming soon!</small>
+                </a>
+              )}
             </div>
           </div>
         </>
@@ -184,6 +190,7 @@ cmsData.forEach((post) => {
     text-decoration: none;
     transition: all 0.4s ease;
     overflow: hidden;
+    cursor: pointer;
     small {
       transition: all 0.4s ease;
     }
@@ -211,6 +218,22 @@ cmsData.forEach((post) => {
   }
   .reserve-link:hover:after {
     transform: translate(-50%, -50%);
+  }
+
+  .reserve-link.no-link {
+    background: var(--grey-100);
+    opacity: 0.8;
+    outline: 1px solid var(--beige-300);
+    cursor: not-allowed;
+    small {
+      color: var(--grey-300);
+    }
+  }
+  .reserve-link.no-link:hover {
+    background: var(--grey-100);
+    opacity: 0.8;
+    outline: 1px solid var(--beige-300);
+    cursor: not-allowed;
   }
   .dancing-img {
     padding-top: 3rem;
