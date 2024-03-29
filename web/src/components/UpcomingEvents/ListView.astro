@@ -131,7 +131,7 @@ cmsData.forEach((post) => {
     max-width: min(650px, 98vw);
     width: 100%;
     background: var(--beige-300);
-    color: var(--brown-200);
+    color: var(--brown-300);
     padding: 4rem 1.5rem;
     border-radius: 8px;
     .title {
@@ -152,7 +152,7 @@ cmsData.forEach((post) => {
     h4 {
       font-family: "Denim-Medium";
       margin-bottom: 0.5rem;
-      color: var(--brown-200);
+      color: var(--brown-300);
     }
     .details-wrapper {
       display: flex;
@@ -182,8 +182,8 @@ cmsData.forEach((post) => {
     position: relative;
     display: grid;
     place-items: center;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
     background: var(--beige-200);
     outline: 1px solid var(--grey-100);
     color: var(--brown-300);
@@ -234,6 +234,16 @@ cmsData.forEach((post) => {
     opacity: 0.8;
     outline: 1px solid var(--beige-300);
     cursor: not-allowed;
+    small {
+      transform: none;
+      opacity: 1;
+    }
+  }
+  .reserve-link.no-link:after {
+    content: "";
+  }
+  .reserve-link.no-link:hover:after {
+    transform: none;
   }
   .dancing-img {
     padding-top: 3rem;

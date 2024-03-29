@@ -8,6 +8,7 @@ export async function getHeroImages() {
       'imageSrc': image.asset->url,
       altText,
     },
+    'newsletterImg' : newsletterImg.asset->url,
   }`)
   return data
 }

@@ -1,14 +1,25 @@
 ---
+const { data } = Astro.props;
 import Image from "astro/components/Image.astro";
 import newsletter from "../assets/newsletter.png";
+
+const imgSrcLarge = `${data}?w=328&fm=webp`;
+const imgSrcSmall = `${data}?w=150&fm=webp`;
 ---
 
 <section id="mc_embed_signup" class="newsletter-wrapper">
   <Image
-    src={newsletter}
+    src={imgSrcLarge}
+    srcset={`${imgSrcLarge}, ${imgSrcSmall}`}
+    widths={[150, 328]}
+    sizes={`(max-width: 576px) 150px, (max-width: 1500px) 328px`}
+    decoding="async"
+    loading="lazy"
     alt="A seeyousoon star investigates a newsletter with a magnifying lens."
     class="sys-newsletter-image"
     quality={60}
+    width={328}
+    height={166}
   />
   <form
     action="https://seeyousoon.us18.list-manage.com/subscribe/post?u=5fd9d6ba53f3750f80eee4933&id=4cd9b9b8b9&f_id=00af2ce1f0"
@@ -110,7 +121,7 @@ import newsletter from "../assets/newsletter.png";
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 8px;
     outline: 1px solid var(--grey-100);
     background: var(--beige-100);
     .text-input-wrapper {
@@ -126,7 +137,7 @@ import newsletter from "../assets/newsletter.png";
       .email-input {
         font-family: "Denim-Regular";
         width: calc(
-          100% - 140px - 2rem - 20px
+          100% - 140px - 2rem - 16px
         ); // 140px btn width + 10px right margin for subscribe-btn-wrapper, -2rem bc of left padding, 20px bc of left & right margin of the subscribe-btn-wrapper
         float: left;
         height: 100%;
@@ -150,11 +161,11 @@ import newsletter from "../assets/newsletter.png";
     .subscribe-btn-wrapper {
       background: var(--brown-300);
       color: var(--beige-300) !important;
-      border-radius: 4px;
+      border-radius: 6px;
       position: absolute;
       z-index: 200;
       height: 100%;
-      right: 10px;
+      right: 8px;
       width: 140px;
       // height: 52px;
       height: calc(100% - 16px);
