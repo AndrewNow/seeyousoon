@@ -64,21 +64,8 @@ const { data } = Astro.props;
 
     const scrollTrack = document.getElementById("footerTrack");
     const video = document.getElementById("footerVideo");
-    const sysLogo = document.getElementById("footer-written-logo");
 
-    const sequence = [
-      [video, { height: "92.5svh" }],
-      // [
-      //   sysLogo,
-      //   {
-      //     rotate: [null, 2, -4, 0],
-      //     y: [null, -10],
-      //   },
-      //   {
-      //     at: "<",
-      //   },
-      // ],
-    ];
+    const sequence = [[video, { height: "92.5vh" }]];
 
     scroll(timeline(sequence), {
       target: scrollTrack,
@@ -263,7 +250,7 @@ const { data } = Astro.props;
       }
     }
     .credits-item-copywright {
-      transform: translateX(-1vw);
+      transform: translate(-1vw, 0);
     }
 
     @media (max-width: 1280px) {
@@ -278,7 +265,7 @@ const { data } = Astro.props;
     }
     @media (max-width: 576px) {
       .credits-item-copywright {
-        transform: translateX(-2vw);
+        transform: translate(-2vw, 0);
       }
       .wrapper {
         z-index: 10000;
