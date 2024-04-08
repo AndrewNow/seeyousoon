@@ -75,7 +75,7 @@ const convertedDate = convertDateFormat(eventData.date);
               }
               return (
                 <Image
-                  class="embla__slide"
+                  class="embla__slide slide__image"
                   format="webp"
                   src={imgSrcLarge}
                   srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
@@ -188,14 +188,20 @@ const convertedDate = convertDateFormat(eventData.date);
 
   .embla {
     overflow: hidden;
+    cursor: grab;
+  }
+  .embla.is-dragging {
+    cursor: grabbing;
   }
   .embla__container {
     display: flex;
   }
   .embla__slide {
-    // flex: 0 0 100%;
+    pointer-events: none;
+    // flex: 0 0 100;
     // min-width: 0;
   }
+
   @media (max-width: 768px) {
     .event-text-wrapper {
       width: 95%;
@@ -250,18 +256,38 @@ const convertedDate = convertDateFormat(eventData.date);
 <script>
   import EmblaCarousel from "embla-carousel";
   import AutoScroll from "embla-carousel-auto-scroll";
+
+  // Define global options for EmblaCarousel and AutoScroll
+  const globalOptions = {
+    loop: true,
+    dragFree: true,
+    skipSnaps: true,
+  };
+  const autoplayOptions = {
+    duration: 1,
+    stopOnInteraction: false,
+    jump: false,
+  };
+
   // Using querySelectorAll to select all elements with the class .embla
   const emblaNodes = document.querySelectorAll(".embla");
 
   // Iterate through each .embla element and initialize EmblaCarousel
   emblaNodes.forEach((emblaNode) => {
-    const options = { loop: true, dragFree: true, skipSnaps: true };
-    const autoplayOptions = {
-      duration: 1,
-      stopOnInteraction: false,
-      jump: false,
-    };
+    // Initialize EmblaCarousel with global options and AutoScroll plugin
     const plugins = [AutoScroll(autoplayOptions)];
-    const emblaApi = EmblaCarousel(emblaNode, options, plugins);
+    const emblaApi = EmblaCarousel(emblaNode, globalOptions, plugins);
+
+    let isDragging = false;
+
+    emblaNode.addEventListener("mousedown", () => {
+      isDragging = true;
+      emblaNode.classList.add("is-dragging");
+    });
+
+    emblaNode.addEventListener("mouseup", () => {
+      isDragging = false;
+      emblaNode.classList.remove("is-dragging");
+    });
   });
 </script>
