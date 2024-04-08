@@ -59,12 +59,8 @@ const convertedDate = convertDateFormat(eventData.date);
     </div>
   </div>
   <div class="marquee-wrapper">
-    <div
-      id="pastEvents-marquee"
-      data-image-count={eventData.images.length}
-      data-index={index}
-    >
-      <div class="pastEvents-image-wrapper">
+    <div class="embla">
+      <div class="pastEvents-image-wrapper embla__container">
         {
           eventData.images &&
             eventData.images.map((el) => {
@@ -79,6 +75,7 @@ const convertedDate = convertDateFormat(eventData.date);
               }
               return (
                 <Image
+                  class="embla__slide"
                   format="webp"
                   src={imgSrcLarge}
                   srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
@@ -102,6 +99,7 @@ const convertedDate = convertDateFormat(eventData.date);
     </div>
   </div>
 </div>
+
 <style lang="scss">
   #pastEvents-marquee {
     width: 97.5%;
@@ -188,6 +186,16 @@ const convertedDate = convertDateFormat(eventData.date);
     }
   }
 
+  .embla {
+    overflow: hidden;
+  }
+  .embla__container {
+    display: flex;
+  }
+  .embla__slide {
+    // flex: 0 0 100%;
+    // min-width: 0;
+  }
   @media (max-width: 768px) {
     .event-text-wrapper {
       width: 95%;
@@ -238,3 +246,22 @@ const convertedDate = convertDateFormat(eventData.date);
     }
   }
 </style>
+
+<script>
+  import EmblaCarousel from "embla-carousel";
+  import AutoScroll from "embla-carousel-auto-scroll";
+  // Using querySelectorAll to select all elements with the class .embla
+  const emblaNodes = document.querySelectorAll(".embla");
+
+  // Iterate through each .embla element and initialize EmblaCarousel
+  emblaNodes.forEach((emblaNode) => {
+    const options = { loop: true, dragFree: true, skipSnaps: true };
+    const autoplayOptions = {
+      duration: 1,
+      stopOnInteraction: false,
+      jump: false,
+    };
+    const plugins = [AutoScroll(autoplayOptions)];
+    const emblaApi = EmblaCarousel(emblaNode, options, plugins);
+  });
+</script>
