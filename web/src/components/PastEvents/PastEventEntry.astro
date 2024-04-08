@@ -263,10 +263,11 @@ const convertedDate = convertDateFormat(eventData.date);
     dragFree: true,
     skipSnaps: true,
   };
-  const autoplayOptions = {
+  const autoScrollOptions = {
     duration: 1,
     stopOnInteraction: false,
     jump: false,
+    startDelay: 100,
   };
 
   // Using querySelectorAll to select all elements with the class .embla
@@ -275,7 +276,7 @@ const convertedDate = convertDateFormat(eventData.date);
   // Iterate through each .embla element and initialize EmblaCarousel
   emblaNodes.forEach((emblaNode) => {
     // Initialize EmblaCarousel with global options and AutoScroll plugin
-    const plugins = [AutoScroll(autoplayOptions)];
+    const plugins = [AutoScroll(autoScrollOptions)];
     const emblaApi = EmblaCarousel(emblaNode, globalOptions, plugins);
 
     let isDragging = false;
