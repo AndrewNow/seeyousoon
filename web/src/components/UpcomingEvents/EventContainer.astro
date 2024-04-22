@@ -594,7 +594,7 @@ const fallbackWordData = `[
 
         const boxData = Matter.Bodies.rectangle(
           containerEl.offsetWidth / randomX,
-          -containerEl.offsetHeight / 2,
+          -containerEl.offsetHeight + calculatedBoxHeight * i,
           BOX_WIDTH,
           calculatedBoxHeight,
           {
