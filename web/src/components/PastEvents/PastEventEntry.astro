@@ -272,7 +272,6 @@ const convertedDate = convertDateFormat(eventData.date);
     jump: false,
     startDelay: 10,
     speed: SPEED_VALUE,
-    playOnInit: false,
   };
 
   // Using querySelectorAll to select all elements with the class .embla
@@ -284,12 +283,6 @@ const convertedDate = convertDateFormat(eventData.date);
     const plugins = [AutoScroll(autoScrollOptions)];
     const emblaApi = EmblaCarousel(emblaNode, globalOptions, plugins);
 
-    // Get all the images inside the current .embla node
-    const images = emblaNode.querySelectorAll("img");
-
-    if (allImagesLoaded(images)) {
-      plugins[0].play();
-    }
 
     emblaNode.addEventListener("mousedown", () => {
       emblaNode.classList.add("is-dragging");
@@ -299,9 +292,4 @@ const convertedDate = convertDateFormat(eventData.date);
       emblaNode.classList.remove("is-dragging");
     });
   });
-
-  // Helper function to check if all images are loaded
-  function allImagesLoaded(images) {
-    return Array.from(images).every((img) => img.complete);
-  }
 </script>
