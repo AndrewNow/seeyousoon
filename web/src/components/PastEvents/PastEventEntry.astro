@@ -90,7 +90,6 @@ const convertedDate = convertDateFormat(eventData.date);
                   sizes={`(max-width: 525px) 401px, (max-width: 768px) 530px, (max-width: 1600px) 717px`}
                   quality={30}
                   decoding="sync"
-                  loading="lazy"
                 />
               );
             })
@@ -273,6 +272,7 @@ const convertedDate = convertDateFormat(eventData.date);
     jump: false,
     startDelay: 10,
     speed: SPEED_VALUE,
+    playOnInit: false,
   };
 
   // Using querySelectorAll to select all elements with the class .embla
@@ -287,36 +287,15 @@ const convertedDate = convertDateFormat(eventData.date);
     // Get all the images inside the current .embla node
     const images = emblaNode.querySelectorAll("img");
 
-    // Create an IntersectionObserver to detect when images are loaded and visible
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.target.complete) {
-            if (allImagesLoaded(images)) {
-              emblaApi.on("reInit", () => {
-                const autoScrollPlugin = emblaApi.plugins[0];
-                autoScrollPlugin.play();
-              });
-            }
-          }
-        });
-      },
-      { rootMargin: "0px 0px 50px 0px" }
-    );
-
-    images.forEach((img) => {
-      observer.observe(img);
-    });
-
-    let isDragging = false;
+    if (allImagesLoaded(images)) {
+      plugins[0].play();
+    }
 
     emblaNode.addEventListener("mousedown", () => {
-      isDragging = true;
       emblaNode.classList.add("is-dragging");
     });
 
     emblaNode.addEventListener("mouseup", () => {
-      isDragging = false;
       emblaNode.classList.remove("is-dragging");
     });
   });
