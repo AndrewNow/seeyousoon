@@ -29,6 +29,18 @@ export default defineType({
         type: 'string',
         }],
       }]
+    }),
+    defineField({
+      title: 'Newsletter image',
+      name: 'newsletterImg',
+      type: 'image',
+      fields: [
+        {
+          name: 'caption',
+          type: 'string',
+          title: 'Caption',
+        },
+      ]
     })
   ],
   preview: {
