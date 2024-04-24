@@ -102,7 +102,7 @@ const { data } = Astro.props;
 </style>
 
 <script>
-  import { animate } from "motion";
+  import { animate, inView } from "motion";
 
   const imageMobileAnimation = document.querySelectorAll(
     ".landing-image-wrapper"
@@ -142,9 +142,7 @@ const { data } = Astro.props;
       );
     });
   }
-</script>
 
-<script>
   const lerp = (current, target, factor) =>
     current * (1 - factor) + target * factor;
 
@@ -165,7 +163,7 @@ const { data } = Astro.props;
     y: cursorContainer.offsetHeight / 2,
   }; // Initialize mouse position to the center
 
-  window.addEventListener("mousemove", (e) => {
+  cursorContainer.addEventListener("mousemove", (e) => {
     const container = document.querySelector(".cursor-container");
     const containerRect = container.getBoundingClientRect();
 
@@ -177,6 +175,7 @@ const { data } = Astro.props;
       containerRect.top,
       Math.min(containerRect.bottom, e.clientY)
     );
+    // console.log(mousePosition.x, mousePosition.y);
   });
 
   const calculateDistance = (x1, y1, x2, y2) => Math.hypot(x1 - x2, y1 - y2);
@@ -236,8 +235,6 @@ const { data } = Astro.props;
         isCursorInsideContainer &&
         distanceFromMouseToCenter < this.triggerArea
       ) {
-        this.imageElement.classList.add("focus");
-
         targetHolder.x = (mousePosition.x - (left + width / 2)) * 0.3;
         targetHolder.y = (mousePosition.y - (top + height / 2)) * 0.35;
 
@@ -247,8 +244,6 @@ const { data } = Astro.props;
           this.lerpingData.y.current = targetHolder.y;
         }
       } else {
-        this.imageElement.classList.remove("focus");
-
         if (!isCursorInsideContainer && !this.isRecentering) {
           this.isRecentering = true;
 
@@ -313,19 +308,22 @@ const { data } = Astro.props;
     navigator.msMaxTouchPoints > 0;
 
   document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-      if (window.innerWidth >= 1080 || !isTouchDevice) {
-        const magneticObjects = [
-          new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.015 }),
-          new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.015 }),
-          new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.015 }),
-          new MagneticObject(img4, { lerp: 0.1, recenterLerp: 0.015 }),
-        ];
+    inView(cursorContainer, () => {
+      // console.log("container in view");
+      setTimeout(() => {
+        if (window.innerWidth >= 1080 || !isTouchDevice) {
+          const magneticObjects = [
+            new MagneticObject(img1, { lerp: 0.025, recenterLerp: 0.015 }),
+            new MagneticObject(img2, { lerp: 0.5, recenterLerp: 0.015 }),
+            new MagneticObject(img3, { lerp: 0.05, recenterLerp: 0.015 }),
+            new MagneticObject(img4, { lerp: 0.1, recenterLerp: 0.015 }),
+          ];
 
-        magneticObjects.forEach((obj) => {
-          obj.initialize();
-        });
-      }
-    }, 950);
+          magneticObjects.forEach((obj) => {
+            obj.initialize();
+          });
+        }
+      }, 550);
+    });
   });
 </script>

@@ -63,37 +63,37 @@ const convertedDate = convertDateFormat(eventData.date);
       <div class="pastEvents-image-wrapper embla__container">
         {
           eventData.images &&
-            eventData.images.map((el) => {
-              let imgSrcLarge;
-              let imgSrcMedium;
-              let imgSrcSmall;
+          eventData.images.map((el) => {
+            let imgSrcLarge;
+            let imgSrcMedium;
+            let imgSrcSmall;
 
-              if (el.imageSrc) {
-                imgSrcLarge = `${el.imageSrc}?w=717&fm=webp`;
-                imgSrcMedium = `${el.imageSrc}?w=378&fm=webp`;
-                imgSrcSmall = `${el.imageSrc}?w=301&fm=webp`;
-              }
-              return (
-                <Image
-                  class="embla__slide slide__image"
-                  format="webp"
-                  src={imgSrcLarge}
-                  srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
-                  alt={
-                    el.altText != null
-                      ? el.altText
-                      : "No descriptive text was entered for this image, sorry!"
-                  }
-                  width="563"
-                  height="375"
-                  widths={[401, 378, 717]}
-                  sizes={`(max-width: 576px) 401px, (max-width: 768px) 378px, (max-width: 1600px) 717px`}
-                  quality={30}
-                  decoding="async"
-                  loading="lazy"
-                />
-              );
-            })
+            if (el.imageSrc) {
+              imgSrcLarge = `${el.imageSrc}?h=475&fm=webp`;
+              imgSrcMedium = `${el.imageSrc}?h=350&fm=webp`;
+              imgSrcSmall = `${el.imageSrc}?h=300&fm=webp`;
+            }
+            return (
+              <Image
+                class="embla__slide slide__image"
+                format="webp"
+                src={imgSrcLarge}
+                srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
+                alt={
+                  el.altText != null
+                    ? el.altText
+                    : "No descriptive text was entered for this image, sorry!"
+                }
+                width="717"
+                height="475"
+                widths={[525, 530, 717]}
+                sizes={`(max-width: 525px) 401px, (max-width: 768px) 530px, (max-width: 1600px) 717px`}
+                quality={30}
+                decoding="sync"
+                loading="lazy"
+              />
+            );
+          })
         }
       </div>
     </div>
@@ -223,7 +223,7 @@ const convertedDate = convertDateFormat(eventData.date);
     }
     .pastEvents-image-wrapper {
       img {
-        height: 250px;
+        height: 350px;
         margin-right: 1rem;
       }
     }
