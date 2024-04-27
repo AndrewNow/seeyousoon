@@ -14,12 +14,12 @@ const earliestEvent = data
     const currentDate = new Date(current.dateStart);
     return earliestDate < currentDate ? earliest : current;
   }, null); // Initialize the accumulator with null to handle empty arrays
-
+console.log(earliestEvent)
 ---
 
 <div class="toastWrapper">
   {
-    earliestEvent && (
+    earliestEvent != null && (
       <>
         <Desktop data={earliestEvent} />
         <Mobile data={earliestEvent} />

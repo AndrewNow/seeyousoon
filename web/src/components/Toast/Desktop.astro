@@ -160,7 +160,7 @@ const eventTitle = JSON.stringify(data.title);
 </style>
 
 <script>
-  import { animate, inView } from "motion";
+  import { animate } from "motion";
   const wrapper = document.querySelector(".desktop-toast-wrapper");
   const toastWrapper = document.querySelector(".toastWrapper");
   const closeToast = document.getElementById("closeToast");
@@ -241,7 +241,7 @@ const eventTitle = JSON.stringify(data.title);
   }
 
   // Function to display the countdown in the specified format
-  function displayCountdown(timeRemaining, isBeforeStartOfEvent) {
+  function displayCountdown(timeRemaining) {
     const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
     const hours = Math.floor(
       (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
