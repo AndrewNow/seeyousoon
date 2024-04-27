@@ -285,6 +285,7 @@ const endDate = JSON.stringify(data.dateEnd);
 
   const currentDate = new Date();
   // Adjust current date to local timezone offset
+  
   const localCurrentDate = new Date(
     currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
   );
@@ -306,10 +307,11 @@ const endDate = JSON.stringify(data.dateEnd);
         displayCountdown(timeRemaining, false);
       }
     }
-
+    
     // Function to display the countdown in the specified format
     function displayCountdown(timeRemaining, isBeforeStartOfEvent) {
       const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+      console.log('days', days);
       const hours = Math.floor(
         (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );

@@ -3,18 +3,28 @@ import Desktop from "./Desktop.astro";
 import Mobile from "./Mobile.astro";
 
 const { data } = Astro.props;
-
-const currentDate = new Date(); // Get the current date
+console.log('end', data[0].dateEnd)
+const userTimeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000; // User's timezone offset in milliseconds
+const currentDate = new Date().getTime() + userTimeZoneOffset; // Current date and time adjusted to user's timezone
+console.log("Current Date (Unix timestamp):", currentDate);
 
 const earliestEvent = data
-  .filter((event) => new Date(event.dateEnd) >= currentDate) // Filter out events with end dates on or after today
+  .filter((event) => {
+    const endDate = new Date(event.dateEnd).getTime() + userTimeZoneOffset;
+    console.log("Event End Date (Unix timestamp):", endDate);
+    // Check if the end date is today or in the future
+    return endDate > currentDate;
+  })
   .reduce((earliest, current) => {
     if (!earliest) return current; // If there's no earliest event yet, return the current one
-    const earliestDate = new Date(earliest.dateStart);
-    const currentDate = new Date(current.dateStart);
+    const earliestDate =
+      new Date(earliest.dateStart).getTime() + userTimeZoneOffset;
+    const currentDate =
+      new Date(current.dateStart).getTime() + userTimeZoneOffset;
     return earliestDate < currentDate ? earliest : current;
   }, null); // Initialize the accumulator with null to handle empty arrays
-console.log(earliestEvent)
+
+console.log("Earliest Event:", earliestEvent);
 ---
 
 <div class="toastWrapper">
