@@ -223,13 +223,13 @@ const eventTitle = JSON.stringify(data.title);
     );
 
     // Check if the current date is before the start date
-    if (localCurrentDate < startDate) {
+    if (localCurrentDate <= startDate) {
       eventStatus.innerHTML = `Join us at <span class="event-toast-title">${eventTitle}</span> in`;
       const timeRemaining = startDate - localCurrentDate;
       displayCountdown(timeRemaining, true);
     }
     // Check if the current date is between the start and end dates
-    else if (localCurrentDate < endDate) {
+    else if (localCurrentDate <= endDate) {
       eventStatus.innerHTML = `We're still at <span class="event-toast-title">${eventTitle}</span> for`;
       const timeRemaining = endDate - localCurrentDate;
       displayCountdown(timeRemaining, false);
