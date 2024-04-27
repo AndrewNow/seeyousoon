@@ -1,6 +1,5 @@
 ---
 const { data } = Astro.props;
-
 const startDate = JSON.stringify(data.dateStart);
 const endDate = JSON.stringify(data.dateEnd);
 ---
@@ -285,6 +284,10 @@ const endDate = JSON.stringify(data.dateEnd);
   const countdownParent = document.querySelectorAll("#mobile-countdown");
 
   const currentDate = new Date();
+  // Adjust current date to local timezone offset
+  const localCurrentDate = new Date(
+    currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
+  );
 
   countdownParent.forEach((el) => {
     const startDate = new Date(JSON.parse(el.getAttribute("data-startDate")));
@@ -293,13 +296,13 @@ const endDate = JSON.stringify(data.dateEnd);
     // Function to update the countdown based on the current date
     function updateCountdown() {
       // Check if the current date is before the start date
-      if (currentDate < startDate) {
-        const timeRemaining = startDate - currentDate;
+      if (localCurrentDate <= startDate) {
+        const timeRemaining = startDate - localCurrentDate;
         displayCountdown(timeRemaining, true);
       }
       // Check if the current date is between the start and end dates
-      else if (currentDate < endDate) {
-        const timeRemaining = endDate - currentDate;
+      else if (localCurrentDate <= endDate) {
+        const timeRemaining = endDate - localCurrentDate;
         displayCountdown(timeRemaining, false);
       }
     }
