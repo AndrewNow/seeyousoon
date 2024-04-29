@@ -6,20 +6,23 @@ const { data } = Astro.props;
 
 const currentDate = new Date(); // Get the current date
 
-const earliestEvent = data
-  .filter((event) => new Date(event.dateEnd) >= currentDate) // Filter out events with end dates on or after today
-  .reduce((earliest, current) => {
-    if (!earliest) return current; // If there's no earliest event yet, return the current one
-    const earliestDate = new Date(earliest.dateStart);
-    const currentDate = new Date(current.dateStart);
-    return earliestDate < currentDate ? earliest : current;
-  }, null); // Initialize the accumulator with null to handle empty arrays
+let earliestEvent;
 
+if (data.length) {
+  earliestEvent = data
+    .filter((event) => new Date(event.dateEnd) >= currentDate) // Filter out events with end dates on or after today
+    .reduce((earliest, current) => {
+      if (!earliest) return current; // If there's no earliest event yet, return the current one
+      const earliestDate = new Date(earliest.dateStart);
+      const currentDate = new Date(current.dateStart);
+      return earliestDate < currentDate ? earliest : current;
+    }, null); // Initialize the accumulator with null to handle empty arrays
+}
 ---
 
 <div class="toastWrapper">
   {
-    earliestEvent && (
+    data.length && (
       <>
         <Desktop data={earliestEvent} />
         <Mobile data={earliestEvent} />

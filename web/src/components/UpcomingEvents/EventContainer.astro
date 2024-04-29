@@ -960,7 +960,7 @@ const fallbackWordData = `[
 
     let listViewHeight = data.length < 3 ? "90vh" : "105vh";
 
-    cardButton.addEventListener("click", () => {
+    cardButton?.addEventListener("click", () => {
       cardButton.classList.add("active");
       listButton.classList.toggle("active");
 
@@ -968,7 +968,7 @@ const fallbackWordData = `[
       viewCanvasEl();
     });
 
-    listButton.addEventListener("click", () => {
+    listButton?.addEventListener("click", () => {
       cardButton.classList.toggle("active");
       listButton.classList.add("active");
       upcomingEventsWrapper.style.height = "105vh";

@@ -160,40 +160,42 @@ const eventTitle = JSON.stringify(data.title);
 </style>
 
 <script>
-  import { animate, inView } from "motion";
+  import { animate } from "motion";
   const wrapper = document.querySelector(".desktop-toast-wrapper");
   const toastWrapper = document.querySelector(".toastWrapper");
   const closeToast = document.getElementById("closeToast");
 
-  animate(
-    wrapper,
-    {
-      transform: `translateX(-.5vw)`,
-      opacity: 1,
-    },
-    {
-      duration: 1.35,
-      easing: [0.33, 0, 0.17, 1],
-    }
-  );
-
-  closeToast.addEventListener("click", () => {
+  if (wrapper && toastWrapper && closeToast) {
     animate(
       wrapper,
       {
-        transform: `translateX(8vw) translateY(40vh) rotate(-35deg) skewX(-15deg)`,
+        transform: `translateX(-.5vw)`,
         opacity: 1,
-        // filter: ` blur(2px)`,
       },
       {
-        duration: 0.6,
-        delay: 0.25,
-        easing: [0.215, 0.61, 0.355, 1],
+        duration: 1.35,
+        easing: [0.33, 0, 0.17, 1],
       }
-    ).finished.then(() => {
-      toastWrapper.style.display = "none";
+    );
+
+    closeToast?.addEventListener("click", () => {
+      animate(
+        wrapper,
+        {
+          transform: `translateX(8vw) translateY(40vh) rotate(-35deg) skewX(-15deg)`,
+          opacity: 1,
+          // filter: ` blur(2px)`,
+        },
+        {
+          duration: 0.6,
+          delay: 0.25,
+          easing: [0.215, 0.61, 0.355, 1],
+        }
+      ).finished.then(() => {
+        toastWrapper.style.display = "none";
+      });
     });
-  });
+  }
 
   // hide toast if within x pixels of bottom
 </script>
@@ -202,17 +204,21 @@ const eventTitle = JSON.stringify(data.title);
   const countdownParent = document.querySelector(".countdown");
   const eventStatus = document.getElementById("eventStatus");
 
-  const startDate = new Date(
-    JSON.parse(countdownParent.getAttribute("data-startDate"))
-  );
+  let startDate;
+  let endDate;
+  let eventTitle;
 
-  const endDate = new Date(
-    JSON.parse(countdownParent.getAttribute("data-endDate"))
-  );
+  if (countdownParent && eventStatus) {
+    startDate = new Date(
+      JSON.parse(countdownParent.getAttribute("data-startDate"))
+    );
 
-  const eventTitle = JSON.parse(
-    countdownParent.getAttribute("data-eventTitle")
-  );
+    endDate = new Date(
+      JSON.parse(countdownParent.getAttribute("data-endDate"))
+    );
+
+    eventTitle = JSON.parse(countdownParent.getAttribute("data-eventTitle"));
+  }
 
   // Function to update the countdown based on the current date
   function updateCountdown() {
@@ -267,9 +273,11 @@ const eventTitle = JSON.stringify(data.title);
     countdownParent.textContent = countdownText;
   }
 
-  // Initial call to set the countdown when the page loads
-  updateCountdown();
+  if (countdownParent && eventStatus) {
+    // Initial call to set the countdown when the page loads
+    updateCountdown();
 
-  // Update the countdown every second
-  setInterval(updateCountdown, 1000);
+    // Update the countdown every second
+    setInterval(updateCountdown, 1000);
+  }
 </script>

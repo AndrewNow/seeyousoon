@@ -1,26 +1,34 @@
 ---
 const { data } = Astro.props;
 import Image from "astro/components/Image.astro";
-import newsletter from "../assets/newsletter.png";
+// import newsletter from "../assets/newsletter.png";
 
-const imgSrcLarge = `${data}?w=328&fm=webp`;
-const imgSrcSmall = `${data}?w=150&fm=webp`;
+let imgSrcLarge;
+let imgSrcSmall;
+if (data != null) {
+  imgSrcLarge = `${data}?w=328&fm=webp`;
+  imgSrcSmall = `${data}?w=150&fm=webp`;
+}
 ---
 
 <section id="mc_embed_signup" class="newsletter-wrapper">
-  <Image
-    src={imgSrcLarge}
-    srcset={`${imgSrcLarge}, ${imgSrcSmall}`}
-    widths={[150, 328]}
-    sizes={`(max-width: 576px) 150px, (max-width: 1500px) 328px`}
-    decoding="async"
-    loading="lazy"
-    alt="A seeyousoon star investigates a newsletter with a magnifying lens."
-    class="sys-newsletter-image"
-    quality={60}
-    width={328}
-    height={166}
-  />
+  {
+    data != null && (
+      <Image
+        src={imgSrcLarge}
+        srcset={`${imgSrcLarge}, ${imgSrcSmall}`}
+        widths={[150, 328]}
+        sizes={`(max-width: 576px) 150px, (max-width: 1500px) 328px`}
+        decoding="async"
+        loading="lazy"
+        alt="A seeyousoon star investigates a newsletter with a magnifying lens."
+        class="sys-newsletter-image"
+        quality={60}
+        width={328}
+        height={166}
+      />
+    )
+  }
   <form
     action="https://seeyousoon.us18.list-manage.com/subscribe/post?u=5fd9d6ba53f3750f80eee4933&id=4cd9b9b8b9&f_id=00af2ce1f0"
     method="post"
@@ -32,9 +40,7 @@ const imgSrcSmall = `${data}?w=150&fm=webp`;
   >
     <div id="mc_embed_signup_scroll">
       <h1>Missed an event?</h1>
-      <p>
-        Join our mailing list to stay up to date with all our events!
-      </p>
+      <p>Join our mailing list to stay up to date with all our events!</p>
       <div class="mc-field-group">
         <div class="input-container">
           <div class="text-input-wrapper">

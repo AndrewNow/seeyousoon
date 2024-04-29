@@ -45,7 +45,7 @@ const { data } = Astro.props;
       <div class="credits-item">
         <small class="location-flex">
           <span class="current-location"> Currently in</span>
-          {data.location != undefined ? data.location : "Toronto"}</small
+          {data != undefined || null ? data.location : "Toronto"}</small
         >
       </div>
       <div class="credits-item">

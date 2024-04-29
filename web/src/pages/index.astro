@@ -18,7 +18,7 @@ const heroImageData = await getHeroImages();
 const pastEventsData = await getPastEvents();
 const upcomingEventsData = await getUpcomingEvents();
 const currentLocationData = await getCurrentLocation();
-// console.log(upcomingEventsData);
+
 
 // const upcomingEventsData = [
 //   {
@@ -61,7 +61,7 @@ const currentLocationData = await getCurrentLocation();
   <section class="hero" id="magneticHero-wrapper">
     <Toast data={upcomingEventsData} />
     <HeroContent />
-    <MagneticHero data={heroImageData} />
+    {heroImageData != null ? <MagneticHero data={heroImageData} /> : null}
   </section>
   <section class="upcoming-events" id="upcomingEvents">
     <UpcomingEvents data={upcomingEventsData} />
@@ -70,10 +70,14 @@ const currentLocationData = await getCurrentLocation();
     <About />
   </section>
   <section class="past-events">
-    <PastEvents data={pastEventsData} />
+    {pastEventsData.length && <PastEvents data={pastEventsData} />}
   </section>
   <section class="newsletter">
-    <Newsletter data={heroImageData.newsletterImg} />
+    {
+      heroImageData && (
+        <Newsletter data={heroImageData ? heroImageData.newsletterImg : null} />
+      )
+    }
   </section>
 </Layout>
 

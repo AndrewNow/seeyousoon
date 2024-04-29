@@ -193,159 +193,163 @@ const endDate = JSON.stringify(data.dateEnd);
 </style>
 
 <script>
+  import { animate } from "motion";
   const carousel = document.getElementById("carousel");
   const items = document.querySelectorAll(".carousel-item");
   const closeBtn = document.getElementById("closeToastMobile");
   const wrapper = document.querySelector(".mobile-toast-wrapper");
 
-  // animate the component in
-  animate(
-    wrapper,
-    {
-      opacity: 1,
-      transform: `translateY(0) scaleX(1)`,
-    },
-    {
-      delay: 2,
-    }
-  ).finished.then(() => {
-    // Set an interval for auto-scrolling
-    const intervalId = setInterval(scrollCarousel, 2500);
-  });
+  if (wrapper && items && closeBtn && wrapper) {
+    // animate the component in
+    animate(
+      wrapper,
+      {
+        opacity: 1,
+        transform: `translateY(0) scaleX(1)`,
+      },
+      {
+        delay: 2,
+      }
+    ).finished.then(() => {
+      // Set an interval for auto-scrolling
+      const intervalId = setInterval(scrollCarousel, 2500);
+    });
 
-  const itemHeight = items[0].offsetHeight;
-  let currentIndex = 0;
+    const itemHeight = items[0].offsetHeight;
+    let currentIndex = 0;
 
-  function scrollCarousel() {
-    currentIndex++;
-    const translateY = -currentIndex * itemHeight;
-    carousel.style.transform = `translateY(${translateY}px)`;
+    function scrollCarousel() {
+      currentIndex++;
+      const translateY = -currentIndex * itemHeight;
+      carousel.style.transform = `translateY(${translateY}px)`;
 
-    // Check if the last item is reached
-    if (currentIndex >= items.length) {
-      setTimeout(() => {
-        currentIndex = 0;
-        carousel.style.transition = "none";
-        carousel.style.transform = `translateY(0)`;
+      // Check if the last item is reached
+      if (currentIndex >= items.length) {
         setTimeout(() => {
-          carousel.style.transition = "transform 0.5s ease";
+          currentIndex = 0;
+          carousel.style.transition = "none";
+          carousel.style.transform = `translateY(0)`;
+          setTimeout(() => {
+            carousel.style.transition = "transform 0.5s ease";
+          });
         });
+      }
+    }
+
+    // animate in the close button
+    const content = document.getElementById("toastContent");
+    const loadingBar = document.getElementById("loadingBar");
+    const loadingProgress = document.getElementById("loadingProgress");
+
+    if (content && loadingBar && loadingProgress) {
+      animate(
+        loadingProgress,
+        {
+          transform: `scaleX(1)`,
+        },
+        {
+          duration: 8,
+          delay: 2.5,
+          easing: "linear",
+        }
+      ).finished.then(() => {
+        animate(
+          loadingBar,
+          {
+            transform: `translateY(-100%)`,
+          },
+          {
+            duration: 0.5,
+          }
+        );
+        animate(
+          content,
+          {
+            transform: `translateX(0)`,
+          },
+          {
+            delay: 0.5,
+            duration: 0.5,
+          }
+        );
       });
     }
-  }
 
-  // animate in the close button
-  import { animate } from "motion";
-  const content = document.getElementById("toastContent");
-  const loadingBar = document.getElementById("loadingBar");
-  const loadingProgress = document.getElementById("loadingProgress");
-
-  animate(
-    loadingProgress,
-    {
-      transform: `scaleX(1)`,
-    },
-    {
-      duration: 8,
-      delay: 2.5,
-      easing: "linear",
-    }
-  ).finished.then(() => {
-    animate(
-      loadingBar,
-      {
-        transform: `translateY(-100%)`,
-      },
-      {
-        duration: 0.5,
-      }
-    );
-    animate(
-      content,
-      {
-        transform: `translateX(0)`,
-      },
-      {
-        delay: 0.5,
-        duration: 0.5,
-      }
-    );
-  });
-
-  // close the modal when button is clicked
-  closeBtn.addEventListener("click", () => {
-    animate(wrapper, {
-      opacity: 0,
-      transform: `translateY(10vh) scaleX(.5)`,
+    // close the modal when button is clicked
+    closeBtn?.addEventListener("click", () => {
+      animate(wrapper, {
+        opacity: 0,
+        transform: `translateY(10vh) scaleX(.5)`,
+      });
     });
-  });
 
-  // countdown logic
-  const countdownParent = document.querySelectorAll("#mobile-countdown");
+    // countdown logic
+    const countdownParent = document.querySelectorAll("#mobile-countdown");
 
-  const currentDate = new Date();
-  // Adjust current date to local timezone offset
-  const localCurrentDate = new Date(
-    currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
-  );
+    const currentDate = new Date();
+    // Adjust current date to local timezone offset
+    const localCurrentDate = new Date(
+      currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
+    );
 
-  countdownParent.forEach((el) => {
-    const startDate = new Date(JSON.parse(el.getAttribute("data-startDate")));
-    const endDate = new Date(JSON.parse(el.getAttribute("data-endDate")));
+    countdownParent.forEach((el) => {
+      const startDate = new Date(JSON.parse(el.getAttribute("data-startDate")));
+      const endDate = new Date(JSON.parse(el.getAttribute("data-endDate")));
 
-    // Function to update the countdown based on the current date
-    function updateCountdown() {
-      // Check if the current date is before the start date
-      if (localCurrentDate <= startDate) {
-        const timeRemaining = startDate - localCurrentDate;
-        displayCountdown(timeRemaining, true);
-      }
-      // Check if the current date is between the start and end dates
-      else if (localCurrentDate <= endDate) {
-        const timeRemaining = endDate - localCurrentDate;
-        displayCountdown(timeRemaining, false);
-      }
-    }
-
-    // Function to display the countdown in the specified format
-    function displayCountdown(timeRemaining, isBeforeStartOfEvent) {
-      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor(
-        (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
-      );
-
-      let countdownText = "";
-      // Construct the countdown text based on remaining days, hours, and minutes
-      if (days > 0) {
-        if (isBeforeStartOfEvent === true) {
-          countdownText += `in ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
-        } else {
-          countdownText += `for ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
+      // Function to update the countdown based on the current date
+      function updateCountdown() {
+        // Check if the current date is before the start date
+        if (localCurrentDate <= startDate) {
+          const timeRemaining = startDate - localCurrentDate;
+          displayCountdown(timeRemaining, true);
         }
-      } else if (days === 0) {
-        if (isBeforeStartOfEvent === true) {
-          countdownText += `...in `;
-        } else {
-          countdownText += `...for `;
+        // Check if the current date is between the start and end dates
+        else if (localCurrentDate <= endDate) {
+          const timeRemaining = endDate - localCurrentDate;
+          displayCountdown(timeRemaining, false);
         }
       }
-      if (hours >= 0 && days > 0) {
-        countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
-      } else if (hours >= 0 && days === 0) {
-        countdownText += `${hours} more hour${hours > 1 || hours === 0 ? "s" : ""} `;
+
+      // Function to display the countdown in the specified format
+      function displayCountdown(timeRemaining, isBeforeStartOfEvent) {
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+        );
+
+        let countdownText = "";
+        // Construct the countdown text based on remaining days, hours, and minutes
+        if (days > 0) {
+          if (isBeforeStartOfEvent === true) {
+            countdownText += `in ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
+          } else {
+            countdownText += `for ${days} day${days > 1 || days === 0 ? "s" : ""}, `;
+          }
+        } else if (days === 0) {
+          if (isBeforeStartOfEvent === true) {
+            countdownText += `...in `;
+          } else {
+            countdownText += `...for `;
+          }
+        }
+        if (hours >= 0 && days > 0) {
+          countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
+        } else if (hours >= 0 && days === 0) {
+          countdownText += `${hours} more hour${hours > 1 || hours === 0 ? "s" : ""} `;
+        }
+        countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}!`;
+        // Set the countdown text to the formatted string
+        el.textContent = countdownText;
       }
-      countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}!`;
-      // Set the countdown text to the formatted string
-      el.textContent = countdownText;
-    }
 
-    // Initial call to set the countdown when the page loads
-    updateCountdown();
+      // Initial call to set the countdown when the page loads
+      updateCountdown();
 
-    // Update the countdown every second
-    setInterval(updateCountdown, 1000);
-  });
+      // Update the countdown every second
+      setInterval(updateCountdown, 1000);
+    });
+  }
 </script>
