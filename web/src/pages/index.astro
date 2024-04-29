@@ -8,7 +8,7 @@ import PastEvents from "../components/PastEvents/PastEvents.astro";
 import {
   getHeroImages,
   getPastEvents,
-  getUpcomingEvents,
+  // getUpcomingEvents,
   getCurrentLocation,
 } from "../sanity/api";
 import Newsletter from "../components/Newsletter.astro";
@@ -16,7 +16,7 @@ import About from "../components/About/About.astro";
 
 const heroImageData = await getHeroImages();
 const pastEventsData = await getPastEvents();
-const upcomingEventsData = await getUpcomingEvents();
+// const upcomingEventsData = await getUpcomingEvents();
 const currentLocationData = await getCurrentLocation();
 
 // const upcomingEventsData = [
@@ -58,12 +58,12 @@ const currentLocationData = await getCurrentLocation();
 
 <Layout title="seeyousoon" data={currentLocationData}>
   <section class="hero" id="magneticHero-wrapper">
-    <Toast data={upcomingEventsData} />
+    <!-- <Toast data={upcomingEventsData} /> -->
     <HeroContent />
     {heroImageData != null && <MagneticHero data={heroImageData} />}
   </section>
   <section class="upcoming-events" id="upcomingEvents">
-    <UpcomingEvents data={upcomingEventsData} />
+    <!-- <UpcomingEvents data={upcomingEventsData} /> -->
   </section>
   <section class="about">
     <About />
