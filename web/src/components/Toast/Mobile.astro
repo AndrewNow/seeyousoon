@@ -1,7 +1,16 @@
 ---
 const { data } = Astro.props;
-const startDate = JSON.stringify(data.dateStart);
-const endDate = JSON.stringify(data.dateEnd);
+let startDate;
+let endDate;
+let hasEvent = false;
+let title = "event title";
+
+if (data) {
+  startDate = JSON.stringify(data.dateStart);
+  endDate = JSON.stringify(data.dateEnd);
+  hasEvent = true;
+  title = data.title;
+}
 ---
 
 <div class="mobile-toast-wrapper">
@@ -9,12 +18,8 @@ const endDate = JSON.stringify(data.dateEnd);
     <div class="loading-progress" id="loadingProgress"></div>
   </div>
   <div class="content-flex" id="toastContent">
-    <button
-      class="close-toast"
-      aria-label="Close toast"
-      id="closeToastMobile"
-      data-has-event={data.length > 0}
-      ><svg
+    <button class="close-toast" aria-label="Close toast" id="closeToastMobile">
+      <svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
@@ -29,12 +34,11 @@ const endDate = JSON.stringify(data.dateEnd);
     <div class="content-carousel" id="carousel">
       <div class="carousel-item">
         Catch us at <span
-          style="color:var(--grey-100);font-family:Denim-Medium;"
-          >{data.title}!</span
+          style="color:var(--grey-100);font-family:Denim-Medium;">{title}!</span
         >
       </div>
       {
-        data.isResidency === true && (
+        data && data.isResidency === true && (
           <div class="carousel-item">We're in residence...</div>
         )
       }
@@ -49,11 +53,11 @@ const endDate = JSON.stringify(data.dateEnd);
       <div class="carousel-item">
         Catch us at <span
           style="color:var(--grey-100);font-family:Denim-Medium;"
-          >{data.title}!</span
+          >{title}!</span
         >
       </div>
       {
-        data.isResidency && (
+        data && data.isResidency && (
           <div class="carousel-item">We're in residence...</div>
         )
       }
@@ -66,13 +70,13 @@ const endDate = JSON.stringify(data.dateEnd);
       </div>
       <!-- Duplicate for carousel -->
       <div class="carousel-item">
-        Catch us at <span
-          style="color:var(--grey-100);font-family:Denim-Medium;"
-          >{data.title}!</span
-        >
+        Catch us at{" "}
+        <span style="color:var(--grey-100);font-family:Denim-Medium;">
+          {title}!
+        </span>
       </div>
       {
-        data.isResidency && (
+        data && data.isResidency && (
           <div class="carousel-item">We're in residence...</div>
         )
       }
@@ -86,7 +90,7 @@ const endDate = JSON.stringify(data.dateEnd);
     </div>
   </div>
   {
-    data.eventLink && (
+    data && data.eventLink && (
       <a class="rsvp" href={data.eventLink} target="_blank" rel="noreferrer">
         Reserve
       </a>
@@ -94,7 +98,7 @@ const endDate = JSON.stringify(data.dateEnd);
   }
 </div>
 
-<style lang="scss">
+<style lang="scss" is:inline>
   #toastContent {
     transform: translateX(-40px);
   }
@@ -299,12 +303,12 @@ const endDate = JSON.stringify(data.dateEnd);
       // Function to update the countdown based on the current date
       function updateCountdown() {
         // Check if the current date is before the start date
-        if (localCurrentDate <= startDate) {
+        if (localCurrentDate <= startDate && localCurrentDate <= startDate) {
           const timeRemaining = startDate - localCurrentDate;
           displayCountdown(timeRemaining, true);
         }
         // Check if the current date is between the start and end dates
-        else if (localCurrentDate <= endDate) {
+        else if (localCurrentDate >= startDate && localCurrentDate <= endDate) {
           const timeRemaining = endDate - localCurrentDate;
           displayCountdown(timeRemaining, false);
         }
@@ -338,7 +342,7 @@ const endDate = JSON.stringify(data.dateEnd);
         if (hours >= 0 && days > 0) {
           countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""}, `;
         } else if (hours >= 0 && days === 0) {
-          countdownText += `${hours} more hour${hours > 1 || hours === 0 ? "s" : ""} `;
+          countdownText += `${hours} hour${hours > 1 || hours === 0 ? "s" : ""} `;
         }
         countdownText += `and ${minutes} minute${minutes > 1 || minutes === 0 ? "s" : ""}!`;
         // Set the countdown text to the formatted string

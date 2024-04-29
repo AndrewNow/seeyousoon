@@ -1,13 +1,21 @@
 ---
 const { data } = Astro.props;
-const startDate = JSON.stringify(data.dateStart);
-const endDate = JSON.stringify(data.dateEnd);
-const eventTitle = JSON.stringify(data.title);
+let eventTitle;
+let startDate;
+let endDate;
+let eventLink
+if (data) {
+  startDate = JSON.stringify(data.dateStart);
+  endDate = JSON.stringify(data.dateEnd);
+  eventTitle = JSON.stringify(data.title);
+  eventLink = JSON.stringify(data.eventLink);
+  
+}
 ---
 
 <div class="desktop-toast-wrapper" id="toastWrapper">
   <small id="eventStatus">
-    Join us at <span class="event-toast-title">{data.title}</span> in
+    Join us at <span class="event-toast-title">{eventTitle}</span> in
   </small>
   <p
     class="countdown"
@@ -17,9 +25,9 @@ const eventTitle = JSON.stringify(data.title);
   >
   </p>
   {
-    data.eventLink ? (
+    eventLink ? (
       <a
-        href={data.eventLink}
+        href={eventLink}
         class="reserve-btn"
         target="_blank"
         rel="noreferrer"
@@ -228,14 +236,14 @@ const eventTitle = JSON.stringify(data.title);
       currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
     );
 
-    // Check if the current date is before the start date
-    if (localCurrentDate <= startDate) {
+    // Check if the current date is before the start date and end date
+    if (localCurrentDate <= startDate && localCurrentDate <= endDate) {
       eventStatus.innerHTML = `Join us at <span class="event-toast-title">${eventTitle}</span> in`;
       const timeRemaining = startDate - localCurrentDate;
       displayCountdown(timeRemaining, true);
     }
     // Check if the current date is between the start and end dates
-    else if (localCurrentDate <= endDate) {
+    else if (localCurrentDate >= startDate && localCurrentDate <= endDate) {
       eventStatus.innerHTML = `We're still at <span class="event-toast-title">${eventTitle}</span> for`;
       const timeRemaining = endDate - localCurrentDate;
       displayCountdown(timeRemaining, false);
