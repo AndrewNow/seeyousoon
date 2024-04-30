@@ -4,10 +4,10 @@ import MagneticHero from "../components/Hero/MagneticHero.astro";
 import HeroContent from "../components/Hero/HeroContent.astro";
 import Toast from "../components/Toast/Toast.astro";
 import UpcomingEvents from "../components/UpcomingEvents/UpcomingEvents.astro";
-import PastEvents from "../components/PastEvents/PastEvents.astro";
+// import PastEvents from "../components/PastEvents/PastEvents.astro";
 import {
   getHeroImages,
-  getPastEvents,
+  // getPastEvents,
   getUpcomingEvents,
   getCurrentLocation,
 } from "../sanity/api";
@@ -15,46 +15,14 @@ import Newsletter from "../components/Newsletter.astro";
 import About from "../components/About/About.astro";
 
 const heroImageData = await getHeroImages();
-const pastEventsData = await getPastEvents();
+// const pastEventsData = await getPastEvents();
 const upcomingEventsData = await getUpcomingEvents();
 const currentLocationData = await getCurrentLocation();
-// console.log(upcomingEventsData);
 
-// const upcomingEventsData = [
-//   {
-//     location: "915 Dupont",
-//     locationLink: "https://maps.app.goo.gl/SrjPyTBLCca8RiwXA",
-//     _id: "33bb54d3-b599-4c6d-8564-e76761c61eed",
-//     title: "915 Dupont",
-//     isResidency: false,
-//     eventLink:
-//       "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-//     dateStart: "2024-04-03T09:00:00.000Z",
-//     dateEnd: "2024-04-27T09:00:00.000Z",
-//   },
-//   {
-//     location: "915 Dupont",
-//     locationLink: "https://maps.app.goo.gl/SrjPyTBLCca8RiwXA",
-//     _id: "66d2040c-4605-4327-a08e-3651494d848c",
-//     title: "Oranj",
-//     isResidency: true,
-//     eventLink:
-//       "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-//     dateStart: "2024-04-03T09:00:00.000Z",
-//     dateEnd: "2024-04-27T09:00:00.000Z",
-//   },
-//   {
-//     dateStart: "2024-04-03T09:00:00.000Z",
-//     dateEnd: "2024-04-27T17:00:00.000Z",
-//     location: "297 Broome Street",
-//     locationLink: "https://maps.app.goo.gl/sLDFYqta2r1TAkLR6?g_st=ic",
-//     eventLink:
-//       "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
-//     _id: "f7dad2e7-d021-41fb-8f16-f726b45ad5a2",
-//     title: "Gem NYC",
-//     isResidency: true,
-//   },
-// ];
+console.log(heroImageData);
+// console.log(pastEventsData);
+console.log(upcomingEventsData);
+console.log(currentLocationData);
 ---
 
 <Layout title="seeyousoon" data={currentLocationData}>
@@ -70,7 +38,7 @@ const currentLocationData = await getCurrentLocation();
     <About />
   </section>
   <section class="past-events">
-    <PastEvents data={pastEventsData} />
+    <!-- <PastEvents data={pastEventsData} /> -->
   </section>
   <section class="newsletter">
     <Newsletter data={heroImageData.newsletterImg} />
