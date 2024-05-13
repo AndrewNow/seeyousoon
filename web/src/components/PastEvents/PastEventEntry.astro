@@ -194,6 +194,7 @@ const convertedDate = convertDateFormat(eventData.date);
   }
   .embla__container {
     display: flex;
+    min-width: 100%;
   }
   .embla__slide {
     user-select: none;
@@ -282,7 +283,6 @@ const convertedDate = convertDateFormat(eventData.date);
     // Initialize EmblaCarousel with global options and AutoScroll plugin
     const plugins = [AutoScroll(autoScrollOptions)];
     const emblaApi = EmblaCarousel(emblaNode, globalOptions, plugins);
-
 
     emblaNode.addEventListener("mousedown", () => {
       emblaNode.classList.add("is-dragging");
