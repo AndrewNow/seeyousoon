@@ -249,6 +249,8 @@ if (data) {
     const loadingBar = document.getElementById("loadingBar");
     const loadingProgress = document.getElementById("loadingProgress");
 
+    loadingProgress.style.transitionTimingFunction = "linear";
+
     if (content && loadingBar && loadingProgress) {
       animate(
         loadingProgress,
@@ -268,7 +270,7 @@ if (data) {
           },
           {
             duration: 0.5,
-            easing: "linear",
+            // easing: "linear",
           }
         );
         animate(
