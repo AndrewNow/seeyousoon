@@ -120,6 +120,7 @@ if (data) {
     height: 3px;
     width: 100%;
     background: var(--grey-200);
+    transition-timing-function: linear;
   }
   .loading-progress {
     position: absolute;
@@ -133,6 +134,7 @@ if (data) {
     background: var(--brown-100);
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
+    transition-timing-function: linear;
   }
 
   .rsvp {
@@ -266,6 +268,7 @@ if (data) {
           },
           {
             duration: 0.5,
+            easing: "linear",
           }
         );
         animate(
