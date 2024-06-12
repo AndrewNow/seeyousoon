@@ -52,8 +52,7 @@ if (data) {
       <!-- Duplicate for carousel -->
       <div class="carousel-item">
         Catch us at <span
-          style="color:var(--grey-100);font-family:Denim-Medium;"
-          >{title}!</span
+          style="color:var(--grey-100);font-family:Denim-Medium;">{title}!</span
         >
       </div>
       {
@@ -214,6 +213,7 @@ if (data) {
         transform: `translateY(0) scaleX(1)`,
       },
       {
+        easing: "linear",
         delay: 2,
       }
     ).finished.then(() => {
