@@ -115,6 +115,7 @@ if (data) {
   }
   .loading-bar {
     position: absolute;
+    z-index: 10;
     top: 0;
     left: 0;
     height: 3px;
@@ -123,6 +124,7 @@ if (data) {
   }
   .loading-progress {
     position: absolute;
+    z-index: 10;
     top: 0;
     left: 0;
     height: 3px;
@@ -216,7 +218,7 @@ if (data) {
       }
     ).finished.then(() => {
       // Set an interval for auto-scrolling
-      const intervalId = setInterval(scrollCarousel, 2500);
+      const intervalId = setInterval(scrollCarousel, 2200);
     });
 
     const itemHeight = items[0].offsetHeight;
@@ -252,7 +254,7 @@ if (data) {
           transform: `scaleX(1)`,
         },
         {
-          duration: 8,
+          duration: 6,
           delay: 2.5,
           easing: "linear",
         }

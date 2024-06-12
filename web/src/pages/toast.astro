@@ -1,0 +1,42 @@
+---
+import Toast from "../components/Toast/Toast.astro";
+import Layout from "../layouts/Layout.astro";
+import { getCurrentLocation } from "../sanity/api";
+const currentLocationData = await getCurrentLocation();
+
+const upcomingEventsData = [
+  {
+    title: "Oranj",
+    isResidency: true,
+    eventLink:
+      "https://observablehq.com/@plmrry/positioning-text-with-matter-js",
+    dateStart: "2024-02-28T00:15:00.000Z",
+    dateEnd: "2024-03-04T04:00:00.000Z",
+    location: "915 Dupont",
+    locationLink: "https://maps.app.goo.gl/SrjPyTBLCca8RiwXA",
+    _id: "66d2040c-4605-4327-a08e-3651494d848c",
+  },
+  {
+    location: "297 Broome Street",
+    locationLink: "https://maps.app.goo.gl/sLDFYqta2r1TAkLR6?g_st=ic",
+    _id: "f7dad2e7-d021-41fb-8f16-f726b45ad5a2",
+    title: "Gem NYC",
+    isResidency: true,
+    eventLink: "https://resy.com/cities/ny/gem?seats=2&date=2024-04-01",
+    dateStart: "2024-04-03T09:00:00.000Z",
+    dateEnd: "2024-07-03T14:00:00.000Z",
+  },
+];
+---
+
+<Layout title="seeyousoon" data={currentLocationData}>
+  <div class="content-spacer">
+    <Toast data={upcomingEventsData} />
+  </div>
+</Layout>
+
+<style>
+  .content-spacer {
+    height: 200vh;
+  }
+</style>
