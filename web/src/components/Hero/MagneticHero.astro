@@ -16,10 +16,10 @@ const { data } = Astro.props;
             <Image
               id={`el${i + 1}`}
               class="landing-image"
-              src={imgSrcLarge}
-              srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
+              src={el.imageSrc}
+              // srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
               alt=""
-              quality={15}
+              quality={30}
               width="856"
               height="608"
               widths={[380, 581, 775]}

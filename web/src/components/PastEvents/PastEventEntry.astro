@@ -74,7 +74,7 @@ const convertedDate = convertDateFormat(eventData.date);
                 imgSrcSmall = `${el.imageSrc}?h=300&fm=webp`;
               }
               return (
-                <Image
+                <img
                   class="embla__slide slide__image"
                   format="webp"
                   src={imgSrcLarge}
@@ -88,7 +88,7 @@ const convertedDate = convertDateFormat(eventData.date);
                   height="475"
                   widths={[525, 530, 717]}
                   sizes={`(max-width: 525px) 401px, (max-width: 768px) 530px, (max-width: 1600px) 717px`}
-                  quality={30}
+                  quality={90}
                   decoding="sync"
                 />
               );
@@ -198,7 +198,7 @@ const convertedDate = convertDateFormat(eventData.date);
   }
   .embla__slide {
     user-select: none;
-    // flex: 0 0 100;
+    // flex: 0 0 100%;
     // min-width: 0;
   }
 
@@ -269,7 +269,7 @@ const convertedDate = convertDateFormat(eventData.date);
     skipSnaps: true,
   };
   const autoScrollOptions = {
-    stopOnInteraction: false,
+    stopOnInteraction: true,
     jump: false,
     startDelay: 10,
     speed: SPEED_VALUE,
