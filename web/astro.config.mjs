@@ -10,7 +10,7 @@ export default defineConfig({
     imageCDN: false, // disable this to serve sanity images
   }),
   image: {
-    domains: ['cdn.sanity.io', 'astro.build']
+    domains: ['cdn.sanity.io', 'astro.build'],
   },
   integrations: [
     sanity({

@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-
 const { data } = Astro.props;
 ---
 
@@ -17,9 +16,9 @@ const { data } = Astro.props;
               id={`el${i + 1}`}
               class="landing-image"
               src={el.imageSrc}
-              // srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
+              srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
               alt=""
-              quality={30}
+              quality={70}
               width="856"
               height="608"
               widths={[380, 581, 775]}
