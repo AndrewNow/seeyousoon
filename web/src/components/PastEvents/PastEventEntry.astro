@@ -76,7 +76,6 @@ const convertedDate = convertDateFormat(eventData.date);
               return (
                 <img
                   class="embla__slide slide__image"
-                  format="webp"
                   src={imgSrcLarge}
                   srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
                   alt={
@@ -86,9 +85,7 @@ const convertedDate = convertDateFormat(eventData.date);
                   }
                   width="717"
                   height="475"
-                  widths={[525, 530, 717]}
                   sizes={`(max-width: 525px) 401px, (max-width: 768px) 530px, (max-width: 1600px) 717px`}
-                  quality={90}
                   decoding="sync"
                 />
               );
