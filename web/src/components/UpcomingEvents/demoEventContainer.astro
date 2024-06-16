@@ -1,0 +1,921 @@
+---
+import ListView from "./ListView.astro";
+
+const { data } = Astro.props;
+const cmsData = JSON.stringify(data.reverse()); // reverse so that the latest event comes first
+const wordData = `[
+  {
+    "word": "Upcoming",
+    "width_L": 278,
+    "height_L": 74,
+    "width_M": 183,
+    "height_M": 55,
+    "width_S": 144,
+    "height_S": 43
+  },
+  {
+    "word": "Events",
+    "width_L": 178,
+    "height_L": 69,
+    "width_M": 117,
+    "height_M": 55,
+    "width_S": 92,
+    "height_S": 43
+  }
+]
+`;
+const fallbackWordData = `[
+  {
+    "word": "No",
+    "width_L": 83,
+    "height_L": 55,
+    "width_M": 55,
+    "height_M": 55,
+    "width_S": 43,
+    "height_S": 43
+  },
+  {
+    "word": "Upcoming",
+    "width_L": 278,
+    "height_L": 74,
+    "width_M": 183,
+    "height_M": 55,
+    "width_S": 144,
+    "height_S": 43
+  },
+  {
+    "word": "Events",
+    "width_L": 178,
+    "height_L": 69,
+    "width_M": 117,
+    "height_M": 55,
+    "width_S": 92,
+    "height_S": 43
+  },
+  {
+    "word": "Planned!",
+    "width_L": 232,
+    "height_L": 69,
+    "width_M": 152,
+    "height_M": 55,
+    "width_S": 120,
+    "height_S": 43
+  }
+]
+`;
+---
+
+<div class="upcomingEvents-toggle-track">
+  <div
+    class="upcomingEvents-canvas-container"
+    id="demo-upcoming-events"
+    data-cms={cmsData}
+    data-words={wordData}
+    data-words-fallback={fallbackWordData}
+  >
+  </div>
+  <div class="upcomingEvents-list-container" id="upcomingEvents-carousel-slide">
+    <ListView cmsData={data} />
+  </div>
+</div>
+
+<style lang="scss" is:global>
+  .upcomingEvents-toggle-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+    // transition: transform 0.9s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  .upcomingEvents-canvas-container {
+    height: 100%;
+    min-width: 100%;
+    position: relative;
+    canvas {
+      pointer-events: none;
+    }
+  }
+  .upcomingEvents-list-container {
+    height: 100%;
+    min-width: 100%;
+    width: 100%;
+    position: relative;
+    display: grid;
+    place-items: center;
+    h1 {
+      color: white;
+    }
+  }
+
+  .wordBox {
+    position: absolute;
+    box-sizing: border-box;
+    position: relative;
+    height: 63px;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    h1 {
+      color: var(--beige-300);
+      font-size: 64px;
+    }
+  }
+  @media (max-width: 1440px) {
+    .wordBox {
+      height: 55px;
+      h1 {
+        font-size: 42px;
+      }
+    }
+  }
+  @media (max-width: 576px) {
+    .wordBox {
+      height: 43px;
+      h1 {
+        font-size: 33px;
+      }
+    }
+  }
+  .box {
+    position: absolute;
+    // overflow: hidden;
+    border-radius: 8px;
+    background: var(--beige-300);
+    border: 1px solid var(--grey-200);
+    box-sizing: border-box;
+    position: relative;
+    height: 235px;
+    width: 525px;
+    display: grid;
+    place-items: center;
+  }
+
+  .box.residency {
+    height: 325px;
+  }
+  .upcomingEvents-inner {
+    height: 100%;
+    width: 92.5%;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+  }
+  .upcomingEvents-location-link:hover {
+    opacity: 0.7;
+    transition: all 0.2s ease;
+  }
+  .upcomingEvents-residency-badge {
+    display: grid;
+    place-items: center;
+    height: 60px;
+    background: var(--brown-100);
+    color: var(--beige-300);
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite alternate-reverse ease-in-out;
+  }
+  .upcomingEvents-reserve-link {
+    display: grid;
+    place-items: center;
+    height: 60px;
+    border-radius: 6px;
+    width: 100%;
+    outline: 1px solid var(--grey-100);
+    background: var(--beige-200);
+    text-decoration: none;
+    position: relative;
+    transition: all 0.4s ease;
+    overflow: hidden;
+    p {
+      transition: all 0.4s ease;
+      color: var(--brown-300);
+    }
+  }
+  .upcomingEvents-reserve-link:after {
+    transition: all 0.4s ease;
+    content: "Reserve";
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 250%);
+    color: var(--beige-300);
+    font-family: "Denim-Regular";
+    font-size: 20px;
+    line-height: 130%;
+  }
+
+  .upcomingEvents-reserve-link.no-link {
+    background: var(--grey-100);
+    opacity: 0.8;
+    outline: 1px solid var(--beige-300);
+    cursor: not-allowed;
+    p {
+      color: var(--grey-300);
+    }
+  }
+
+  .upcomingEvents-reserve-link.no-link:hover {
+    background: var(--grey-100);
+    p {
+      color: var(--grey-300);
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .upcomingEvents-reserve-link.no-link:after {
+    transform: none;
+    content: "";
+  }
+  .upcomingEvents-reserve-link:hover {
+    background: var(--brown-200);
+    p {
+      opacity: 0;
+      transform: translateY(-150%);
+      color: var(--beige-300);
+    }
+  }
+  .upcomingEvents-reserve-link:hover:after {
+    transform: translate(-50%, -50%);
+  }
+
+  .upcomingEvents-header {
+    width: 100%;
+    h3 {
+      color: var(--brown-200);
+      line-height: 100%;
+      padding-bottom: 1rem;
+      font-size: 34px;
+    }
+  }
+  .upcomingEvents-details {
+    h6 {
+      display: flex;
+      align-items: center;
+      padding-bottom: 0.5rem;
+      font-size: 20px;
+      color: var(--grey-300);
+      .svg-wrapper {
+        padding-right: 0.5rem;
+        aspect-ratio: 1/1;
+        width: 25px;
+        height: 25px;
+        display: grid;
+        place-items: center;
+        position: relative;
+
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    a {
+      color: var(--grey-300);
+    }
+  }
+
+  @media (max-width: 1500px) {
+    .box {
+      width: 475px;
+      height: 235px;
+    }
+    .box.residency {
+      height: 325px;
+    }
+    .upcomingEvents-reserve-link:after {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 1280px) {
+    .upcomingEvents-header {
+      h3 {
+        font-size: 28px;
+      }
+    }
+    .upcomingEvents-details {
+      h6 {
+        font-size: 18px;
+      }
+    }
+  }
+  @media (max-width: 992px) {
+    .upcomingEvents-header {
+      h3 {
+        font-size: 28px;
+      }
+    }
+    .upcomingEvents-details {
+      h6 {
+        font-size: 16px;
+      }
+    }
+    .upcomingEvents-residency-badge {
+      margin-bottom: 1rem;
+    }
+    .upcomingEvents-residency-badge,
+    .upcomingEvents-reserve-link {
+      height: 48px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .box {
+      width: 250px;
+      height: 190px;
+    }
+    .box.residency {
+      height: 250px;
+    }
+    .upcomingEvents-residency-badge {
+      height: 40px;
+    }
+    .upcomingEvents-wrapper {
+      height: 120vh;
+      margin-top: 0.5rem;
+    }
+    .upcomingEvents-reserve-link,
+    .upcomingEvents-residency-badge {
+      border-radius: 4px;
+    }
+    .upcomingEvents-reserve-link:after {
+      font-size: 16px;
+      line-height: 140%;
+    }
+    .title-marquee {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .upcomingEvents-header {
+      h3 {
+        font-size: 22px;
+      }
+    }
+    .upcomingEvents-inner {
+      height: 100%;
+      width: 87.5%;
+      justify-content: space-evenly;
+    }
+    .upcomingEvents-details {
+      h6 {
+        padding-bottom: 0.5rem;
+        font-size: 14px;
+        align-items: flex-start;
+        .svg-wrapper {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    .upcomingEvents-reserve-link {
+      height: 40px;
+    }
+  }
+  @media (max-width: 374px) {
+    .upcomingEvents-wrapper {
+      height: 150vh;
+    }
+  }
+</style>
+
+<script>
+  // =========================
+  //   matter.js code
+  // =========================
+  import * as Matter from "matter-js";
+
+  const containerEl = document.querySelector("#demo-upcoming-events");
+  const data = JSON.parse(containerEl.getAttribute("data-cms"));
+  let wordData;
+
+  if (data.length > 0) {
+    // if events exist, use regular word data
+    wordData = JSON.parse(containerEl.getAttribute("data-words"));
+  } else {
+    // if there are no events, use fallback word data
+    wordData = JSON.parse(containerEl.getAttribute("data-words-fallback"));
+  }
+
+  // declare box height/widths
+  let BOX_WIDTH = 525;
+  let BOX_HEIGHT = 235;
+  let RESIDENCY_BOX_HEIGHT = 325;
+  // declare word height/widths
+  let WORD_HEIGHT;
+  let WORD_WIDTH;
+  let WORD_WIDTH_ARR_L = {};
+  let WORD_HEIGHT_ARR_L = {};
+  let WORD_WIDTH_ARR_M = {};
+  let WORD_HEIGHT_ARR_M = {};
+  let WORD_WIDTH_ARR_S = {};
+  let WORD_HEIGHT_ARR_S = {};
+
+
+  // declare holder array for the boxes and words
+  let boxArr = [];
+  let wordBoxArr = [];
+
+  // declare boundaries
+  let ground, leftWall, rightWall;
+
+  // declare engine
+  let engine,
+    render,
+    runner = null;
+
+  let debouncedResize;
+  let prevWindowWidth = window.innerWidth;
+
+  // initialize the width/height values for the bodies
+  const init = () => {
+    if (window.innerWidth >= 1440) {
+      BOX_WIDTH = 525;
+      BOX_HEIGHT = 235;
+      RESIDENCY_BOX_HEIGHT = 325;
+
+    } else if (window.innerWidth >= 576) {
+      BOX_WIDTH = 475;
+      BOX_HEIGHT = 235;
+      RESIDENCY_BOX_HEIGHT = 325;
+    } else {
+      BOX_WIDTH = 250;
+      BOX_HEIGHT = 190;
+      RESIDENCY_BOX_HEIGHT = 250;
+    }
+    // ===============================================================
+    // ===============================================================
+    // ===============================================================
+    if (engine == null || undefined) {
+      engine = Matter.Engine.create();
+    }
+
+    render = Matter.Render.create({
+      element: containerEl,
+      engine: engine,
+      options: {
+        width: containerEl.offsetWidth,
+        height: containerEl.offsetHeight,
+        wireframes: false,
+        background: "transparent",
+      },
+    });
+
+    // Calculate the height of the walls
+    const wallHeight = containerEl.offsetHeight * 3;
+
+    // Create the ground
+    ground = Matter.Bodies.rectangle(
+      containerEl.offsetWidth / 2,
+      containerEl.offsetHeight,
+      containerEl.offsetWidth,
+      10,
+      {
+        isStatic: true,
+        render: { fillStyle: "transparent" },
+        sleep: true,
+        label: "wall",
+      }
+    );
+
+    // Create the left wall
+    leftWall = Matter.Bodies.rectangle(
+      0,
+      containerEl.offsetHeight / 2,
+      10,
+      wallHeight,
+      {
+        isStatic: true,
+        render: { fillStyle: "transparent" },
+        sleep: true,
+        label: "wall",
+      }
+    );
+
+    // Create the right wall
+    rightWall = Matter.Bodies.rectangle(
+      containerEl.offsetWidth,
+      containerEl.offsetHeight / 2,
+      10,
+      wallHeight,
+      {
+        isStatic: true,
+        render: { fillStyle: "transparent" },
+        sleep: true,
+        label: "wall",
+      }
+    );
+
+    // Add all bodies to the world
+    Matter.World.add(engine.world, [ground, leftWall, rightWall]);
+    // ===============================================================
+    // ===============================================================
+    // ===============================================================
+    
+
+    data.forEach((cmsEntry, i) => {
+      const existingBox = boxArr.find((box) => box.boxData.label === `box${i}`);
+
+      if (!existingBox) {
+        const randomX = 1.75 + Math.random() * 0.5;
+        const isPositive = Math.random() < 0.5;
+
+        let randomAngle;
+        if (window.innerWidth > 576) {
+          randomAngle = isPositive ? 3.0 + Math.random() : -3.0 - Math.random();
+        } else {
+          randomAngle = isPositive ? 5.0 + Math.random() : 5.0 - Math.random();
+        }
+
+        let calculatedBoxHeight = BOX_HEIGHT;
+
+        if (cmsEntry.isResidency) {
+          calculatedBoxHeight = RESIDENCY_BOX_HEIGHT;
+        }
+
+        const boxData = Matter.Bodies.rectangle(
+          containerEl.offsetWidth / randomX,
+          -containerEl.offsetHeight + calculatedBoxHeight * i,
+          BOX_WIDTH,
+          calculatedBoxHeight,
+          {
+            angle: Math.PI / randomAngle,
+            label: `box${i}`,
+            restitution: 0.76,
+            render: { fillStyle: "transparent" },
+          }
+        );
+        boxArr.push({ boxData, cmsEntry });
+
+        setTimeout(
+          () => {
+            Matter.Composite.add(engine.world, boxData);
+          },
+          750 * (i + 1)
+        );
+      }
+    });
+
+    Matter.Render.run(render);
+
+    // ===============================================================
+    // ===============================================================
+    // ===============================================================
+    render.canvas.width = containerEl.offsetWidth;
+    render.canvas.height = containerEl.offsetHeight;
+
+    if (runner === null) {
+      runner = Matter.Runner.create();
+    } else {
+      runner.enabled = true;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            Matter.Runner.run(runner, engine);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.5,
+      }
+    );
+
+    observer.observe(containerEl);
+    // ===============================================================
+    // ===============================================================
+    // ===============================================================
+
+    // create and update word boxes
+    wordBoxArr.forEach((word, i) => {
+      createHtmlWordBox(
+        `wordBox${i}`,
+        word.wordBoxData.position.x,
+        word.wordBoxData.position.y,
+        word.wordEntry
+      );
+
+      Matter.Events.on(runner, "afterUpdate", function () {
+        updateHtmlWordBox(
+          `wordBox${i}`,
+          word.wordBoxData.position,
+          word.wordBoxData.angle,
+          word.wordEntry
+        );
+      });
+    });
+
+    // create and update boxes
+    boxArr.forEach((box, i) => {
+      createHtmlBox(
+        `box${i}`,
+        box.boxData.position.x,
+        box.boxData.position.y,
+        box.cmsEntry
+      );
+
+      Matter.Events.on(runner, "afterUpdate", function () {
+        let calculatedBoxHeight = BOX_HEIGHT;
+        if (box.cmsEntry.isResidency) {
+          calculatedBoxHeight = RESIDENCY_BOX_HEIGHT;
+        }
+        updateHtmlBox(
+          `box${i}`,
+          box.boxData.position,
+          box.boxData.angle,
+          calculatedBoxHeight
+        );
+      });
+    });
+
+    initResize();
+  };
+  init();
+
+  // ===============================================================
+  // ===============================================================
+  // ===============================================================
+  function initResize() {
+    debouncedResize = debounce(() => {
+      resize();
+    }, 1000);
+    window.addEventListener("resize", debouncedResize);
+  }
+
+  function resize() {
+    const currentWindowWidth = window.innerWidth;
+    if (currentWindowWidth === prevWindowWidth) {
+      // No change in window width, exit without resizing
+      return;
+    }
+    prevWindowWidth = currentWindowWidth;
+
+    window.removeEventListener("resize", debouncedResize);
+    Matter.Runner.stop(runner);
+    Matter.Render.stop(render);
+    Matter.Runner.stop(runner);
+    Matter.World.clear(engine.world);
+    Matter.Engine.clear(engine);
+
+    Matter.Composite.allBodies(engine.world).forEach((body) => {
+      if (body.label !== "wall") {
+        Matter.Composite.remove(engine.world, body);
+      }
+    });
+
+    wordBoxArr = [];
+    boxArr = [];
+
+    const htmlBoxes = document.querySelectorAll(".box");
+    htmlBoxes.forEach((box) => {
+      box.remove();
+    });
+
+    const htmlWordBoxes = document.querySelectorAll(".wordBox");
+    htmlWordBoxes.forEach((word) => {
+      word.remove();
+    });
+
+    const canvas = containerEl.querySelector("canvas");
+    if (canvas) {
+      canvas.remove();
+    }
+
+    setTimeout(() => {
+      init();
+    }, 1000);
+  }
+
+  // ===============================================================
+  // ===============================================================
+  // ===============================================================
+  function createHtmlWordBox(id, x, y, wordEntry) {
+    const htmlWordBox = document.createElement("div");
+    htmlWordBox.id = id;
+    htmlWordBox.className = "wordBox";
+    htmlWordBox.style.width = `${WORD_WIDTH[wordEntry.word]}px`;
+    htmlWordBox.style.height = `${WORD_HEIGHT[wordEntry.word]}px`;
+    htmlWordBox.style.left = `${x - WORD_WIDTH[wordEntry.word] / 2}px`;
+    htmlWordBox.style.top = `${y - WORD_HEIGHT[wordEntry.word] / 2}px`;
+    htmlWordBox.style.position = "absolute";
+    htmlWordBox.style.zIndex = "1";
+
+    htmlWordBox.innerHTML = `
+    <div class='wordBox-inner'>
+      <h1>${wordEntry.word}</h1>
+    </div>
+  `;
+    containerEl.appendChild(htmlWordBox);
+  }
+
+  function createHtmlBox(id, x, y, cmsEntry) {
+    const htmlBox = document.createElement("div");
+    htmlBox.id = id;
+    htmlBox.className = cmsEntry.isResidency ? "box residency" : "box";
+    htmlBox.style.width = `${BOX_WIDTH}px`;
+    htmlBox.style.height = cmsEntry.isResidency
+      ? `${RESIDENCY_BOX_HEIGHT}px`
+      : `${BOX_HEIGHT}px`;
+    htmlBox.style.left = `${x - BOX_WIDTH / 2}px`;
+    htmlBox.style.top = `${y - BOX_HEIGHT / 2}px`;
+    htmlBox.style.position = "absolute";
+    htmlBox.style.zIndex = "1";
+
+    function formatDate(inputDate) {
+      const dateObject = new Date(inputDate);
+      const options = { month: "long", day: "numeric" };
+
+      const monthAndDay = dateObject.toLocaleDateString("en-US", options);
+      const day = dateObject.getDate();
+      let suffix = "th";
+
+      if (day >= 11 && day <= 13) {
+        suffix = "th";
+      } else {
+        switch (day % 10) {
+          case 1:
+            suffix = "st";
+            break;
+          case 2:
+            suffix = "nd";
+            break;
+          case 3:
+            suffix = "rd";
+            break;
+        }
+      }
+
+      return `${monthAndDay}${suffix}`;
+    }
+
+    function formatRange(startDate, endDate) {
+      const formattedStartDate = formatDate(startDate);
+      const formattedEndDate = endDate ? formatDate(endDate) : null;
+
+      const startMonth = new Date(startDate).getMonth();
+      const endMonth = endDate ? new Date(endDate).getMonth() : null;
+
+      if (endMonth !== null && startMonth === endMonth) {
+        return `${formattedStartDate} to ${formattedEndDate.substr(
+          formattedEndDate.indexOf(" ") + 1
+        )}`;
+      } else {
+        return `${formattedStartDate} to ${formattedEndDate}`;
+      }
+    }
+
+    const startDate = cmsEntry.dateStart;
+    const endDate = cmsEntry.dateEnd;
+    const formattedDateRange = formatRange(startDate, endDate);
+
+    const upcomingEventsReserveLink = cmsEntry.eventLink
+      ? `<a
+        class="upcomingEvents-reserve-link"
+        href=${cmsEntry.eventLink}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <p>Reserve</p>
+      </a>`
+      : `<a class="upcomingEvents-reserve-link no-link">
+        <p>Coming soon!</p>
+      </a>`;
+
+    htmlBox.innerHTML = `
+    <div class='upcomingEvents-inner'>
+      <div class='upcomingEvents-header'>
+        ${
+          cmsEntry.isResidency
+            ? `<p class="upcomingEvents-residency-badge">
+                Residency
+              </p>`
+            : ""
+        }
+        <h3>${cmsEntry.title}</h3>
+        <div class='upcomingEvents-details'>
+          <h6>
+            <span class='svg-wrapper'>
+              <svg width="100%" height="100%" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z" fill="#9F9F9F"/>
+              </svg>
+            </span>
+            ${formattedDateRange}
+          </h6>
+          <h6>
+            <span class='svg-wrapper'>
+              <svg width="100%" height="100%" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 3C10.0314 3 6 6.62869 6 11.1C6 18.3 15 27 15 27C15 27 24 18.3 24 11.1C24 6.62869 19.9686 3 15 3ZM15 15.6C14.288 15.6 13.592 15.3889 12.9999 14.9933C12.4079 14.5977 11.9465 14.0355 11.674 13.3777C11.4016 12.7198 11.3303 11.996 11.4692 11.2977C11.6081 10.5993 11.9509 9.95788 12.4544 9.45441C12.9579 8.95095 13.5993 8.60808 14.2977 8.46917C14.996 8.33027 15.7198 8.40156 16.3777 8.67403C17.0355 8.94651 17.5977 9.40793 17.9933 9.99995C18.3889 10.592 18.6 11.288 18.6 12C18.599 12.9545 18.2193 13.8695 17.5444 14.5444C16.8695 15.2193 15.9545 15.599 15 15.6Z" fill="#9F9F9F"/>
+              </svg>
+            </span>
+            <a class="upcomingEvents-location-link" href=${cmsEntry.locationLink} target="_blank" rel='noreferrer'>
+              ${cmsEntry.location}
+            </a>
+          </h6>
+        </div>
+      </div>
+      ${upcomingEventsReserveLink}
+    </div>
+  `;
+    containerEl.appendChild(htmlBox);
+  }
+
+  function updateHtmlWordBox(id, position, angle, wordEntry) {
+    const htmlWordBox = document.getElementById(id);
+    if (htmlWordBox) {
+      const updatedX = position.x;
+      const updatedY = position.y;
+      const updatedAngle = angle;
+      htmlWordBox.style.left = `${updatedX - WORD_WIDTH[wordEntry.word] / 2}px`;
+      htmlWordBox.style.top = `${updatedY - WORD_HEIGHT[wordEntry.word] / 2}px`;
+      htmlWordBox.style.transform = `rotate(${updatedAngle}rad)`;
+    }
+  }
+
+  function updateHtmlBox(id, position, angle, calculatedBoxHeight) {
+    const htmlBox = document.getElementById(id);
+
+    if (htmlBox) {
+      const updatedX = position.x;
+      const updatedY = position.y;
+      const updatedAngle = angle;
+      htmlBox.style.left = `${updatedX - BOX_WIDTH / 2}px`;
+      htmlBox.style.top = `${updatedY - calculatedBoxHeight / 2}px`;
+      htmlBox.style.transform = `rotate(${updatedAngle}rad)`;
+    }
+  }
+  // ===============================================================
+  // ===============================================================
+  // ===============================================================
+  function applyWindForce(force) {
+    boxArr.forEach((box) => {
+      Matter.Body.applyForce(box.boxData, box.boxData.position, {
+        x: force,
+        y: 0,
+      });
+    });
+  }
+
+  function debounce(func, delay) {
+    let timeout;
+
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
+  // =========================
+  //   toggle list view btns
+  // =========================
+  document.addEventListener("DOMContentLoaded", function () {
+    const track = document.querySelector(".upcomingEvents-toggle-track");
+
+    const viewCanvasEl = () => {
+      track.style.transform = `translateX(0%)`;
+      if (window.innerWidth < 576) {
+        applyWindForce(2);
+      } else {
+        applyWindForce(7);
+      }
+    };
+
+    const viewListEl = () => {
+      track.style.transform = `translateX(-100%)`;
+      if (window.innerWidth < 576) {
+        applyWindForce(-2);
+      } else {
+        applyWindForce(-7);
+      }
+    };
+
+    const cardButton = document.querySelector(".carousel-card-view");
+    const listButton = document.querySelector(".carousel-list-view");
+    const upcomingEventsWrapper = document.getElementById(
+      "upcomingEvents-wrapper"
+    );
+    // const cardToggleBg = document.querySelector(".carousel-btn-bg");
+
+    let listViewHeight = data.length < 3 ? "90vh" : "105vh";
+
+    cardButton?.addEventListener("click", () => {
+      cardButton.classList.add("active");
+      listButton.classList.toggle("active");
+
+      upcomingEventsWrapper.style.height = listViewHeight;
+      viewCanvasEl();
+    });
+
+    listButton?.addEventListener("click", () => {
+      cardButton.classList.toggle("active");
+      listButton.classList.add("active");
+      upcomingEventsWrapper.style.height = "105vh";
+      viewListEl();
+    });
+  });
+</script>

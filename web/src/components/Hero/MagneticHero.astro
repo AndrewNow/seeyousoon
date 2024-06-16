@@ -1,7 +1,6 @@
 ---
-import { Image } from "astro:assets";
+// import { Image } from "astro:assets";
 const { data } = Astro.props;
-
 ---
 
 <div class="cursor-container">
@@ -13,7 +12,7 @@ const { data } = Astro.props;
         const imgSrcSmall = `${el.imageSrc}?w=380&fm=webp`;
         return (
           <div class="landing-image-wrapper" id={`image${i + 1}`}>
-            <Image
+            <img
               id={`el${i + 1}`}
               class="landing-image"
               src={el.imageSrc}

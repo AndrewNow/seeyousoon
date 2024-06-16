@@ -190,6 +190,11 @@ if (data) {
     color: var(--grey-200);
   }
 
+  #loadingProgress {
+    transition: 6s all linear !important;
+    -webkit-transition: 6s all linear !important;
+  }
+
   @media (max-width: 576px) {
     .mobile-toast-wrapper {
       display: block;
@@ -249,7 +254,8 @@ if (data) {
     const loadingBar = document.getElementById("loadingBar");
     const loadingProgress = document.getElementById("loadingProgress");
 
-    loadingProgress.style.transitionTimingFunction = "linear";
+    loadingProgress.style.transition = "6s all linear(0, 1)!important";
+    loadingProgress.style.webkitTransition = "6s all linear(0, 1)!important";
 
     if (content && loadingBar && loadingProgress) {
       animate(

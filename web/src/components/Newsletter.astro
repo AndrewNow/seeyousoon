@@ -14,16 +14,14 @@ if (data != null) {
 <section id="mc_embed_signup" class="newsletter-wrapper">
   {
     data != null && (
-      <Image
+      <img
         src={imgSrcLarge}
         srcset={`${imgSrcLarge}, ${imgSrcSmall}`}
-        widths={[150, 328]}
         sizes={`(max-width: 576px) 150px, (max-width: 1500px) 328px`}
         decoding="async"
         loading="lazy"
         alt="A seeyousoon star investigates a newsletter with a magnifying lens."
         class="sys-newsletter-image"
-        quality={60}
         width={328}
         height={166}
       />

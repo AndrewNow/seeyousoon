@@ -1,0 +1,86 @@
+---
+import EventContainer from "./EventContainer.astro";
+import DemoEventContainer from "./demoEventContainer.astro";
+
+const { data } = Astro.props;
+
+const currentDate = new Date(); // Get the current date
+
+const upcomingEvents = data.filter((event) => {
+  const endDate = new Date(event.dateEnd);
+  return endDate > currentDate; // Filter out events with end dates after today
+});
+---
+
+<div
+  class="upcomingEvents-wrapper"
+  id="upcomingEvents-wrapper"
+>
+  <DemoEventContainer data={upcomingEvents} />
+</div>
+
+<style lang="scss" is:global>
+  .upcomingEvents-wrapper {
+    position: relative;
+    height: 1350px;
+    // width: 1080px;
+    width: 98%;
+    // margin: 5rem auto;
+    margin: 0 auto;
+    margin-top: 0rem; // delete if not using carousel
+    padding-top: 1rem;
+    background: var(--brown-400);
+    overflow: hidden; /* Ensure the canvas doesn't overflow the container */
+    border-radius: 20px; // was 8
+    transition: 0.3s all ease;
+  }
+  .carousel-buttons {
+    // background: var(--beige-300);
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    z-index: 10;
+    border-radius: 4px;
+    padding: 4px;
+    button {
+      cursor: pointer;
+      margin: 0 0.5rem;
+      border: unset;
+      background: unset;
+      color: var(--grey-300);
+      transition: 0.3s all ease;
+      z-index: 5;
+      position: relative;
+      padding: 4px 0;
+      p {
+        font-size: 16px;
+      }
+    }
+    button:hover {
+      opacity: 0.7;
+    }
+    button.active {
+      color: var(--beige-300);
+      // background: var(--brown-300);
+    }
+    button.active:hover {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .upcomingEvents-wrapper {
+      border-radius: 8px;
+    }
+    .carousel-buttons {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 1rem;
+      left: 0;
+      right: unset;
+      border-radius: 4px;
+    }
+  }
+</style>
