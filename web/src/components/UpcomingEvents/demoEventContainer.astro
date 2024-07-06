@@ -564,9 +564,12 @@ const fallbackWordData = `[
         );
         boxArr.push({ boxData, cmsEntry });
 
-        setTimeout(() => {
-          Matter.Composite.add(engine.world, boxData);
-        }, 1250 * (i + 1));
+        setTimeout(
+          () => {
+            Matter.Composite.add(engine.world, boxData);
+          },
+          1250 * (i + 1)
+        );
       }
     });
 
@@ -603,6 +606,20 @@ const fallbackWordData = `[
     // ===============================================================
     // ===============================================================
     // ===============================================================
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Q" || event.key === "q") {
+        boxArr.forEach((box) => {
+          Matter.Body.set(box.boxData, {
+            friction: 0,
+          });
+        });
+        // Matter.Body.setAngle(ground, Math.PI / 1.5);
+        Matter.Body.setStatic(ground, false);
+
+        // Matter.World.remove(engine.world, ground);
+      }
+    });
 
     // create and update word boxes
     wordBoxArr.forEach((word, i) => {

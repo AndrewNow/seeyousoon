@@ -1,0 +1,149 @@
+---
+import BrushCanvas from "./BrushCanvas.astro";
+---
+
+<div class="container">
+  <div class="card">
+    <div class="text">
+      <h3>About us</h3>
+      <h5 class="bio active">
+        seeyousoon is a creative culinary collective founded by Kevin Le,
+        Michael Ovejas and Keith Siu.
+      </h5>
+      <h5 class="bio">
+        With experience at renowned restaurants such as noma, Ikoyi and
+        Borago...
+      </h5>
+      <h5 class="bio">
+        Their work focuses on delivering refined dining experiences with an
+        emphasis on hospitality and a community-first approach.
+      </h5>
+    </div>
+    <div class="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <video
+      class="card-video"
+      preload="metadata"
+      loading="lazy"
+      autoplay
+      playsinline
+      muted
+      loop
+    >
+      <source
+        src="https://sys-video.s3.ca-central-1.amazonaws.com/sys-about.mp4"
+        type="video/mp4"
+      />
+    </video>
+  </div>
+  <div class="drawing-card card">
+    <BrushCanvas />
+  </div>
+</div>
+
+<style>
+  .container {
+    height: 88vh;
+    width: 100%;
+    width: 98%;
+    margin: 0 auto;
+    margin-top: 1rem;
+    margin-bottom: 30vh;
+    display: flex;
+    gap: 1rem;
+  }
+  .card {
+    flex-basis: 1;
+    width: 50%;
+    height: 100%;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .drawing-card {
+    background: var(--brown-400);
+    color: var(--beige-300);
+  }
+  .text {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    width: 100%;
+    height: 190px;
+    h3 {
+      color: var(--beige-300);
+      font-size: 64px;
+      font-family: "Denim-regular";
+      margin-bottom: 1rem;
+    }
+    h5 {
+      color: var(--beige-100);
+      letter-spacing: unset;
+      font-family: "Denim-regular";
+    }
+  }
+  .dots {
+    position: absolute;
+    top: 2.5rem;
+    left: 2rem;
+    width: 40%;
+    display: flex;
+    gap: 0.75rem;
+  }
+  .dot.active {
+    opacity: 1;
+  }
+  .dot {
+    background: #d9d9d9;
+    border-radius: 10px;
+    width: 100%;
+    height: 4px;
+    opacity: 0.5;
+    transition: 0.5s all linear;
+  }
+  .bio.active {
+    opacity: 1;
+    transition: 0.75s all ease-out;
+    transition-delay: 0.45s;
+    filter: blur(0px);
+    transform: translateY(0px);
+  }
+  .bio {
+    width: 70%;
+    opacity: 0;
+    position: absolute;
+    transition: 0.45s all ease-in;
+    transform: translateY(5px);
+    /* filter: blur(8px); */
+  }
+  .bio:last-of-type {
+    width: 90%;
+  }
+</style>
+
+<script>
+  const bios = document.querySelectorAll(".bio");
+  const dots = document.querySelectorAll(".dot");
+  let currentIndex = 0;
+
+  setInterval(() => {
+    // Remove the active class from current elements
+    bios[currentIndex].classList.remove("active");
+    dots[currentIndex].classList.remove("active");
+
+    // Calculate the next index
+    currentIndex = (currentIndex + 1) % bios.length;
+
+    // Add the active class to the next elements
+    bios[currentIndex].classList.add("active");
+    dots[currentIndex].classList.add("active");
+  }, 5000); // 5000ms = 5 seconds
+</script>
