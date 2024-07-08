@@ -1,0 +1,341 @@
+---
+import { Image } from "astro:assets";
+
+const { eventData, index } = Astro.props;
+function convertDateFormat(inputDate) {
+  // Parse the input date string in the "YYYY-MM-DD" format
+  const parts = inputDate.split("-");
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10);
+  const day = parseInt(parts[2], 10);
+  // Create a Date object
+  const dateObject = new Date(year, month - 1, day);
+  // Format the date in the "DD-MM-YYYY" format
+  const formattedDate = `${dateObject.getDate().toString().padStart(2, "0")}.${(
+    dateObject.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, "0")}.${dateObject.getFullYear()}`;
+  return formattedDate;
+}
+const convertedDate = convertDateFormat(eventData.date);
+---
+
+<div class="event-entry-wrapper">
+  <div class="marquee-wrapper">
+    <div class="embla" id="eventCarousel">
+      <div class="pastEvents-image-wrapper embla__container">
+        {
+          eventData.images &&
+            eventData.images.map((el) => {
+              let imgSrcLarge;
+              let imgSrcMedium;
+              let imgSrcSmall;
+
+              if (el.imageSrc) {
+                imgSrcLarge = `${el.imageSrc}?h=475&fm=webp`;
+                imgSrcMedium = `${el.imageSrc}?h=350&fm=webp`;
+                imgSrcSmall = `${el.imageSrc}?h=300&fm=webp`;
+              }
+              return (
+                <img
+                  class="embla__slide slide__image"
+                  src={imgSrcLarge}
+                  srcset={`${imgSrcLarge}, ${imgSrcMedium}, ${imgSrcSmall}`}
+                  alt={
+                    el.altText != null
+                      ? el.altText
+                      : "No descriptive text was entered for this image, sorry!"
+                  }
+                  width="717"
+                  height="475"
+                  sizes={`(max-width: 525px) 401px, (max-width: 768px) 530px, (max-width: 1600px) 717px`}
+                  decoding="sync"
+                />
+              );
+            })
+        }
+      </div>
+    </div>
+  </div>
+  <div class="event-text-wrapper">
+    <div class="event-text-inner">
+      <div class="event-title-area">
+        <h4>
+          {eventData.title}
+        </h4>
+        <p>
+          <small class="description">
+            {eventData.description}
+          </small>
+        </p>
+      </div>
+      <!-- <div class="event-details-area">
+        <div>
+          <p>
+            <small>
+              Where <br />
+            </small>
+          </p>
+          <small>
+            {eventData.location}
+          </small>
+        </div>
+        <div>
+          <p>
+            <small>
+              When <br />
+            </small>
+          </p>
+          <small>
+            {convertedDate}
+          </small>
+        </div>
+      </div> -->
+      <button id="toggleAccordion"
+        ><svg
+          id="accordionSVG"
+          width="40"
+          height="40"
+          viewBox="0 0 40 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M33 14L20 27L7 14"
+            stroke="#FFFFFD"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { animate } from "motion";
+
+  const wrappers = document.querySelectorAll("#pastEvent");
+
+  wrappers.forEach((item, i) => {
+    const btn = item.querySelector("#toggleAccordion");
+    const svg = item.querySelector("#accordionSVG");
+    const carousel = item.querySelector("#eventCarousel");
+    let isOpen;
+
+    if (i == 0) {
+      isOpen = true;
+      carousel.style.height = `${carousel.scrollHeight}px`;
+    } else {
+      isOpen = false;
+    }
+
+    btn.addEventListener("click", () => {
+      isOpen = !isOpen;
+      animate(
+        carousel,
+        {
+          height: isOpen ? `${carousel.scrollHeight}px` : 0,
+        },
+        {}
+      );
+      animate(
+        svg,
+        {
+          rotate: isOpen ? 180 : 0,
+        },
+        {}
+      );
+    });
+  });
+</script>
+
+<style lang="scss">
+  #eventCarousel {
+    // transition: 0.5s all cubic-bezier(0.34, 1.7, 0.64, 1);
+    height: 0;
+  }
+  #toggleAccordion {
+    aspect-ratio: 1/1;
+    height: 88px;
+    width: auto;
+    border-radius: 100%;
+    background: #24201d;
+    border: none;
+    color: var(--beige-300);
+    display: grid;
+    place-items: center;
+    rotate: 0deg;
+    cursor: pointer;
+  }
+  #pastEvents-marquee {
+    width: 97.5%;
+    overflow: hidden;
+    margin: 0 auto;
+    border-radius: 8px;
+    position: relative;
+  }
+  .marquee-wrapper {
+    margin-top: 1.5rem;
+    position: relative;
+  }
+
+  .event-entry-wrapper:first-child {
+    border-top: none;
+    margin-top: 0;
+  }
+  .event-text-wrapper {
+    width: 96%;
+    margin: 3rem auto;
+
+    .event-text-inner {
+      width: 97.5%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+    }
+    h4,
+    p {
+      color: var(--beige-300);
+    }
+    p > small {
+      color: var(--grey-300);
+    }
+  }
+  .event-title-area {
+    flex: 1.5;
+    max-width: 50%;
+    p {
+      width: 65%;
+    }
+  }
+  .event-details-area {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+  }
+  .pastEvents-image-wrapper {
+    display: flex;
+    img {
+      border-radius: 8px;
+      max-width: 100%;
+      height: 475px;
+      width: auto;
+      margin-right: 1.5rem;
+    }
+  }
+
+  .embla {
+    width: calc(100% - 3rem);
+    border-radius: 8px;
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: grab;
+  }
+  .embla.is-dragging {
+    cursor: grabbing;
+  }
+  .embla__container {
+    display: flex;
+    min-width: 100%;
+  }
+  .embla__slide {
+    user-select: none;
+    // flex: 0 0 100%;
+    // min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    .event-text-wrapper {
+      width: 95%;
+      margin-bottom: 2rem;
+    }
+    .event-text-inner {
+      flex-direction: column;
+    }
+    .event-title-area {
+      max-width: 100%;
+      p {
+        width: 100%;
+        line-height: 115%;
+      }
+    }
+    .event-details-area {
+      margin-top: 2rem;
+      width: 80%;
+    }
+    .pastEvents-image-wrapper {
+      img {
+        height: 350px;
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    #pastEvents-marquee {
+      width: 95%;
+      border-radius: 8px;
+    }
+    .event-entry-wrapper:first-child {
+      margin-top: 0 !important;
+    }
+    .event-text-wrapper {
+      margin-top: 0rem;
+    }
+    #pastEvents-marquee {
+      margin: 0 0.5rem;
+      overflow-x: scroll;
+    }
+    .pastEvents-image-wrapper {
+      img {
+        height: 300px;
+        object-fit: cover;
+      }
+    }
+  }
+</style>
+
+<script>
+  import EmblaCarousel from "embla-carousel";
+  import AutoScroll from "embla-carousel-auto-scroll";
+
+  let SPEED_VALUE = 2;
+  if (window.innerWidth <= 576) {
+    SPEED_VALUE = 0.5;
+  }
+
+  // Define global options for EmblaCarousel and AutoScroll
+  const globalOptions = {
+    loop: true,
+    dragFree: true,
+    skipSnaps: true,
+  };
+  const autoScrollOptions = {
+    stopOnInteraction: true,
+    jump: false,
+    startDelay: 10,
+    speed: SPEED_VALUE,
+  };
+
+  // Using querySelectorAll to select all elements with the class .embla
+  const emblaNodes = document.querySelectorAll(".embla");
+
+  // Iterate through each .embla element and initialize EmblaCarousel
+  emblaNodes.forEach((emblaNode) => {
+    // Initialize EmblaCarousel with global options and AutoScroll plugin
+    const plugins = [AutoScroll(autoScrollOptions)];
+    const emblaApi = EmblaCarousel(emblaNode, globalOptions, plugins);
+
+    emblaNode.addEventListener("mousedown", () => {
+      emblaNode.classList.add("is-dragging");
+    });
+
+    emblaNode.addEventListener("mouseup", () => {
+      emblaNode.classList.remove("is-dragging");
+    });
+  });
+</script>

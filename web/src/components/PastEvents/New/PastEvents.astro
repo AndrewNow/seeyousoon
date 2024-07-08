@@ -1,0 +1,68 @@
+---
+import { Image } from "astro:assets";
+import SysStar from "../../../assets/sys-star.png";
+import PastEventEntry from "./PastEventEntry.astro";
+const { data } = Astro.props;
+---
+
+<div class="wrapper">
+  <h1>Past Events</h1>
+  {
+    data.map((event, i) => {
+      return (
+        <div class="pastevent-entry-wrapper" id="pastEvent">
+          <PastEventEntry eventData={event} key={i} index={i} />
+        </div>
+      );
+    })
+  }
+</div>
+
+<style lang="scss">
+  .wrapper {
+    width: 98%;
+    margin: 0 auto;
+    margin-top: 1rem;
+    // background: var(--brown-400);
+    border-radius: 20px; // was 8
+    overflow: hidden;
+    position: relative;
+
+    h1 {
+      font-family: "Denim-regular";
+      color: var(--brown-300);
+      text-align: center;
+      margin: 5rem 0;
+    }
+  }
+
+  .pastevent-entry-wrapper {
+    margin: 1rem auto;
+    background: var(--brown-400);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: .5s all ease;
+  }
+
+  @media (max-width: 768px) {
+    .wrapper {
+      // width: 100%;
+      // border-radius: 0;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .wrapper {
+      border-radius: 8px;
+      margin-top: 0;
+      transform: translateY(-4rem);
+      h1 {
+        margin: 3rem 0;
+      }
+    }
+    .pastevent-entry-wrapper {
+      margin: 3rem auto;
+      display: block;
+    }
+  }
+</style>
