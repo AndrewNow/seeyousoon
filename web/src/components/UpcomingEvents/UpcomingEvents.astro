@@ -13,7 +13,7 @@ const upcomingEvents = data.filter((event) => {
 
 <div
   class="upcomingEvents-wrapper"
-  style=`height: ${upcomingEvents.length > 1 ? "105vh" : "90vh"}`
+  style=`height: ${upcomingEvents.length > 1 ? "105vh" : "75vh"}`
   id="upcomingEvents-wrapper"
 >
   {
@@ -84,6 +84,7 @@ const upcomingEvents = data.filter((event) => {
   @media (max-width: 576px) {
     .upcomingEvents-wrapper {
       border-radius: 8px;
+      width: var(--mobile-width);
     }
     .carousel-buttons {
       width: 100%;
