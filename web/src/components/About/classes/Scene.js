@@ -6,7 +6,7 @@ const LAZY_RADIUS = 10;
 const BRUSH_RADIUS = 6;
 const STROKE_COLOR = "#F9F8F3"
 
-// // Uncomment this to debug
+// At the top of your JavaScript file
 // let mobileConsole;
 
 // function createMobileConsole() {
@@ -26,9 +26,8 @@ const STROKE_COLOR = "#F9F8F3"
 //   console.log(...args); // Keep logging to the actual console as well
 // }
 
-// // Call this function at the start of your app
+// Call this function at the start of your app
 // createMobileConsole();
-
 
 function midPointBtw(p1, p2) {
     return {
@@ -79,7 +78,6 @@ export default class Scene {
         this.brushRadius = BRUSH_RADIUS;
         this.chainLength = LAZY_RADIUS;
         this.dpi = 1;
-
     }
 
     init() {
@@ -101,7 +99,7 @@ export default class Scene {
             const rect = this.canvas.interface.getBoundingClientRect();
             const x = e.touches[0].clientX - rect.left;
             const y = e.touches[0].clientY - rect.top;
-            mobileLog('printing this,', x, y)
+            // mobileLog('printing this,', x, y)
             this.handleTouchMove(x, y);
         });
 
@@ -139,21 +137,20 @@ export default class Scene {
         this.loop();
     }
 
-handleTouchStart(e) {
-    e.preventDefault();
-    const rect = this.canvas.interface.getBoundingClientRect();
-    const x = e.changedTouches[0].clientX - rect.left;
-    const y = e.changedTouches[0].clientY - rect.top;
-    this.lazy.update({x: x, y: y}, { both: true });
-    this.handlePointerDown(e);
-    this.mouseHasMoved = true;
-}
+    handleTouchStart(e) {
+        e.preventDefault();
+        const rect = this.canvas.interface.getBoundingClientRect();
+        const x = e.changedTouches[0].clientX - rect.left;
+        const y = e.changedTouches[0].clientY - rect.top;
+        this.lazy.update({x: x, y: y}, { both: true });
+        this.handlePointerDown(e);
+        this.mouseHasMoved = true;
+    }
 
-handleTouchMove(x, y) {
-    // mobileLog('handleTouchMove called:', x, y);
-    this.handlePointerMove(x, y);
-}
-
+    handleTouchMove(x, y) {
+        // mobileLog('handleTouchMove called:', x, y);
+        this.handlePointerMove(x, y);
+    }
 
     handleTouchEnd(e) {
         e.preventDefault();
@@ -251,7 +248,7 @@ handleTouchMove(x, y) {
         }
 
         if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
-            mobileLog('Drawing:', x, y);
+            // mobileLog('Drawing:', x, y);
             this.context.temp.clearRect(0, 0, this.canvas.temp.width, this.canvas.temp.height);
             this.context.temp.lineWidth = this.brushRadius * 2 * scaleX; // Scale the brush size
             this.points.push(this.lazy.brush.toObject());
@@ -271,6 +268,19 @@ handleTouchMove(x, y) {
         this.mouseHasMoved = true;
     }
 
+    handleCanvasResize(entries, observer) {
+        for (const entry of entries) {
+            const rect = this.canvasContainer.getBoundingClientRect();
+            this.displayWidth = rect.width;
+            this.displayHeight = rect.height;
+            this.dpi = this.setCanvasSize(this.canvas.interface, this.displayWidth, this.displayHeight, 1.25);
+            this.setCanvasSize(this.canvas.drawing, this.displayWidth, this.displayHeight, 1);
+            this.setCanvasSize(this.canvas.temp, this.displayWidth, this.displayHeight, 1);
+            this.setCanvasSize(this.canvas.grid, this.displayWidth, this.displayHeight, 2);
+            this.drawGrid(this.context.grid);
+            this.loop({ once: true });
+        }
+    }
 
     handleSidebarResize(entries, observer) {
         for (const entry of entries) {
