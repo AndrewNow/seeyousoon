@@ -114,7 +114,6 @@ export default class Scene {
 
     handleTouchStart(e) {
         e.preventDefault()
-         alert('Touch start event triggered');
         console.log('Touch start event triggered');
         const rect = this.canvas.interface.getBoundingClientRect();
         const x = e.changedTouches[0].clientX - rect.left;
@@ -133,7 +132,6 @@ export default class Scene {
 
     handleTouchEnd(e) {
         e.preventDefault();
-        alert('Touch end event triggered');
         this.handlePointerUp(e);
         const brush = this.lazy.getBrushCoordinates();
         this.lazy.update({x: brush.x, y: brush.y}, { both: true });
