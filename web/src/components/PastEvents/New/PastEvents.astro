@@ -1,12 +1,12 @@
 ---
-import { Image } from "astro:assets";
-import SysStar from "../../../assets/sys-star.png";
 import PastEventEntry from "./PastEventEntry.astro";
 const { data } = Astro.props;
 ---
 
 <div class="wrapper">
   <h1>Past Events</h1>
+  <img src="https://i.imgur.com/7QCvE7b.png" class="star1"/>
+  <img src="https://i.imgur.com/o44hbTS.png" class="star2" />
   {
     data.map((event, i) => {
       return (
@@ -19,6 +19,18 @@ const { data } = Astro.props;
 </div>
 
 <style lang="scss">
+  .star1, .star2 {
+    position: absolute;
+  }
+  .star1 {
+    top:7rem;
+    left: 3rem;
+  }
+  .star2{ 
+    right: 2rem;
+    top: 5rem;
+    rotate: 10deg;
+  }
   .wrapper {
     width: 98%;
     margin: 0 auto;
@@ -41,7 +53,7 @@ const { data } = Astro.props;
     background: var(--brown-400);
     border-radius: 20px;
     overflow: hidden;
-    transition: .5s all ease;
+    transition: 0.5s all ease;
   }
 
   @media (max-width: 768px) {

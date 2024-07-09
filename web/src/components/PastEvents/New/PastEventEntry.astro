@@ -64,13 +64,46 @@ const convertedDate = convertDateFormat(eventData.date);
         <h4>
           {eventData.title}
         </h4>
-        <p>
+        <div class="upcomingEvents-details">
+          <h6>
+            <span class="svg-wrapper">
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M23.5556 24.8561H6.44444L6.44444 11.3041L23.5556 11.3041M19.8889 2.68005V5.14405L10.1111 5.14405V2.68005L7.66667 2.68005V5.14405H6.44444C5.08778 5.14405 4 6.24053 4 7.60805L4 24.8561C4 25.5095 4.25754 26.1363 4.71596 26.5984C5.17438 27.0605 5.79614 27.3201 6.44444 27.3201H23.5556C24.2039 27.3201 24.8256 27.0605 25.284 26.5984C25.7425 26.1363 26 25.5095 26 24.8561V7.60805C26 6.95456 25.7425 6.32783 25.284 5.86574C24.8256 5.40365 24.2039 5.14405 23.5556 5.14405H22.3333V2.68005M21.1111 16.2321H15L15 22.3921H21.1111V16.2321Z"
+                  fill="#9F9F9F"></path>
+              </svg>
+            </span>
+            May 14th to 29th
+          </h6>
+          <h6>
+            <span class="svg-wrapper">
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15 3C10.0314 3 6 6.62869 6 11.1C6 18.3 15 27 15 27C15 27 24 18.3 24 11.1C24 6.62869 19.9686 3 15 3ZM15 15.6C14.288 15.6 13.592 15.3889 12.9999 14.9933C12.4079 14.5977 11.9465 14.0355 11.674 13.3777C11.4016 12.7198 11.3303 11.996 11.4692 11.2977C11.6081 10.5993 11.9509 9.95788 12.4544 9.45441C12.9579 8.95095 13.5993 8.60808 14.2977 8.46917C14.996 8.33027 15.7198 8.40156 16.3777 8.67403C17.0355 8.94651 17.5977 9.40793 17.9933 9.99995C18.3889 10.592 18.6 11.288 18.6 12C18.599 12.9545 18.2193 13.8695 17.5444 14.5444C16.8695 15.2193 15.9545 15.599 15 15.6Z"
+                  fill="#9F9F9F"></path>
+              </svg>
+            </span>
+            1233 Queen Street West, Toronto, ON
+          </h6>
+        </div>
+        <!-- <p>
           <small class="description">
             {eventData.description}
           </small>
-        </p>
-      </div>
-      <!-- <div class="event-details-area">
+          </p> -->
+        <!-- <div class="event-details-area">
         <div>
           <p>
             <small>
@@ -92,6 +125,7 @@ const convertedDate = convertDateFormat(eventData.date);
           </small>
         </div>
       </div> -->
+      </div>
       <button id="toggleAccordion"
         ><svg
           id="accordionSVG"
@@ -111,231 +145,283 @@ const convertedDate = convertDateFormat(eventData.date);
       </button>
     </div>
   </div>
-</div>
 
-<script>
-  import { animate } from "motion";
+  <script>
+    import { animate, spring } from "motion";
 
-  const wrappers = document.querySelectorAll("#pastEvent");
+    const wrappers = document.querySelectorAll("#pastEvent");
 
-  wrappers.forEach((item, i) => {
-    const btn = item.querySelector("#toggleAccordion");
-    const svg = item.querySelector("#accordionSVG");
-    const carousel = item.querySelector("#eventCarousel");
-    let isOpen;
+    wrappers.forEach((item, i) => {
+      const btn = item.querySelector("#toggleAccordion");
+      const svg = item.querySelector("#accordionSVG");
+      const carousel = item.querySelector("#eventCarousel");
+      const details = item.querySelector(".upcomingEvents-details");
+      let isOpen;
 
-    if (i == 0) {
-      isOpen = true;
-      carousel.style.height = `${carousel.scrollHeight}px`;
-    } else {
-      isOpen = false;
-    }
+      if (i == 0) {
+        isOpen = true;
+        carousel.style.height = `${carousel.scrollHeight}px`;
+        svg.style.rotate = "180deg";
+        details.style.opacity = "1";
+      } else {
+        isOpen = false;
+        svg.style.rotate = "0deg";
+      }
 
-    btn.addEventListener("click", () => {
-      isOpen = !isOpen;
-      animate(
-        carousel,
-        {
-          height: isOpen ? `${carousel.scrollHeight}px` : 0,
-        },
-        {}
-      );
-      animate(
-        svg,
-        {
-          rotate: isOpen ? 180 : 0,
-        },
-        {}
-      );
+      btn.addEventListener("click", () => {
+        isOpen = !isOpen;
+        animate(
+          carousel,
+          {
+            height: isOpen ? `${carousel.scrollHeight}px` : "0",
+          },
+          {
+            // easing: spring({
+            //   damping: 18,
+            //   stiffness: 250,
+            //   mass: 1
+            // }),
+          }
+        );
+        animate(
+          svg,
+          {
+            rotate: isOpen ? 180 : 0,
+          },
+          {}
+        );
+        animate(
+          details,
+          {
+            opacity: isOpen ? 1 : 0,
+          },
+          {}
+        );
+      });
     });
-  });
-</script>
+  </script>
 
-<style lang="scss">
-  #eventCarousel {
-    // transition: 0.5s all cubic-bezier(0.34, 1.7, 0.64, 1);
-    height: 0;
-  }
-  #toggleAccordion {
-    aspect-ratio: 1/1;
-    height: 88px;
-    width: auto;
-    border-radius: 100%;
-    background: #24201d;
-    border: none;
-    color: var(--beige-300);
-    display: grid;
-    place-items: center;
-    rotate: 0deg;
-    cursor: pointer;
-  }
-  #pastEvents-marquee {
-    width: 97.5%;
-    overflow: hidden;
-    margin: 0 auto;
-    border-radius: 8px;
-    position: relative;
-  }
-  .marquee-wrapper {
-    margin-top: 1.5rem;
-    position: relative;
-  }
-
-  .event-entry-wrapper:first-child {
-    border-top: none;
-    margin-top: 0;
-  }
-  .event-text-wrapper {
-    width: 96%;
-    margin: 3rem auto;
-
-    .event-text-inner {
-      width: 97.5%;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
+  <style lang="scss">
+    #eventCarousel {
+      // transition: 0.5s all cubic-bezier(0.34, 1.7, 0.64, 1);
+      height: 0;
     }
-    h4,
-    p {
-      color: var(--beige-300);
-    }
-    p > small {
-      color: var(--grey-300);
-    }
-  }
-  .event-title-area {
-    flex: 1.5;
-    max-width: 50%;
-    p {
-      width: 65%;
-    }
-  }
-  .event-details-area {
-    flex: 1;
-    max-width: 500px;
-    display: flex;
-    justify-content: space-between;
-    color: white;
-  }
-  .pastEvents-image-wrapper {
-    display: flex;
-    img {
-      border-radius: 8px;
-      max-width: 100%;
-      height: 475px;
+    #toggleAccordion {
+      aspect-ratio: 1/1;
+      height: 88px;
       width: auto;
-      margin-right: 1.5rem;
-    }
-  }
-
-  .embla {
-    width: calc(100% - 3rem);
-    border-radius: 8px;
-    margin: 0 auto;
-    overflow: hidden;
-    cursor: grab;
-  }
-  .embla.is-dragging {
-    cursor: grabbing;
-  }
-  .embla__container {
-    display: flex;
-    min-width: 100%;
-  }
-  .embla__slide {
-    user-select: none;
-    // flex: 0 0 100%;
-    // min-width: 0;
-  }
-
-  @media (max-width: 768px) {
-    .event-text-wrapper {
-      width: 95%;
-      margin-bottom: 2rem;
-    }
-    .event-text-inner {
-      flex-direction: column;
-    }
-    .event-title-area {
-      max-width: 100%;
-      p {
-        width: 100%;
-        line-height: 115%;
+      border-radius: 100%;
+      background: #24201d;
+      border: none;
+      color: var(--beige-300);
+      display: grid;
+      place-items: center;
+      rotate: 0deg;
+      cursor: pointer;
+      overflow: hidden;
+      svg {
+        position: relative;
+        z-index: 2;
       }
     }
-    .event-details-area {
-      margin-top: 2rem;
-      width: 80%;
+    #toggleAccordion:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--brown-200);
+      border-radius: 100%;
+      z-index: 0;
+      transition: 0.35s all ease;
+      scale: 0.5;
+      opacity: 0;
     }
-    .pastEvents-image-wrapper {
-      img {
-        height: 350px;
-        margin-right: 1rem;
-      }
+    #toggleAccordion:hover:after {
+      scale: 1;
+      opacity: 0.9;
     }
-  }
 
-  @media (max-width: 576px) {
     #pastEvents-marquee {
-      width: 95%;
+      width: 97.5%;
+      overflow: hidden;
+      margin: 0 auto;
       border-radius: 8px;
+      position: relative;
+    }
+    .marquee-wrapper {
+      // margin-top: 1.5rem;
+      position: relative;
     }
     .event-entry-wrapper:first-child {
-      margin-top: 0 !important;
+      border-top: none;
+      margin-top: 0;
     }
     .event-text-wrapper {
-      margin-top: 0rem;
-    }
-    #pastEvents-marquee {
-      margin: 0 0.5rem;
-      overflow-x: scroll;
-    }
-    .pastEvents-image-wrapper {
-      img {
-        height: 300px;
-        object-fit: cover;
+      width: 96%;
+      margin: 3rem auto;
+
+      .event-text-inner {
+        width: 97.5%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+      }
+      h4,
+      p {
+        color: var(--beige-300);
+      }
+      p > small {
+        color: var(--grey-300);
       }
     }
-  }
-</style>
+    .event-title-area {
+      display: flex;
+      // flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      flex: 1.5;
+      max-width: 55%;
+      p {
+        width: 65%;
+      }
+    }
 
-<script>
-  import EmblaCarousel from "embla-carousel";
-  import AutoScroll from "embla-carousel-auto-scroll";
+    .upcomingEvents-details {
+      opacity: 0;
+    }
 
-  let SPEED_VALUE = 2;
-  if (window.innerWidth <= 576) {
-    SPEED_VALUE = 0.5;
-  }
+    .event-details-area {
+      flex: 1;
+      max-width: 500px;
+      display: flex;
+      justify-content: space-between;
+      color: white;
+    }
+    .pastEvents-image-wrapper {
+      display: flex;
+      img {
+        border-radius: 8px;
+        max-width: 100%;
+        height: 475px;
+        width: auto;
+        margin-right: 1.5rem;
+      }
+    }
 
-  // Define global options for EmblaCarousel and AutoScroll
-  const globalOptions = {
-    loop: true,
-    dragFree: true,
-    skipSnaps: true,
-  };
-  const autoScrollOptions = {
-    stopOnInteraction: true,
-    jump: false,
-    startDelay: 10,
-    speed: SPEED_VALUE,
-  };
+    .embla {
+      width: calc(100% - 3rem);
+      border-radius: 8px;
+      margin: 0 auto;
+      overflow: hidden;
+      cursor: grab;
+    }
+    .embla.is-dragging {
+      cursor: grabbing;
+    }
+    .embla__container {
+      display: flex;
+      min-width: 100%;
+    }
+    .embla__slide {
+      margin-top: 1.5rem;
+      user-select: none;
+      // flex: 0 0 100%;
+      // min-width: 0;
+    }
 
-  // Using querySelectorAll to select all elements with the class .embla
-  const emblaNodes = document.querySelectorAll(".embla");
+    @media (max-width: 768px) {
+      .event-text-wrapper {
+        width: 95%;
+        margin-bottom: 2rem;
+      }
+      .event-text-inner {
+        flex-direction: column;
+      }
+      .event-title-area {
+        max-width: 100%;
+        p {
+          width: 100%;
+          line-height: 115%;
+        }
+      }
+      .event-details-area {
+        margin-top: 2rem;
+        width: 80%;
+      }
+      .pastEvents-image-wrapper {
+        img {
+          height: 350px;
+          margin-right: 1rem;
+        }
+      }
+    }
 
-  // Iterate through each .embla element and initialize EmblaCarousel
-  emblaNodes.forEach((emblaNode) => {
-    // Initialize EmblaCarousel with global options and AutoScroll plugin
-    const plugins = [AutoScroll(autoScrollOptions)];
-    const emblaApi = EmblaCarousel(emblaNode, globalOptions, plugins);
+    @media (max-width: 576px) {
+      #pastEvents-marquee {
+        width: 95%;
+        border-radius: 8px;
+      }
+      .event-entry-wrapper:first-child {
+        margin-top: 0 !important;
+      }
+      .event-text-wrapper {
+        margin-top: 0rem;
+      }
+      #pastEvents-marquee {
+        margin: 0 0.5rem;
+        overflow-x: scroll;
+      }
+      .pastEvents-image-wrapper {
+        img {
+          height: 300px;
+          object-fit: cover;
+        }
+      }
+    }
+  </style>
 
-    emblaNode.addEventListener("mousedown", () => {
-      emblaNode.classList.add("is-dragging");
+  <script>
+    import EmblaCarousel from "embla-carousel";
+    import AutoScroll from "embla-carousel-auto-scroll";
+
+    let SPEED_VALUE = 2;
+    if (window.innerWidth <= 576) {
+      SPEED_VALUE = 0.5;
+    }
+
+    // Define global options for EmblaCarousel and AutoScroll
+    const globalOptions = {
+      loop: true,
+      dragFree: true,
+      skipSnaps: true,
+    };
+    const autoScrollOptions = {
+      stopOnInteraction: true,
+      jump: false,
+      startDelay: 10,
+      speed: SPEED_VALUE,
+    };
+
+    // Using querySelectorAll to select all elements with the class .embla
+    const emblaNodes = document.querySelectorAll(".embla");
+
+    // Iterate through each .embla element and initialize EmblaCarousel
+    emblaNodes.forEach((emblaNode) => {
+      // Initialize EmblaCarousel with global options and AutoScroll plugin
+      const plugins = [AutoScroll(autoScrollOptions)];
+      const emblaApi = EmblaCarousel(emblaNode, globalOptions, plugins);
+
+      emblaNode.addEventListener("mousedown", () => {
+        emblaNode.classList.add("is-dragging");
+      });
+
+      emblaNode.addEventListener("mouseup", () => {
+        emblaNode.classList.remove("is-dragging");
+      });
     });
-
-    emblaNode.addEventListener("mouseup", () => {
-      emblaNode.classList.remove("is-dragging");
-    });
-  });
-</script>
+  </script>
+</div>
