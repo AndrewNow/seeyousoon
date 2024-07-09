@@ -126,13 +126,9 @@ export default class Scene {
         this.mouseHasMoved = true;
     }
 
-    handleTouchMove(x, y) {
-        const rect = this.canvas.interface.getBoundingClientRect();
-        const touch = e.touches[0];
-        const x = touch.clientX - rect.left;
-        const y = touch.clientY - rect.top;
-        this.handlePointerMove(x, y);
-    }
+handleTouchMove(x, y) {
+  this.handlePointerMove(x, y);
+}
 
     handleTouchEnd(e) {
         e.preventDefault();
