@@ -2,23 +2,61 @@
 import { Image } from "astro:assets";
 
 const { eventData, index } = Astro.props;
-function convertDateFormat(inputDate) {
-  // Parse the input date string in the "YYYY-MM-DD" format
-  const parts = inputDate.split("-");
-  const year = parseInt(parts[0], 10);
-  const month = parseInt(parts[1], 10);
-  const day = parseInt(parts[2], 10);
-  // Create a Date object
-  const dateObject = new Date(year, month - 1, day);
-  // Format the date in the "DD-MM-YYYY" format
-  const formattedDate = `${dateObject.getDate().toString().padStart(2, "0")}.${(
-    dateObject.getMonth() + 1
-  )
-    .toString()
-    .padStart(2, "0")}.${dateObject.getFullYear()}`;
-  return formattedDate;
-}
-const convertedDate = convertDateFormat(eventData.date);
+
+function formatDate(inputDate) {
+      const dateObject = new Date(inputDate);
+      const options = { month: "long", day: "numeric" };
+
+      const monthAndDay = dateObject.toLocaleDateString("en-US", options);
+      const day = dateObject.getDate();
+      let suffix = "th";
+
+      if (day >= 11 && day <= 13) {
+        suffix = "th";
+      } else {
+        switch (day % 10) {
+          case 1:
+            suffix = "st";
+            break;
+          case 2:
+            suffix = "nd";
+            break;
+          case 3:
+            suffix = "rd";
+            break;
+        }
+      }
+
+      return `${monthAndDay}${suffix}`;
+    }
+
+    function formatRange(startDate, endDate) {
+      const formattedStartDate = formatDate(startDate);
+      const formattedEndDate = endDate ? formatDate(endDate) : null;
+
+      // Compare the start and end dates
+      if (
+        endDate &&
+        new Date(startDate).toDateString() === new Date(endDate).toDateString()
+      ) {
+        return formattedStartDate;
+      }
+
+      const startMonth = new Date(startDate).getMonth();
+      const endMonth = endDate ? new Date(endDate).getMonth() : null;
+
+      if (endMonth !== null && startMonth === endMonth) {
+        return `${formattedStartDate} to ${formattedEndDate.substr(
+          formattedEndDate.indexOf(" ") + 1
+        )}`;
+      } else {
+        return `${formattedStartDate} to ${formattedEndDate}`;
+      }
+    }
+
+    const startDate = eventData.date;
+    const endDate = eventData.date;
+    const formattedDateRange = formatRange(startDate, endDate);
 ---
 
 <div class="event-entry-wrapper">
@@ -58,7 +96,7 @@ const convertedDate = convertDateFormat(eventData.date);
       </div>
     </div>
   </div>
-  <div class="event-text-wrapper">
+  <div class="event-text-wrapper" id="toggleAccordion">
     <div class="event-text-inner">
       <div class="event-title-area">
         <h4>
@@ -79,7 +117,7 @@ const convertedDate = convertDateFormat(eventData.date);
                   fill="#9F9F9F"></path>
               </svg>
             </span>
-            May 14th to 29th
+            {formattedDateRange}
           </h6>
           <h6>
             <span class="svg-wrapper">
@@ -95,38 +133,11 @@ const convertedDate = convertDateFormat(eventData.date);
                   fill="#9F9F9F"></path>
               </svg>
             </span>
-            1233 Queen Street West, Toronto, ON
+            {eventData.location}
           </h6>
         </div>
-        <!-- <p>
-          <small class="description">
-            {eventData.description}
-          </small>
-          </p> -->
-        <!-- <div class="event-details-area">
-        <div>
-          <p>
-            <small>
-              Where <br />
-            </small>
-          </p>
-          <small>
-            {eventData.location}
-          </small>
-        </div>
-        <div>
-          <p>
-            <small>
-              When <br />
-            </small>
-          </p>
-          <small>
-            {convertedDate}
-          </small>
-        </div>
-      </div> -->
       </div>
-      <button id="toggleAccordion"
+      <div class="accordion-caret"
         ><svg
           id="accordionSVG"
           viewBox="0 0 40 40"
@@ -140,12 +151,12 @@ const convertedDate = convertDateFormat(eventData.date);
             stroke-linecap="round"
             stroke-linejoin="round"></path>
         </svg>
-      </button>
+      </div>
     </div>
   </div>
 
   <script>
-    import { animate, spring } from "motion";
+    import { animate } from "motion";
 
     const wrappers = document.querySelectorAll("#pastEvent");
 
@@ -176,20 +187,12 @@ const convertedDate = convertDateFormat(eventData.date);
             height: isOpen ? `${carousel.scrollHeight}px` : "0",
             marginBottom: isOpen ? "1rem" : 0,
           },
-          {
-            // easing: spring({
-            //   damping: 18,
-            //   stiffness: 250,
-            //   mass: 1
-            // }),
-          }
         );
         animate(
           svg,
           {
             rotate: isOpen ? 180 : 0,
           },
-          {}
         );
         if (window.innerWidth < 769) {
           animate(
@@ -198,7 +201,6 @@ const convertedDate = convertDateFormat(eventData.date);
               height: isOpen ? `${details.scrollHeight}px` : 0,
               opacity: isOpen ? 1 : 0,
             },
-            {}
           );
         } else {
           animate(
@@ -206,7 +208,6 @@ const convertedDate = convertDateFormat(eventData.date);
             {
               opacity: isOpen ? 1 : 0,
             },
-            {}
           );
         }
       });
@@ -218,7 +219,7 @@ const convertedDate = convertDateFormat(eventData.date);
       // transition: 0.5s all cubic-bezier(0.34, 1.7, 0.64, 1);
       height: 0;
     }
-    #toggleAccordion {
+    .accordion-caret {
       aspect-ratio: 1/1;
       height: 88px;
       width: 88px;
@@ -240,7 +241,7 @@ const convertedDate = convertDateFormat(eventData.date);
         place-items: center;
       }
     }
-    #toggleAccordion:after {
+    .accordion-caret:after {
       content: "";
       position: absolute;
       top: 0;
@@ -256,9 +257,12 @@ const convertedDate = convertDateFormat(eventData.date);
       scale: 0.5;
       opacity: 0;
     }
-    #toggleAccordion:hover:after {
-      scale: 1;
-      opacity: 0.9;
+    .event-text-wrapper:hover {
+      cursor: pointer;
+      .accordion-caret:after {
+        scale: 1;
+        opacity: 0.9;
+      }
     }
 
     #pastEvents-marquee {
@@ -277,9 +281,12 @@ const convertedDate = convertDateFormat(eventData.date);
       margin-top: 0;
     }
     .event-text-wrapper {
+      // background: red;
       width: 96%;
-      margin: 3rem auto;
-      margin-top: 1.5rem;
+      margin: 0 auto;
+      padding: 3rem 0;
+      padding-top: 1.5rem;
+      // margin-top: 1.5rem;
       .event-text-inner {
         width: 97.5%;
         margin: 0 auto;
@@ -289,7 +296,7 @@ const convertedDate = convertDateFormat(eventData.date);
       }
 
       h4 {
-        // font-family: "Denim-regular";
+        font-family: "Denim-regular";
         line-height: 200%;
       }
       h4,
@@ -379,7 +386,7 @@ const convertedDate = convertDateFormat(eventData.date);
       }
       .event-text-wrapper {
         width: 95%;
-        margin-bottom: 1rem;
+        padding-bottom: 1rem;
       }
       .event-text-inner {
         // flex-direction: column;
@@ -434,7 +441,7 @@ const convertedDate = convertDateFormat(eventData.date);
         margin-top: 0 !important;
       }
       .event-text-wrapper {
-        margin-top: 0rem;
+        padding-top: 0rem;
       }
       #pastEvents-marquee {
         margin: 0 0.5rem;

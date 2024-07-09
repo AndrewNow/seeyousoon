@@ -2,7 +2,7 @@ import { LazyBrush } from "lazy-brush";
 import { Catenary } from 'catenary-curve';
 import ResizeObserver from 'resize-observer-polyfill';
 
-const LAZY_RADIUS = 15;
+const LAZY_RADIUS = 10;
 const BRUSH_RADIUS = 6;
 const STROKE_COLOR = "#F9F8F3"
 
@@ -113,6 +113,8 @@ export default class Scene {
     }
 
     handleTouchStart(e) {
+        e.preventDefault()
+        console.log('Touch start event triggered');
         const rect = this.canvas.interface.getBoundingClientRect();
         const x = e.changedTouches[0].clientX - rect.left;
         const y = e.changedTouches[0].clientY - rect.top;
@@ -122,10 +124,13 @@ export default class Scene {
     }
 
     handleTouchMove(x, y) {
+        e.preventDefault()
+        console.log('Touch move event triggered', x, y);
         this.handlePointerMove(x, y);
     }
 
     handleTouchEnd(e) {
+        e.preventDefault();
         this.handlePointerUp(e);
         const brush = this.lazy.getBrushCoordinates();
         this.lazy.update({x: brush.x, y: brush.y}, { both: true });
@@ -171,16 +176,16 @@ export default class Scene {
         this.lazy.setRadius(val);
     }
 
-    handlePointerDown(e) {
+        handlePointerDown(e) {
         e.preventDefault();
         const rect = this.canvas.interface.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const x = e.clientX || e.touches[0].clientX - rect.left;
+        const y = e.clientY || e.touches[0].clientY - rect.top;
         this.lazy.update({x: x, y: y}, { both: true });
         this.isPressing = true;
-    }
+        }
 
-    handlePointerUp(e) {
+        handlePointerUp(e) {
         e.preventDefault();
         this.isDrawing = false;
         this.isPressing = false;
@@ -190,10 +195,9 @@ export default class Scene {
         const height = this.canvas.temp.height / dpi;
         this.context.drawing.drawImage(this.canvas.temp, 0, 0, width, height);
         this.context.temp.clearRect(0, 0, width, height);
-    }
+        }
 
     handlePointerMove(x, y) {
-        console.log('handlePointerMove called:', x, y);
         const hasChanged = this.lazy.update({ x: x, y: y });
         const isDisabled = !this.lazy.isEnabled();
         this.context.temp.lineJoin = 'round';
