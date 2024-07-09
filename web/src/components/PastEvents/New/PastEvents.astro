@@ -5,7 +5,7 @@ const { data } = Astro.props;
 
 <div class="wrapper">
   <h1>Past Events</h1>
-  <img src="https://i.imgur.com/7QCvE7b.png" class="star1"/>
+  <img src="https://i.imgur.com/7QCvE7b.png" class="star1" />
   <img src="https://i.imgur.com/o44hbTS.png" class="star2" />
   {
     data.map((event, i) => {
@@ -19,14 +19,15 @@ const { data } = Astro.props;
 </div>
 
 <style lang="scss">
-  .star1, .star2 {
+  .star1,
+  .star2 {
     position: absolute;
   }
   .star1 {
-    top:7rem;
+    top: 7rem;
     left: 3rem;
   }
-  .star2{ 
+  .star2 {
     right: 2rem;
     top: 5rem;
     rotate: 10deg;
@@ -61,6 +62,20 @@ const { data } = Astro.props;
       // width: 100%;
       // border-radius: 0;
     }
+    .star1 {
+      top: 5.5rem;
+      left: 0rem;
+      width: 100px;
+    }
+    .star2 {
+      right: 0.5rem;
+      top: 4rem;
+      rotate: 10deg;
+      width: 100px;
+    }
+    .pastevent-entry-wrapper {
+      border-radius: 12px;
+    }
   }
 
   @media (max-width: 576px) {
@@ -73,7 +88,7 @@ const { data } = Astro.props;
       }
     }
     .pastevent-entry-wrapper {
-      margin: 3rem auto;
+      margin: 0.5rem auto;
       display: block;
     }
   }
