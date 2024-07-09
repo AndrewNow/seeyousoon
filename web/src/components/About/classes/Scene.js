@@ -6,21 +6,28 @@ const LAZY_RADIUS = 10;
 const BRUSH_RADIUS = 6;
 const STROKE_COLOR = "#F9F8F3"
 
-// At the top of your JavaScript file
-const mobileConsole = document.createElement('div');
-mobileConsole.style.cssText = 'position:fixed;bottom:0;left:0;right:0;height:150px;background:white;overflow:auto;zIndex:100;';
-document.body.appendChild(mobileConsole);
+// // Uncomment this to debug
+// let mobileConsole;
 
-// Replace console.log calls with this function
-function mobileLog(...args) {
-    const logLine = document.createElement('div');
-    logLine.textContent = args.join(' ');
-    mobileConsole.appendChild(logLine);
-    mobileConsole.scrollTop = mobileConsole.scrollHeight;
-    console.log(...args); // Keep logging to the actual console as well
-}
+// function createMobileConsole() {
+//   mobileConsole = document.createElement('div');
+//   mobileConsole.id = 'mobileConsole';
+//   document.body.appendChild(mobileConsole);
+// }
 
+// function mobileLog(...args) {
+//   if (!mobileConsole) {
+//     createMobileConsole();
+//   }
+//   const logLine = document.createElement('div');
+//   logLine.textContent = args.join(' ');
+//   mobileConsole.appendChild(logLine);
+//   mobileConsole.scrollTop = mobileConsole.scrollHeight;
+//   console.log(...args); // Keep logging to the actual console as well
+// }
 
+// // Call this function at the start of your app
+// createMobileConsole();
 
 
 function midPointBtw(p1, p2) {
@@ -31,6 +38,8 @@ function midPointBtw(p1, p2) {
 }
 export default class Scene {
     constructor({ canvasContainer, sidebar, canvas, slider, button }) {
+        this.displayWidth = window.innerWidth;
+        this.displayHeight = window.innerHeight;
         this.canvasContainer = document.getElementById(canvasContainer);
         this.sidebar = document.getElementById(sidebar);
         this.canvas = {};
@@ -92,6 +101,7 @@ export default class Scene {
             const rect = this.canvas.interface.getBoundingClientRect();
             const x = e.touches[0].clientX - rect.left;
             const y = e.touches[0].clientY - rect.top;
+            mobileLog('printing this,', x, y)
             this.handleTouchMove(x, y);
         });
 
@@ -129,20 +139,21 @@ export default class Scene {
         this.loop();
     }
 
-    handleTouchStart(e) {
-        e.preventDefault()
-        const rect = this.canvas.interface.getBoundingClientRect();
-        const x = e.changedTouches[0].clientX - rect.left;
-        const y = e.changedTouches[0].clientY - rect.top;
-        this.lazy.update({x: x, y: y}, { both: true });
-        this.handlePointerDown(e);
-        this.mouseHasMoved = true;
-    }
+handleTouchStart(e) {
+    e.preventDefault();
+    const rect = this.canvas.interface.getBoundingClientRect();
+    const x = e.changedTouches[0].clientX - rect.left;
+    const y = e.changedTouches[0].clientY - rect.top;
+    this.lazy.update({x: x, y: y}, { both: true });
+    this.handlePointerDown(e);
+    this.mouseHasMoved = true;
+}
 
-    handleTouchMove(x, y) {
-        e.preventDefault()
-        this.handlePointerMove(x, y);
-    }
+handleTouchMove(x, y) {
+    // mobileLog('handleTouchMove called:', x, y);
+    this.handlePointerMove(x, y);
+}
+
 
     handleTouchEnd(e) {
         e.preventDefault();
@@ -174,7 +185,6 @@ export default class Scene {
 
     handleButtonClear(e) {
         e.preventDefault();
-        mobileLog('clear button pressed', e);
         this.clearCanvas();
     }
 
@@ -191,36 +201,50 @@ export default class Scene {
         this.lazy.setRadius(val);
     }
 
-        handlePointerDown(e) {
+    handlePointerDown(e) {
         e.preventDefault();
         const rect = this.canvas.interface.getBoundingClientRect();
         const x = e.clientX || e.touches[0].clientX - rect.left;
         const y = e.clientY || e.touches[0].clientY - rect.top;
         this.lazy.update({x: x, y: y}, { both: true });
         this.isPressing = true;
-        }
+    }
 
-        handlePointerUp(e) {
+    handlePointerUp(e) {
         e.preventDefault();
         this.isDrawing = false;
         this.isPressing = false;
         this.points.length = 0;
-        const dpi = window.innerWidth > 1024 ? 1 : window.devicePixelRatio;
-        const width = this.canvas.temp.width / dpi;
-        const height = this.canvas.temp.height / dpi;
+
+        const width = this.canvas.temp.width;
+        const height = this.canvas.temp.height;
+
+        // Draw the temporary canvas content onto the main drawing canvas
         this.context.drawing.drawImage(this.canvas.temp, 0, 0, width, height);
+        
+        // Clear the temporary canvas
         this.context.temp.clearRect(0, 0, width, height);
-        }
+    }
 
     handlePointerMove(x, y) {
-        mobileLog('handlePointerMove called:', x, y);
-        mobileLog('Canvas temp dimensions:', this.canvas.temp.width, this.canvas.temp.height);
-        mobileLog('Context temp:', this.context.temp);
+        // mobileLog('handlePointerMove called:', x, y);
+        
+        // Scale the coordinates
+        const scaleX = this.canvas.temp.width / this.displayWidth;
+        const scaleY = this.canvas.temp.height / this.displayHeight;
+        
+        x = x * scaleX;
+        y = y * scaleY;
+        
+        // mobileLog('Scaled coordinates:', x, y);
+        
         const hasChanged = this.lazy.update({ x: x, y: y });
         const isDisabled = !this.lazy.isEnabled();
+        
         this.context.temp.lineJoin = 'round';
         this.context.temp.lineCap = 'round';
         this.context.temp.strokeStyle = STROKE_COLOR;
+        
         if ((this.isPressing && hasChanged && !this.isDrawing) || (isDisabled && this.isPressing)) {
             this.isDrawing = true;
             this.points.push(this.lazy.brush.toObject());
@@ -228,8 +252,8 @@ export default class Scene {
 
         if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
             mobileLog('Drawing:', x, y);
-            this.context.temp.clearRect(0, 0, this.context.temp.canvas.width, this.context.temp.canvas.height);
-            this.context.temp.lineWidth = this.brushRadius * 2;
+            this.context.temp.clearRect(0, 0, this.canvas.temp.width, this.canvas.temp.height);
+            this.context.temp.lineWidth = this.brushRadius * 2 * scaleX; // Scale the brush size
             this.points.push(this.lazy.brush.toObject());
             var p1 = this.points[0];
             var p2 = this.points[1];
@@ -247,18 +271,6 @@ export default class Scene {
         this.mouseHasMoved = true;
     }
 
-    handleCanvasResize(entries, observer) {
-        this.dpi = window.devicePixelRatio;
-        for (const entry of entries) {
-            const { width, height } = entry.contentRect;
-            this.setCanvasSize(this.canvas.interface, width, height, 1.25);
-            this.setCanvasSize(this.canvas.drawing, width, height, 1);
-            this.setCanvasSize(this.canvas.temp, width, height, 1);
-            this.setCanvasSize(this.canvas.grid, width, height, 2);
-            this.drawGrid(this.context.grid);
-            this.loop({ once: true });
-        }
-    }
 
     handleSidebarResize(entries, observer) {
         for (const entry of entries) {
@@ -267,15 +279,17 @@ export default class Scene {
     }
 
     setCanvasSize(canvas, width, height, maxDpi = 4) {
-        let dpi = this.dpi;
+        this.dpi = window.devicePixelRatio;
         if (window.innerWidth > 1024) {
-            dpi = Math.min(this.dpi, maxDpi);
+            this.dpi = Math.min(this.dpi, maxDpi);
         }
-        canvas.width = width * dpi;
-        canvas.height = height * dpi;
+        canvas.width = width * this.dpi;
+        canvas.height = height * this.dpi;
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
-        return dpi;
+        // Remove the context scaling
+        // canvas.getContext('2d').scale(this.dpi, this.dpi);
+        return this.dpi;
     }
 
     drawGrid(ctx) {
@@ -308,9 +322,8 @@ export default class Scene {
     }
 
     clearCanvas() {
-        const dpi = window.innerWidth > 1024 ? 1 : window.devicePixelRatio;
-        const width = this.canvas.temp.width / dpi;
-        const height = this.canvas.temp.height / dpi;
+        const width = this.canvas.temp.width;
+        const height = this.canvas.temp.height;
         this.context.drawing.clearRect(0, 0, width, height);
         this.context.temp.clearRect(0, 0, width, height);
     }

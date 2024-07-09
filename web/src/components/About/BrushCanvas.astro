@@ -28,7 +28,22 @@
     <canvas class="lazy-canvas" id="canvas_grid"></canvas>
   </div>
 
-<style>
+<style is:global>
+  #mobileConsole {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.8);
+  overflow: auto;
+  z-index: 9999;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  color: black;
+}
   #sidebar {
     position: absolute;
     z-index: 20;
@@ -36,18 +51,21 @@
 
   #canvas_interface {
   z-index: 15;
+  border: 1px solid red;
 }
 
-  #canvas_grid {
-    z-index: 14;
-  }
+#canvas_grid {
+  z-index: 14;
+}
 
-  #canvas_temp {
-    z-index: 12;
-  }
+#canvas_temp {
+  z-index: 12;
+  border: 1px solid blue;
+}
 
-  #canvas_drawing {
-    z-index: 10;
+#canvas_drawing {
+  z-index: 10;
+  border: 1px solid pink;
   }
   #canvas_container {
       position: absolute;
