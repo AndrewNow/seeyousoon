@@ -114,7 +114,6 @@ export default class Scene {
 
     handleTouchStart(e) {
         e.preventDefault()
-        console.log('Touch start event triggered');
         const rect = this.canvas.interface.getBoundingClientRect();
         const x = e.changedTouches[0].clientX - rect.left;
         const y = e.changedTouches[0].clientY - rect.top;
