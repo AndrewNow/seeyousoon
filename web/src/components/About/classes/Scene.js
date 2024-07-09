@@ -72,11 +72,15 @@ export default class Scene {
         this.canvas.interface.addEventListener('touchstart', this.handleTouchStart.bind(this));
         this.canvas.interface.addEventListener('touchend', this.handleTouchEnd.bind(this));
         this.canvas.interface.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Prevent scrolling
             const rect = this.canvas.interface.getBoundingClientRect();
-            const x = e.touches[0].clientX - rect.left;
-            const y = e.touches[0].clientY - rect.top;
-            this.handleTouchMove(x, y);
+            const touch = e.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            alert(`Touch move: ${x}, ${y}`); // For debugging
+            this.handleTouchMove(e);
         });
+
 
         // Listeners for click events on buttons
         this.button.lazy.addEventListener('click', (e) => this.handleButtonLazy(e));
@@ -123,9 +127,10 @@ export default class Scene {
     }
 
     handleTouchMove(x, y) {
-        e.preventDefault()
-        alert('Touch move event triggered');
-        console.log('Touch move event triggered', x, y);
+        const rect = this.canvas.interface.getBoundingClientRect();
+        const touch = e.touches[0];
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
         this.handlePointerMove(x, y);
     }
 
