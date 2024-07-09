@@ -221,7 +221,7 @@ const convertedDate = convertDateFormat(eventData.date);
     #toggleAccordion {
       aspect-ratio: 1/1;
       height: 88px;
-      width: auto;
+      width: 88px;
       border-radius: 100%;
       background: #24201d;
       border: none;
@@ -232,6 +232,8 @@ const convertedDate = convertDateFormat(eventData.date);
       cursor: pointer;
       overflow: hidden;
       svg {
+        width: 50%;
+        height: 50%;
         position: relative;
         z-index: 2;
         display: grid;
@@ -361,6 +363,7 @@ const convertedDate = convertDateFormat(eventData.date);
         svg {
           width: 30px;
           height: 30px;
+
         }
       }
       .event-text-wrapper {
