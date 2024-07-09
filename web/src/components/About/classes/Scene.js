@@ -92,6 +92,7 @@ export default class Scene {
             const rect = this.canvas.interface.getBoundingClientRect();
             const x = e.touches[0].clientX - rect.left;
             const y = e.touches[0].clientY - rect.top;
+            alert('mobile touch moved')
             this.handleTouchMove(x, y);
         });
 
