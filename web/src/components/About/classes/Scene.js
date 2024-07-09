@@ -6,6 +6,23 @@ const LAZY_RADIUS = 10;
 const BRUSH_RADIUS = 6;
 const STROKE_COLOR = "#F9F8F3"
 
+// At the top of your JavaScript file
+const mobileConsole = document.createElement('div');
+mobileConsole.style.cssText = 'position:fixed;bottom:0;left:0;right:0;height:150px;background:white;overflow:auto;zIndex:100;';
+document.body.appendChild(mobileConsole);
+
+// Replace console.log calls with this function
+function mobileLog(...args) {
+    const logLine = document.createElement('div');
+    logLine.textContent = args.join(' ');
+    mobileConsole.appendChild(logLine);
+    mobileConsole.scrollTop = mobileConsole.scrollHeight;
+    console.log(...args); // Keep logging to the actual console as well
+}
+
+
+
+
 function midPointBtw(p1, p2) {
     return {
         x: p1.x + (p2.x - p1.x) / 2,
@@ -72,15 +89,11 @@ export default class Scene {
         this.canvas.interface.addEventListener('touchstart', this.handleTouchStart.bind(this));
         this.canvas.interface.addEventListener('touchend', this.handleTouchEnd.bind(this));
         this.canvas.interface.addEventListener('touchmove', (e) => {
-            e.preventDefault(); // Prevent scrolling
             const rect = this.canvas.interface.getBoundingClientRect();
-            const touch = e.touches[0];
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-            alert(`Touch move: ${x}, ${y}`); // For debugging
-            this.handleTouchMove(e);
+            const x = e.touches[0].clientX - rect.left;
+            const y = e.touches[0].clientY - rect.top;
+            this.handleTouchMove(x, y);
         });
-
 
         // Listeners for click events on buttons
         this.button.lazy.addEventListener('click', (e) => this.handleButtonLazy(e));
@@ -126,9 +139,10 @@ export default class Scene {
         this.mouseHasMoved = true;
     }
 
-handleTouchMove(x, y) {
-  this.handlePointerMove(x, y);
-}
+    handleTouchMove(x, y) {
+        e.preventDefault()
+        this.handlePointerMove(x, y);
+    }
 
     handleTouchEnd(e) {
         e.preventDefault();
@@ -160,7 +174,7 @@ handleTouchMove(x, y) {
 
     handleButtonClear(e) {
         e.preventDefault();
-        console.log('clear button pressed', e);
+        mobileLog('clear button pressed', e);
         this.clearCanvas();
     }
 
@@ -199,6 +213,9 @@ handleTouchMove(x, y) {
         }
 
     handlePointerMove(x, y) {
+        mobileLog('handlePointerMove called:', x, y);
+        mobileLog('Canvas temp dimensions:', this.canvas.temp.width, this.canvas.temp.height);
+        mobileLog('Context temp:', this.context.temp);
         const hasChanged = this.lazy.update({ x: x, y: y });
         const isDisabled = !this.lazy.isEnabled();
         this.context.temp.lineJoin = 'round';
@@ -210,6 +227,7 @@ handleTouchMove(x, y) {
         }
 
         if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
+            mobileLog('Drawing:', x, y);
             this.context.temp.clearRect(0, 0, this.context.temp.canvas.width, this.context.temp.canvas.height);
             this.context.temp.lineWidth = this.brushRadius * 2;
             this.points.push(this.lazy.brush.toObject());
