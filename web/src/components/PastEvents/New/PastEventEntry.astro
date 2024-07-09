@@ -161,6 +161,7 @@ const convertedDate = convertDateFormat(eventData.date);
       if (i == 0) {
         isOpen = true;
         carousel.style.height = `${carousel.scrollHeight}px`;
+        carousel.style.marginBottom = "1rem";
         svg.style.rotate = "180deg";
         details.style.opacity = "1";
         details.style.height = `${details.scrollHeight}px`;
@@ -175,6 +176,7 @@ const convertedDate = convertDateFormat(eventData.date);
           carousel,
           {
             height: isOpen ? `${carousel.scrollHeight}px` : "0",
+            marginBottom: isOpen ? "1rem" : 0,
           },
           {
             // easing: spring({
