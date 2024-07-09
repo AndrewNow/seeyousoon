@@ -43,7 +43,6 @@ import BrushCanvas from "./BrushCanvas.astro";
   </div>
 </div>
 
-
 <style>
   .container {
     height: 88vh;
@@ -128,53 +127,52 @@ import BrushCanvas from "./BrushCanvas.astro";
     width: 90%;
   }
 
-    @media (max-width: 768px) {
+  @media (max-width: 768px) {
     .container {
       flex-direction: column;
       height: 100%;
       /* margin-top: .5rem; */
-      
+
       /* gap: .5rem; */
     }
     .card {
       height: 75vh;
       border-radius: 8px;
-      width :100%;
+      width: 100%;
     }
     .text {
-    bottom: 1rem;
-    left: 1rem;
-    width: 90%;
-    height: 110px;
-    h3 {
-      font-size: 18px;
-      font-family: "Denim-regular";
-      margin-bottom: 1rem;
+      bottom: 1rem;
+      left: 1rem;
+      width: 90%;
+      height: 110px;
+      h3 {
+        font-size: 18px;
+        font-family: "Denim-regular";
+        margin-bottom: 1rem;
+      }
+      h5 {
+        font-size: 16px;
+        color: var(--beige-100);
+        letter-spacing: unset;
+        font-family: "Denim-regular";
+      }
     }
-    h5 {
-      font-size: 16px;
-      color: var(--beige-100);
-      letter-spacing: unset;
-      font-family: "Denim-regular";
+    .bio {
+      width: 90%;
+    }
+    .bio:last-of-type {
+      width: 100%;
+    }
+    .dots {
+      top: 1.5rem;
+      left: 1rem;
+      width: 50%;
+      gap: 0.5rem;
+    }
+    .dot {
+      height: 3px;
     }
   }
-  .bio {
-    width: 90%;
-  }
-  .bio:last-of-type {
-    width: 100%;
-  }
-  .dots {
-    top: 1.5rem;
-    left: 1rem;
-    width: 50%;
-    gap: 0.5rem;
-  }
-  .dot {
-    height: 3px;
-  }
-  }
-  
 </style>
 
 <script>
