@@ -2,7 +2,7 @@ import { LazyBrush } from "lazy-brush";
 import { Catenary } from 'catenary-curve';
 import ResizeObserver from 'resize-observer-polyfill';
 
-const LAZY_RADIUS = 10;
+const LAZY_RADIUS = 7;
 const BRUSH_RADIUS = 6;
 const STROKE_COLOR = "#F9F8F3"
 
@@ -36,8 +36,10 @@ function midPointBtw(p1, p2) {
     };
 }
 export default class Scene {
-    constructor({ canvasContainer, sidebar, canvas, button, cursor }) {
+    constructor({ canvasContainer, sidebar, canvas, button, cursor, cursorText }) {
+        
         this.cursor = document.getElementById(cursor);
+        this.cursorText = document.getElementById(cursorText)
         this.cursorTimeoutId = null;
         this.isCursorVisible = false;
         if (this.cursor) {
@@ -117,6 +119,8 @@ export default class Scene {
         // Listeners for click events on buttons
         // this.button.lazy.addEventListener('click', (e) => this.handleButtonLazy(e));
         this.button.clear.addEventListener('click', (e) => this.handleButtonClear(e));
+        this.button.clear.addEventListener('mouseenter', () => this.hideCursor());
+        this.button.clear.addEventListener('mouseleave', () => this.showCursor());
 
         // // Listeners for input events on range sliders
         // this.slider.brush.addEventListener('input', (e) => this.handleSliderBrush(e));
@@ -209,16 +213,11 @@ export default class Scene {
             const cursorRect = this.cursor.getBoundingClientRect();
             const cursorHeight = cursorRect.height;
 
-            const offsetX = 5;
-            const offsetY = 5;
+            const offsetX = -7;
+            const offsetY = 4;
 
             let adjustedX = x + offsetX;
             let adjustedY = y - cursorHeight + offsetY;
-
-            if (this.cursorPressed) {
-                adjustedX += 10;
-                adjustedY += 10;
-            }
 
             this.cursor.style.transform = `translate(${adjustedX}px, ${adjustedY}px)`;
             
@@ -226,6 +225,7 @@ export default class Scene {
             this.resetCursorTimeout();
         }
     }
+
 
     showCursor() {
         if (this.cursor) {
@@ -254,6 +254,13 @@ export default class Scene {
             this.cursor.style.opacity = '0';
         }
     }
+    fadeCursorText() {
+        if (this.cursorText) {
+            this.cursorText.style.transition = 'opacity 0.3s ease';
+            this.cursorText.style.opacity = '0';
+        }
+    }
+
 
     resetCursorTimeout() {
         if (this.cursorTimeoutId) {
@@ -300,6 +307,9 @@ export default class Scene {
         const y = e.clientY || e.touches[0].clientY - rect.top;
         this.lazy.update({x: x, y: y}, { both: true });
         this.isPressing = true;
+        this.cursorPressed = true;
+        this.updateCursorPosition(x, y);
+        this.fadeCursorText(); // Fade out the cursor text when drawing starts
     }
 
     handlePointerUp(e) {
