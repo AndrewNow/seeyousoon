@@ -1,16 +1,26 @@
 ---
-import Image from 'astro/components/Image.astro';
-import trash from '../../assets/trash.png'
-import pencil from '../../assets/pencil.png'
-import doodleStar from '../../assets/doodle-star.png'
+import Image from "astro/components/Image.astro";
+import trash from "../../assets/trash.png";
+import pencil from "../../assets/pencil.png";
+import pencil2 from "../../assets/pencil2.png";
+import doodleStar from "../../assets/doodle-star.png";
 ---
-<div class="content" id="sidebar">
-  <div class="flex content__bottom">
-    <button class="button-clear" id="button_clear">
-      <Image src={trash} alt="" width="25" height="31" quality={100}/>
-      <p>Clear</p>
-    </button>
-  </div>
+
+<div id="sidebar">
+  <button class="button-clear" id="button_clear">
+    <Image src={trash} alt="" width="30" height="37" quality={100} />
+    <p>Clear</p>
+  </button>
+  <button class="button-erase" id="button_erase">
+    <div class="tool-icon active" id="eraserTool">
+      <Image src={pencil2} alt="" width="30" height="38" quality={100} />
+      <p>Eraser</p>
+    </div>
+    <div class="tool-icon" id="pencilTool">
+      <Image src={trash} alt="" width="30" height="38" quality={100} />
+      <p>Pencil</p>
+    </div>
+  </button>
 </div>
 <div class="canvas-container" id="canvas_container">
   <canvas class="lazy-canvas" id="canvas_interface"></canvas>
@@ -18,10 +28,18 @@ import doodleStar from '../../assets/doodle-star.png'
   <canvas class="lazy-canvas" id="canvas_temp"></canvas>
   <!-- <canvas class="lazy-canvas" id="canvas_grid"></canvas> -->
   <div class="drawing-cursor" id="canvas_cursor">
-    <Image src={pencil} alt="" width="50" height="60" quality={100}/> <h5 id="canvas_cursor_text">Draw your own star!</h5>
+    <Image src={pencil} alt="" width="50" height="60" quality={100} />
+    <h5 id="canvas_cursor_text">Draw your own star!</h5>
   </div>
 
-  <Image src={doodleStar} alt="" width="609" height="530" quality={40} class="bg-star"/>
+  <Image
+    src={doodleStar}
+    alt=""
+    width="609"
+    height="530"
+    quality={40}
+    class="bg-star"
+  />
 </div>
 
 <style is:global>
@@ -38,45 +56,92 @@ import doodleStar from '../../assets/doodle-star.png'
     position: absolute;
     top: 0;
     left: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
     pointer-events: none;
     display: flex;
     align-items: flex-start;
     flex-direction: row;
     color: var(--beige-300);
     h5 {
-      margin-left: .75rem;
+      margin-left: 0.75rem;
       transform: translateY(-10px);
-      font-family:"Bradford-Light-Italic";
+      font-family: "Bradford-Light-Italic";
     }
   }
-  .button-clear {
+  .button-clear,
+  .button-erase {
     margin-top: 2rem;
     margin-left: 2rem;
-    display: flex;
-    background: none;
     color: var(--beige-300);
     border: none;
     cursor: pointer;
-    transition: .35 all ease;
-    
+    transition: 0.35 all ease;
+    background: none;
+
     p {
       opacity: 0;
-      transition: .3s all ease;
+      transition: 0.3s all ease;
       transform: translateY(10px);
-      margin-left: .75rem;
+      margin-left: 0.75rem;
       font-family: "Denim-regular";
     }
   }
-  
+  .button-clear {
+    display: flex;
+  }
+
   .button-clear:hover {
-    transition: .35 all ease;
-    
+    transition: 0.35 all ease;
+
     p {
       opacity: 1;
       transform: translateY(0px);
     }
   }
+  .tool-icon {
+    opacity: 0; /* Start with all tool icons hidden */
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(10px);
+  }
+
+  .tool-icon.active {
+    transition: all 0.35s ease;
+    opacity: 1; /* Show the active tool icon */
+    transform: translateY(0px);
+  }
+  .button-erase {
+    position: relative;
+    background: none;
+    color: var(--beige-300);
+    border: none;
+    cursor: pointer;
+    transition: 0.35 all ease;
+
+    p {
+      opacity: 0;
+      transition: 0.3s all ease;
+      transform: translateY(10px);
+      margin-left: 0.75rem;
+      font-family: "Denim-regular";
+    }
+  }
+
+  .button-erase:hover {
+    transition: 0.35 all ease;
+
+    p {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+
   #mobileConsole {
     position: fixed;
     bottom: 0;
@@ -98,8 +163,8 @@ import doodleStar from '../../assets/doodle-star.png'
     z-index: 20;
   }
   #canvas_interface {
-  z-index: 15;
-  cursor: none;
+    z-index: 15;
+    cursor: none;
   }
   #canvas_grid {
     z-index: 14;
@@ -120,7 +185,8 @@ import doodleStar from '../../assets/doodle-star.png'
     width: 100%;
     height: 100%;
   }
-  #slider_lazy, #slider_brush {
+  #slider_lazy,
+  #slider_brush {
     width: 100px;
   }
 
@@ -134,15 +200,14 @@ import doodleStar from '../../assets/doodle-star.png'
     z-index: 10;
   }
   .lazy-canvas {
-  touch-action: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
+    touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 </style>
 
 <script>
@@ -160,8 +225,21 @@ import doodleStar from '../../assets/doodle-star.png'
     cursorText: "canvas_cursor_text",
     button: {
       clear: "button_clear",
+      erase: "button_erase",
     },
   });
   scene.init();
-  
+
+  // Toggle between eraser and pencil tools
+  const eraserButton = document.getElementById("button_erase");
+  const eraserToolIcon = document.getElementById("eraserTool");
+  const pencilToolIcon = document.getElementById("pencilTool");
+
+  eraserButton.addEventListener("click", () => {
+    eraserToolIcon.classList.toggle("active");
+    pencilToolIcon.classList.toggle("active");
+
+    // Toggle visibility of canvas elements based on active tool
+    const isEraserActive = eraserToolIcon.classList.contains("active");
+  });
 </script>
