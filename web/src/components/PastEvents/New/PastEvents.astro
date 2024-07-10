@@ -22,6 +22,7 @@ const { data } = Astro.props;
   .star1,
   .star2 {
     position: absolute;
+    z-index: 0;
   }
   .star1 {
     top: 7rem;
@@ -55,15 +56,31 @@ const { data } = Astro.props;
     border-radius: 20px;
     overflow: hidden;
     transition: 0.5s all ease;
+    position: relative;
+    z-index: 2;
   }
 
+  @media (max-width: 1500px) {
+    .star1 {
+    top: 5.25rem;
+    left: 3rem;
+  }
+  .star2 {
+    right: 2rem;
+    top: 3.5rem;
+    rotate: 5deg;
+  }
+  }
   @media (max-width: 768px) {
     .wrapper {
       // width: 100%;
       // border-radius: 0;
+      h1 {
+        margin: 2rem auto;
+      }
     }
     .star1 {
-      top: 5.5rem;
+      top: 3.5rem;
       left: 0rem;
       width: 100px;
     }
@@ -79,6 +96,17 @@ const { data } = Astro.props;
   }
 
   @media (max-width: 576px) {
+    .star1 {
+      top: 5.5rem;
+      left: 0rem;
+      width: 100px;
+    }
+    .star2 {
+      right: 0.5rem;
+      top: 4rem;
+      rotate: 10deg;
+      width: 100px;
+    }
     .wrapper {
       border-radius: 8px;
       margin-top: 0;
