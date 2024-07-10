@@ -36,7 +36,18 @@ function midPointBtw(p1, p2) {
     };
 }
 export default class Scene {
-    constructor({ canvasContainer, sidebar, canvas, slider, button }) {
+    constructor({ canvasContainer, sidebar, canvas, button, cursor }) {
+        this.cursor = document.getElementById(cursor);
+        this.cursorTimeoutId = null;
+        this.isCursorVisible = false;
+        if (this.cursor) {
+            this.cursor.style.display = 'none';
+            this.cursor.style.position = 'absolute';
+            this.cursor.style.pointerEvents = 'none';
+            this.cursor.style.transition = 'opacity 0.3s ease'; // Add smooth transition for opacity
+        }
+        this.cursorPressed = false;
+        
         this.displayWidth = window.innerWidth;
         this.displayHeight = window.innerHeight;
         this.canvasContainer = document.getElementById(canvasContainer);
@@ -50,10 +61,10 @@ export default class Scene {
             this.context[c] = el.getContext('2d');
         });
 
-        this.slider = {};
-        Object.keys(slider).forEach(s => {
-            this.slider[s] = document.getElementById(slider[s]);
-        });
+        // this.slider = {};
+        // Object.keys(slider).forEach(s => {
+        //     this.slider[s] = document.getElementById(slider[s]);
+        // });
 
         this.button = {};
         Object.keys(button).forEach(b => {
@@ -104,16 +115,16 @@ export default class Scene {
         });
 
         // Listeners for click events on buttons
-        this.button.lazy.addEventListener('click', (e) => this.handleButtonLazy(e));
+        // this.button.lazy.addEventListener('click', (e) => this.handleButtonLazy(e));
         this.button.clear.addEventListener('click', (e) => this.handleButtonClear(e));
 
-        // Listeners for input events on range sliders
-        this.slider.brush.addEventListener('input', (e) => this.handleSliderBrush(e));
-        this.slider.lazy.addEventListener('input', (e) => this.handleSliderLazy(e));
+        // // Listeners for input events on range sliders
+        // this.slider.brush.addEventListener('input', (e) => this.handleSliderBrush(e));
+        // this.slider.lazy.addEventListener('input', (e) => this.handleSliderLazy(e));
 
         // Set initial value for range sliders
-        this.slider.brush.value = BRUSH_RADIUS;
-        this.slider.lazy.value = LAZY_RADIUS;
+        // this.slider.brush.value = BRUSH_RADIUS;
+        // this.slider.lazy.value = LAZY_RADIUS;
 
         // Initialize ResizeObserver for canvas and sidebar
         const observeCanvas = new ResizeObserver((entries, observer) => this.handleCanvasResize(entries, observer));
@@ -132,6 +143,32 @@ export default class Scene {
             this.valuesChanged = true;
             this.clearCanvas();
         }, 100);
+
+
+        // Update mouse enter and leave event listeners
+        this.canvas.interface.addEventListener('mouseenter', () => {
+            this.showCursor();
+            this.resetCursorTimeout();
+        });
+        this.canvas.interface.addEventListener('mouseleave', () => {
+            this.hideCursor();
+            if (this.cursorTimeoutId) {
+                clearTimeout(this.cursorTimeoutId);
+            }
+        });
+
+        // Add mousemove event listener to the document
+        document.addEventListener('mousemove', (e) => {
+            const rect = this.canvas.interface.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                this.handlePointerMove(x, y);
+            } else {
+                this.hideCursor();
+            }
+        });
 
         // Start rendering loop
         this.loop();
@@ -167,36 +204,94 @@ export default class Scene {
         }
     }
 
-    handleButtonLazy(e) {
-        e.preventDefault();
-        this.valuesChanged = true;
-        this.button.lazy.classList.toggle('disabled');
-        if (this.lazy.isEnabled()) {
-            this.button.lazy.innerHTML = 'Smoothing off';
-            this.lazy.disable();
-        } else {
-            this.button.lazy.innerHTML = 'Smoothing on';
-            this.lazy.enable();
+    updateCursorPosition(x, y) {
+        if (this.cursor) {
+            const cursorRect = this.cursor.getBoundingClientRect();
+            const cursorHeight = cursorRect.height;
+
+            const offsetX = 5;
+            const offsetY = 5;
+
+            let adjustedX = x + offsetX;
+            let adjustedY = y - cursorHeight + offsetY;
+
+            if (this.cursorPressed) {
+                adjustedX += 10;
+                adjustedY += 10;
+            }
+
+            this.cursor.style.transform = `translate(${adjustedX}px, ${adjustedY}px)`;
+            
+            this.showCursor();
+            this.resetCursorTimeout();
         }
     }
+
+    showCursor() {
+        if (this.cursor) {
+            this.cursor.style.display = 'flex';
+            setTimeout(() => {
+                this.cursor.style.opacity = '1';
+            }, 0);
+            this.isCursorVisible = true;
+        }
+    }
+
+    hideCursor() {
+        if (this.cursor) {
+            this.cursor.style.opacity = '0';
+            setTimeout(() => {
+                if (this.cursor.style.opacity === '0') {
+                    this.cursor.style.display = 'none';
+                }
+            }, 300); // Match this to your transition duration
+            this.isCursorVisible = false;
+        }
+    }
+
+    fadeCursor() {
+        if (this.cursor && this.isCursorVisible) {
+            this.cursor.style.opacity = '0';
+        }
+    }
+
+    resetCursorTimeout() {
+        if (this.cursorTimeoutId) {
+            clearTimeout(this.cursorTimeoutId);
+        }
+        this.cursorTimeoutId = setTimeout(() => this.fadeCursor(), 1500);
+    }
+
+    // handleButtonLazy(e) {
+    //     e.preventDefault();
+    //     this.valuesChanged = true;
+    //     this.button.lazy.classList.toggle('disabled');
+    //     if (this.lazy.isEnabled()) {
+    //         this.button.lazy.innerHTML = 'Smoothing off';
+    //         this.lazy.disable();
+    //     } else {
+    //         this.button.lazy.innerHTML = 'Smoothing on';
+    //         this.lazy.enable();
+    //     }
+    // }
 
     handleButtonClear(e) {
         e.preventDefault();
         this.clearCanvas();
     }
 
-    handleSliderBrush(e) {
-        const val = parseInt(e.target.value);
-        this.valuesChanged = true;
-        this.brushRadius = val;
-    }
+    // handleSliderBrush(e) {
+    //     const val = parseInt(e.target.value);
+    //     this.valuesChanged = true;
+    //     this.brushRadius = val;
+    // }
 
-    handleSliderLazy(e) {
-        const val = parseInt(e.target.value);
-        this.valuesChanged = true;
-        this.chainLength = val;
-        this.lazy.setRadius(val);
-    }
+    // handleSliderLazy(e) {
+    //     const val = parseInt(e.target.value);
+    //     this.valuesChanged = true;
+    //     this.chainLength = val;
+    //     this.lazy.setRadius(val);
+    // }
 
     handlePointerDown(e) {
         e.preventDefault();
@@ -225,7 +320,8 @@ export default class Scene {
 
     handlePointerMove(x, y) {
         // mobileLog('handlePointerMove called:', x, y);
-        
+        this.updateCursorPosition(x, y);
+
         // Scale the coordinates
         const scaleX = this.canvas.temp.width / this.displayWidth;
         const scaleY = this.canvas.temp.height / this.displayHeight;
@@ -276,8 +372,6 @@ export default class Scene {
             this.dpi = this.setCanvasSize(this.canvas.interface, this.displayWidth, this.displayHeight, 1.25);
             this.setCanvasSize(this.canvas.drawing, this.displayWidth, this.displayHeight, 1);
             this.setCanvasSize(this.canvas.temp, this.displayWidth, this.displayHeight, 1);
-            this.setCanvasSize(this.canvas.grid, this.displayWidth, this.displayHeight, 2);
-            this.drawGrid(this.context.grid);
             this.loop({ once: true });
         }
     }
@@ -297,25 +391,7 @@ export default class Scene {
         canvas.height = height * this.dpi;
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
-        // Remove the context scaling
-        // canvas.getContext('2d').scale(this.dpi, this.dpi);
         return this.dpi;
-    }
-
-    drawGrid(ctx) {
-        const step = 50 * this.dpi;
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.beginPath();
-        for (let i = step + 0.5; i < ctx.canvas.width; i += step) {
-            ctx.moveTo(i, 0);
-            ctx.lineTo(i, ctx.canvas.height);
-        }
-        for (let i = step + 0.5; i < ctx.canvas.height; i += step) {
-            ctx.moveTo(0, i);
-            ctx.lineTo(ctx.canvas.width, i);
-        }
-        ctx.strokeStyle = 'rgba(0,0,0,0)'; // enable opacity to view
-        ctx.stroke();
     }
 
     loop({ once } = {}) {
@@ -323,7 +399,6 @@ export default class Scene {
             return;
         }
         this.mouseHasMoved = false;
-        this.drawGrid(this.context.grid);
         if (!this.valuesChanged) {
             return;
         }

@@ -1,34 +1,63 @@
-    <div class="content" id="sidebar">
-
-      <div class="content__aside">
-        <div class="slider">
-          <label for="lazy">Brush size</label>
-          <input class="range" type="range" id="slider_brush" name="radius" min="2" max="50" />
-        </div>
-
-        <div class="slider">
-          <label for="lazy">Smoothing</label>
-          <input class="range" type="range" id="slider_lazy" name="lazy" min="2" max="100" />
-        </div>
-      </div>
-
-
-      <div class="flex content__bottom">
-        <button class="button-disable" id="button_lazy">Smoothing on</button>
-        <button class="button-clear" id="button_clear">Clear doodle</button>
-      </div>
-      
-    </div>
-    
-
-  <div class="canvas-container" id="canvas_container">
-    <canvas class="lazy-canvas" id="canvas_interface"></canvas>
-    <canvas class="lazy-canvas" id="canvas_drawing"></canvas>
-    <canvas class="lazy-canvas" id="canvas_temp"></canvas>
-    <canvas class="lazy-canvas" id="canvas_grid"></canvas>
+---
+import Image from 'astro/components/Image.astro';
+import trash from '../../assets/trash.png'
+import pencil from '../../assets/pencil.png'
+---
+<div class="content" id="sidebar">
+  <div class="flex content__bottom">
+    <button class="button-clear" id="button_clear">
+      <Image src={trash} alt="" width="25" height="31"/>
+      <p>Clear</p>
+    </button>
   </div>
+</div>
+<div class="canvas-container" id="canvas_container">
+  <canvas class="lazy-canvas" id="canvas_interface"></canvas>
+  <canvas class="lazy-canvas" id="canvas_drawing"></canvas>
+  <canvas class="lazy-canvas" id="canvas_temp"></canvas>
+  <!-- <canvas class="lazy-canvas" id="canvas_grid"></canvas> -->
+  <div class="drawing-cursor" id="canvas_cursor">
+    <Image src={pencil} alt="" width="50" height="60"/> <h5>Draw your own star!</h5>
+  </div>
+</div>
 
 <style is:global>
+  .drawing-cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    color: var(--beige-300);
+    h5 {
+      margin-left: .75rem;
+      transform: translateY(-10px);
+      font-family:"Bradford-Light-Italic";
+    }
+  }
+  .button-clear {
+    margin-top: 2rem;
+    margin-left: 2rem;
+    display: flex;
+    background: none;
+    color: var(--beige-300);
+    border: none;
+    cursor: pointer;
+    transition: .35 all ease;
+    
+    p {
+      margin-left: .75rem;
+      font-family: "Denim-regular";
+    }
+  }
+  
+  .button-clear:hover {
+    transition: .35 all ease;
+    opacity: .8;
+  }
   #mobileConsole {
     position: fixed;
     bottom: 0;
@@ -51,6 +80,7 @@
   }
   #canvas_interface {
   z-index: 15;
+  cursor: none;
   }
   #canvas_grid {
     z-index: 14;
@@ -106,14 +136,9 @@
       interface: "canvas_interface",
       drawing: "canvas_drawing",
       temp: "canvas_temp",
-      grid: "canvas_grid",
     },
-    slider: {
-      brush: "slider_brush",
-      lazy: "slider_lazy",
-    },
+    cursor: "canvas_cursor",
     button: {
-      lazy: "button_lazy",
       clear: "button_clear",
     },
   });
