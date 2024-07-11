@@ -322,6 +322,18 @@ small, label {
 
 
 
+@keyframes jiggle {
+  0% {
+    transform: translate(-50%, -50%) rotate(3deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(7deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(2deg);
+  }
+}
+
 @keyframes wiggle {
   0% {
     transform: rotate(-2deg);

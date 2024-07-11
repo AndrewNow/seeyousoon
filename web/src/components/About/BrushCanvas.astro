@@ -38,7 +38,7 @@ import doodleStar2 from "../../assets/doodle-star2.png";
   </div>
 
   <div class="draw-your-star-text-mobile active">
-    <h5>Draw your own star!</h5>
+    <p>Draw your own star!</p>
   </div>
   <Image
     src={doodleStar2}
@@ -211,6 +211,7 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     user-select: none;
   }
 
+
   @media (max-width: 992px) {
     #sidebar {
       opacity: 1;
@@ -232,12 +233,13 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     .draw-your-star-text-mobile {
       display: block;
       position: absolute;
-      top: 22.5%;
-      left: 55%;
-      transform: translate(-50%, -50%) rotate(3deg);
+      top: 26%;
+      left: 60%;
+      /* transform: translate(-50%, -50%) rotate(3deg); */
+      animation: jiggle .3s infinite linear;
       color: var(--beige-300);
       opacity: 0;
-      h5 {  
+      p {  
         white-space: nowrap;
         font-family: "Denim-regular";
       }
