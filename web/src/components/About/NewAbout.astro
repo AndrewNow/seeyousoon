@@ -123,26 +123,56 @@ import BrushCanvas from "./BrushCanvas.astro";
       font-family: "Denim-regular";
     }
   }
-  .dots {
-    z-index: 10;
-    position: absolute;
-    top: 2.5rem;
-    left: 2rem;
-    width: 40%;
-    display: flex;
-    gap: 0.75rem;
+.dots {
+  z-index: 10;
+  position: absolute;
+  top: 2.5rem;
+  left: 2rem;
+  width: 40%;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.dot {
+  background: #d9d9d950;
+  border-radius: 10px;
+  width: 100%;
+  height: 4px;
+  /* opacity: 0.5; */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.dot::after {
+  content: '';
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: red; */
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 1;
+  z-index: 5;
+  background: #d9d9d9;
+}
+.dot.active::after {
+  animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+  0% {
+    transform: scaleX(0);
   }
-  .dot.active {
-    opacity: 1;
+  100% {
+    transform: scaleX(1);
   }
-  .dot {
-    background: #d9d9d9;
-    border-radius: 10px;
-    width: 100%;
-    height: 4px;
-    opacity: 0.5;
-    transition: 0.5s all linear;
-  }
+}
   .bio.active {
     opacity: 1;
     transition: 0.75s all ease-out;
@@ -161,6 +191,15 @@ import BrushCanvas from "./BrushCanvas.astro";
   /* .bio:last-of-type {
     width: 90%;
   } */
+
+  @media (max-width: 1280px) {
+    .text {
+      height: 100px;
+      & h3 {
+        font-size: 20px;
+      }
+    }
+  }
 
   @media (max-width: 768px) {
     .container {
@@ -203,7 +242,7 @@ import BrushCanvas from "./BrushCanvas.astro";
     .dots {
       top: 1.5rem;
       left: 1rem;
-      width: 50%;
+      width: 55%;
       gap: 0.5rem;
     }
     .dot {
@@ -213,20 +252,30 @@ import BrushCanvas from "./BrushCanvas.astro";
 </style>
 
 <script>
-  const bios = document.querySelectorAll(".bio");
-  const dots = document.querySelectorAll(".dot");
-  let currentIndex = 0;
+const bios = document.querySelectorAll(".bio");
+const dots = document.querySelectorAll(".dot");
+let currentIndex = 0;
 
-  setInterval(() => {
-    // Remove the active class from current elements
-    bios[currentIndex].classList.remove("active");
-    dots[currentIndex].classList.remove("active");
+function activateNext() {
+  // Remove the active class from current elements
+  bios[currentIndex].classList.remove("active");
+  dots[currentIndex].classList.remove("active");
 
-    // Calculate the next index
-    currentIndex = (currentIndex + 1) % bios.length;
+  // Calculate the next index
+  currentIndex = (currentIndex + 1) % bios.length;
 
-    // Add the active class to the next elements
-    bios[currentIndex].classList.add("active");
-    dots[currentIndex].classList.add("active");
-  }, 5000); // 5000ms = 5 seconds
+  // Add the active class to the next elements
+  bios[currentIndex].classList.add("active");
+  dots[currentIndex].classList.add("active");
+
+  // Force a reflow to restart the animation
+  dots[currentIndex].offsetWidth;
+}
+
+function startAnimation() {
+  activateNext();
+  setTimeout(startAnimation, 5000);
+}
+
+startAnimation();
 </script>
