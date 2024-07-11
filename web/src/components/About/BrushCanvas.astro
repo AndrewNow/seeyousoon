@@ -200,15 +200,19 @@ import doodleStar2 from "../../assets/doodle-star2.png";
   @media (max-width: 992px) {
     #sidebar {
       opacity: 1;
+      margin-top: 1rem;
     }
     .bg-star {
       width: 80%;
     }
 
     .tool-wrapper {
-      margin-top: 1rem;
-      margin-left: 1.5rem;
+      margin-left: .5rem;
     }
+
+  .tool-wrapper:not(:first-child) {
+    padding-top: 1rem;
+  }
   }
 </style>
 
@@ -231,19 +235,6 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     },
   });
   scene.init();
-
-  // // Toggle between eraser and pencil tools
-  // const eraserButton = document.getElementById("button_erase");
-  // const eraserToolIcon = document.getElementById("eraserTool");
-  // const pencilToolIcon = document.getElementById("pencilTool");
-
-  // eraserButton.addEventListener("click", () => {
-  //   eraserToolIcon.classList.toggle("active");
-  //   pencilToolIcon.classList.toggle("active");
-
-  //   // Toggle visibility of canvas elements based on active tool
-  //   const isEraserActive = eraserToolIcon.classList.contains("active");
-  // });
 
   const sidebar = document.getElementById("sidebar");
   const canvasContainer = document.getElementById("canvas_container");

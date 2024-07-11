@@ -9,11 +9,12 @@ const upcomingEvents = data.filter((event) => {
   const endDate = new Date(event.dateEnd);
   return endDate > currentDate; // Filter out events with end dates after today
 });
+
 ---
 
 <div
   class="upcomingEvents-wrapper"
-  style=`height: ${upcomingEvents.length > 1 ? "95vh" : "75vh"}`
+  style=`height: ${upcomingEvents.length > 1 ? "98vh" : "75vh"}`
   id="upcomingEvents-wrapper"
 >
   {
@@ -36,7 +37,7 @@ const upcomingEvents = data.filter((event) => {
 <style lang="scss" is:global>
   .upcomingEvents-wrapper {
     position: relative;
-    height: 105vh;
+    height: 98vh;
     width: 98%;
     margin: 5rem auto;
     margin-bottom: 0rem;

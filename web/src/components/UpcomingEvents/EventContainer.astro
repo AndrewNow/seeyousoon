@@ -327,7 +327,7 @@ const fallbackWordData = `[
       height: 190px;
     }
     .box.residency {
-      height: 250px;
+      height: 240px;
     }
     .upcomingEvents-residency-badge {
       height: 40px;
@@ -461,7 +461,7 @@ const fallbackWordData = `[
     } else {
       BOX_WIDTH = 250;
       BOX_HEIGHT = 190;
-      RESIDENCY_BOX_HEIGHT = 250;
+      RESIDENCY_BOX_HEIGHT = 240;
       WORD_HEIGHT = WORD_HEIGHT_ARR_S;
       WORD_WIDTH = WORD_WIDTH_ARR_S;
     }
@@ -557,7 +557,12 @@ const fallbackWordData = `[
           {
             angle: Math.PI / randomAngle,
             label: `wordBox${i}`,
-            restitution: 0.76,
+            restitution: 0.5,
+            mass: 50,
+            // torque: 0.5,
+            friction: 0.0125,
+            density: 0.05,
+            // frictionAir: 0.02,
             render: { fillStyle: "transparent" },
           }
         );
