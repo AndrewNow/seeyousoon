@@ -54,7 +54,6 @@ export default class Scene {
       this.cursor.style.display = "none";
       this.cursor.style.position = "absolute";
       this.cursor.style.zIndex = "20";
-
       this.cursor.style.pointerEvents = "none";
       this.cursor.style.transition = "opacity 0.3s ease"; // Add smooth transition for opacity
     }
@@ -67,16 +66,12 @@ export default class Scene {
     this.canvas = {};
     this.context = {};
 
+      
     Object.keys(canvas).forEach((c) => {
       const el = document.getElementById(canvas[c]);
       this.canvas[c] = el;
       this.context[c] = el.getContext("2d");
     });
-
-    // this.slider = {};
-    // Object.keys(slider).forEach(s => {
-    //     this.slider[s] = document.getElementById(slider[s]);
-    // });
 
     this.button = {};
     Object.keys(button).forEach((b) => {
@@ -114,6 +109,7 @@ export default class Scene {
       "mouseup",
       this.handlePointerUp.bind(this)
     );
+      this.button.clear.addEventListener('click', (e) => this.handleButtonClear(e));
     this.canvas.interface.addEventListener("mousemove", (e) => {
       const rect = this.canvas.interface.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -140,22 +136,6 @@ export default class Scene {
       // mobileLog('printing this,', x, y)
       this.handleTouchMove(x, y);
     });
-
-    // Listeners for click events on buttons
-    // this.button.lazy.addEventListener('click', (e) => this.handleButtonLazy(e));
-    this.button.clear.addEventListener("click", (e) =>
-      this.handleButtonClear(e)
-    );
-    this.button.clear.addEventListener("mouseenter", () => this.hideCursor());
-    this.button.clear.addEventListener("mouseleave", () => this.showCursor());
-
-    // // Listeners for input events on range sliders
-    // this.slider.brush.addEventListener('input', (e) => this.handleSliderBrush(e));
-    // this.slider.lazy.addEventListener('input', (e) => this.handleSliderLazy(e));
-
-    // Set initial value for range sliders
-    // this.slider.brush.value = BRUSH_RADIUS;
-    // this.slider.lazy.value = LAZY_RADIUS;
 
     // Set eraser event
     this.button.erase.addEventListener("click", (e) =>
@@ -204,15 +184,15 @@ export default class Scene {
 
     // Add mousemove event listener to the document
     document.addEventListener("mousemove", (e) => {
-      const rect = this.canvas.interface.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+        const rect = this.canvas.interface.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-        this.handlePointerMove(x, y);
-      } else {
-        this.hideCursor();
-      }
+        if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+            this.handlePointerMove(x, y);
+        } else {
+            this.hideCursor();
+        }
     });
 
     // Start rendering loop
@@ -230,7 +210,6 @@ export default class Scene {
   }
 
   handleTouchMove(x, y) {
-    // mobileLog('handleTouchMove called:', x, y);
     this.handlePointerMove(x, y);
   }
 
@@ -267,28 +246,35 @@ export default class Scene {
     }
   }
 
-  showCursor() {
-    if (this.cursor) {
-      this.cursor.style.display = "flex";
-      setTimeout(() => {
-        this.cursor.style.opacity = "1";
-      }, 0);
-      this.isCursorVisible = true;
-    }
+showCursor() {
+  if (this.cursor) {
+    this.cursor.style.display = 'flex';
+    setTimeout(() => {
+      this.cursor.style.opacity = '1';
+    }, 0);
+    this.isCursorVisible = true;
   }
-
-  hideCursor() {
-    if (this.cursor) {
-      this.cursor.style.opacity = "0";
-      setTimeout(() => {
-        if (this.cursor.style.opacity === "0") {
-          this.cursor.style.display = "none";
-        }
-      }, 300); // Match this to your transition duration
-      this.isCursorVisible = false;
-    }
+}
+    
+fadeCursorOpacity() {
+  if (this.cursor) {
+    this.cursor.style.opacity = '0.3';  // You can adjust this value
   }
+}
+restoreCursorOpacity() {
+  if (this.cursor) {
+    this.cursor.style.opacity = '1';
+  }
+}
+hideCursor() {
+  if (this.cursor) {
+    this.cursor.style.display = 'none';
+    this.cursor.style.opacity = '0';
+    this.isCursorVisible = false;
+  }
+}
 
+    
   fadeCursor() {
     if (this.cursor && this.isCursorVisible) {
       this.cursor.style.opacity = "0";
@@ -308,46 +294,22 @@ export default class Scene {
     this.cursorTimeoutId = setTimeout(() => this.fadeCursor(), 1500);
   }
 
-  // handleButtonLazy(e) {
-  //     e.preventDefault();
-  //     this.valuesChanged = true;
-  //     this.button.lazy.classList.toggle('disabled');
-  //     if (this.lazy.isEnabled()) {
-  //         this.button.lazy.innerHTML = 'Smoothing off';
-  //         this.lazy.disable();
-  //     } else {
-  //         this.button.lazy.innerHTML = 'Smoothing on';
-  //         this.lazy.enable();
-  //     }
-  // }
+handleButtonClear(e) {
+  e.preventDefault();
+  this.clearCanvas();
+  this.hideCursor();
+}
 
-  handleButtonClear(e) {
-    e.preventDefault();
-    this.clearCanvas();
+ handleButtonErase(e) {
+  e.preventDefault();
+  this.isErasing = !this.isErasing;
+  if (this.isErasing) {
+    this.button.erase.classList.add("active");
+  } else {
+    this.button.erase.classList.remove("active");
   }
-
-  handleButtonErase(e) {
-    e.preventDefault();
-    this.isErasing = !this.isErasing; // Toggle between brush and eraser
-    if (this.isErasing) {
-      this.button.erase.classList.add("active"); // Optionally add a class to indicate active state
-    } else {
-      this.button.erase.classList.remove("active"); // Optionally remove the class to indicate inactive state
-    }
-  }
-
-  // handleSliderBrush(e) {
-  //     const val = parseInt(e.target.value);
-  //     this.valuesChanged = true;
-  //     this.brushRadius = val;
-  // }
-
-  // handleSliderLazy(e) {
-  //     const val = parseInt(e.target.value);
-  //     this.valuesChanged = true;
-  //     this.chainLength = val;
-  //     this.lazy.setRadius(val);
-  // }
+  this.hideCursor();
+}
 
   handlePointerDown(e) {
     e.preventDefault();
@@ -397,6 +359,16 @@ export default class Scene {
       ? this.eraserRadius * 2 * scaleX
       : this.brushRadius * 2 * scaleX; // Scale the brush size
 
+  const isOverButton = document.querySelectorAll('#sidebar button:hover').length > 0;
+  
+  if (!isOverButton) {
+    this.updateCursorPosition(x, y);
+    this.showCursor();
+  } else {
+    this.hideCursor();
+  }
+
+
     if (
       (this.isPressing && hasChanged && !this.isDrawing) ||
       (isDisabled && this.isPressing)
@@ -433,31 +405,32 @@ export default class Scene {
   }
 
   handleCanvasResize(entries, observer) {
-    for (const entry of entries) {
-      const rect = this.canvasContainer.getBoundingClientRect();
-      this.displayWidth = rect.width;
-      this.displayHeight = rect.height;
-      this.dpi = this.setCanvasSize(
-        this.canvas.interface,
-        this.displayWidth,
-        this.displayHeight,
-        1.25
-      );
-      this.setCanvasSize(
-        this.canvas.drawing,
-        this.displayWidth,
-        this.displayHeight,
-        1
-      );
-      this.setCanvasSize(
-        this.canvas.temp,
-        this.displayWidth,
-        this.displayHeight,
-        1
-      );
-      this.loop({ once: true });
-    }
+  for (const entry of entries) {
+    const rect = this.canvasContainer.getBoundingClientRect();
+    this.displayWidth = rect.width;
+    this.displayHeight = rect.height;
+    this.dpi = this.setCanvasSize(
+      this.canvas.interface,
+      this.displayWidth,
+      this.displayHeight,
+      1.25
+    );
+    this.setCanvasSize(
+      this.canvas.drawing,
+      this.displayWidth,
+      this.displayHeight,
+      1
+    );
+    this.setCanvasSize(
+      this.canvas.temp,
+      this.displayWidth,
+      this.displayHeight,
+      1
+    );
+    this.loop({ once: true });
+    this.restoreCursorOpacity();  // Add this line
   }
+}
 
   handleSidebarResize(entries, observer) {
     for (const entry of entries) {

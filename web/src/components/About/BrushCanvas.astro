@@ -3,15 +3,16 @@ import Image from "astro/components/Image.astro";
 import trash from "../../assets/trash.png";
 import pencil from "../../assets/pencil.png";
 import pencil2 from "../../assets/pencil2.png";
-import doodleStar from "../../assets/doodle-star.png";
+// import doodleStar from "../../assets/doodle-star.png";
+import doodleStar2 from "../../assets/doodle-star2.png";
 ---
 
 <div id="sidebar">
   <button class="button-clear" id="button_clear">
-    <Image src={trash} alt="" width="30" height="37" quality={100} />
+    <Image src={trash} alt="" width="30" height="38" quality={100} />
     <p>Clear</p>
   </button>
-  <button class="button-erase" id="button_erase">
+  <button class="tool-wrapper" id="button_erase">
     <div class="tool-icon active" id="eraserTool">
       <Image src={pencil2} alt="" width="30" height="38" quality={100} />
       <p>Eraser</p>
@@ -26,14 +27,13 @@ import doodleStar from "../../assets/doodle-star.png";
   <canvas class="lazy-canvas" id="canvas_interface"></canvas>
   <canvas class="lazy-canvas" id="canvas_drawing"></canvas>
   <canvas class="lazy-canvas" id="canvas_temp"></canvas>
-  <!-- <canvas class="lazy-canvas" id="canvas_grid"></canvas> -->
   <div class="drawing-cursor" id="canvas_cursor">
     <Image src={pencil} alt="" width="50" height="60" quality={100} />
     <h5 id="canvas_cursor_text">Draw your own star!</h5>
   </div>
 
   <Image
-    src={doodleStar}
+    src={doodleStar2}
     alt=""
     width="609"
     height="530"
@@ -50,6 +50,7 @@ import doodleStar from "../../assets/doodle-star.png";
     transform: translate(-50%, -50%);
     aspect-ratio: 610/530;
     width: 60%;
+    opacity: .6;
     height: auto;
   }
   .drawing-cursor {
@@ -71,7 +72,7 @@ import doodleStar from "../../assets/doodle-star.png";
     }
   }
   .button-clear,
-  .button-erase {
+  .tool-wrapper {
     margin-top: 2rem;
     margin-left: 2rem;
     color: var(--beige-300);
@@ -90,6 +91,7 @@ import doodleStar from "../../assets/doodle-star.png";
   }
   .button-clear {
     display: flex;
+    align-items: center;
   }
 
   .button-clear:hover {
@@ -109,15 +111,17 @@ import doodleStar from "../../assets/doodle-star.png";
     top: 0;
     left: 0;
     transform: translateY(10px);
+    margin-left: .25rem;
   }
-
+  
   .tool-icon.active {
     transition: all 0.35s ease;
     opacity: 1; /* Show the active tool icon */
     transform: translateY(0px);
   }
-  .button-erase {
+  .tool-wrapper {
     position: relative;
+    width: 100%;
     background: none;
     color: var(--beige-300);
     border: none;
@@ -133,7 +137,7 @@ import doodleStar from "../../assets/doodle-star.png";
     }
   }
 
-  .button-erase:hover {
+  .tool-wrapper:hover {
     transition: 0.35 all ease;
 
     p {
@@ -207,6 +211,18 @@ import doodleStar from "../../assets/doodle-star.png";
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+
+  @media (max-width: 992px) {
+    .bg-star {
+      width: 80%;
+    }
+
+    .button-clear,
+    .tool-wrapper {
+      margin-top: 1rem;
+      margin-left: 1.5rem;
+    }
   }
 </style>
 
