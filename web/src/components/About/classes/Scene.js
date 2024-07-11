@@ -329,7 +329,7 @@ handlePointerDown(e) {
   this.cursorPressed = true;
   this.updateCursorPosition(x, y);
   this.fadeCursorText();
-  this.removeBgStarActiveClass();
+  this.removeActiveClass();
 }
 
   handlePointerUp(e) {
@@ -474,10 +474,14 @@ handlePointerMove(x, y) {
       this.loop({ once: true });
     }
   }
-  removeBgStarActiveClass() {
+  removeActiveClass() {
     const bgStar = document.querySelector(".bg-star");
+    const drawStarText = document.querySelector(".draw-your-star-text-mobile");
     if (bgStar) {
       bgStar.classList.remove("active");
+    }
+    if (drawStarText) {
+      drawStarText.classList.remove("active");
     }
   }
 

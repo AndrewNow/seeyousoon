@@ -37,6 +37,9 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     <h5 id="canvas_cursor_text">Draw your own star!</h5>
   </div>
 
+  <div class="draw-your-star-text-mobile active">
+    <h5>Draw your own star!</h5>
+  </div>
   <Image
     src={doodleStar2}
     alt=""
@@ -48,6 +51,9 @@ import doodleStar2 from "../../assets/doodle-star2.png";
 </div>
 
 <style is:global>
+  .draw-your-star-text-mobile {
+    display: none;
+  }
   .pencil-icon {
     width: 50px;
     height: 60px;
@@ -221,6 +227,23 @@ import doodleStar2 from "../../assets/doodle-star2.png";
   .tool-wrapper:not(:first-child) {
     padding-top: 1rem;
   }
+  }
+  @media (max-width: 576px) {
+    .draw-your-star-text-mobile {
+      display: block;
+      position: absolute;
+      top: 22.5%;
+      left: 55%;
+      transform: translate(-50%, -50%) rotate(3deg);
+      color: var(--beige-300);
+      opacity: 0;
+      h5 {  
+        font-family: "Denim-regular";
+      }
+    }
+    .draw-your-star-text-mobile.active {
+      opacity: .8;
+    }
   }
 </style>
 
