@@ -65,8 +65,7 @@ export default class Scene {
     this.sidebar = document.getElementById(sidebar);
     this.canvas = {};
     this.context = {};
-    
-      
+
     Object.keys(canvas).forEach((c) => {
       const el = document.getElementById(canvas[c]);
       this.canvas[c] = el;
@@ -110,7 +109,9 @@ export default class Scene {
       "mouseup",
       this.handlePointerUp.bind(this)
     );
-      this.button.clear.addEventListener('click', (e) => this.handleButtonClear(e));
+    this.button.clear.addEventListener("click", (e) =>
+      this.handleButtonClear(e)
+    );
     this.canvas.interface.addEventListener("mousemove", (e) => {
       const rect = this.canvas.interface.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -185,15 +186,15 @@ export default class Scene {
 
     // Add mousemove event listener to the document
     document.addEventListener("mousemove", (e) => {
-        const rect = this.canvas.interface.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+      const rect = this.canvas.interface.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-        if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-            this.handlePointerMove(x, y);
-        } else {
-            this.hideCursor();
-        }
+      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+        this.handlePointerMove(x, y);
+      } else {
+        this.hideCursor();
+      }
     });
 
     // Start rendering loop
@@ -247,35 +248,34 @@ export default class Scene {
     }
   }
 
-showCursor() {
-  if (this.cursor) {
-    this.cursor.style.display = 'flex';
-    setTimeout(() => {
-      this.cursor.style.opacity = '1';
-    }, 0);
-    this.isCursorVisible = true;
+  showCursor() {
+    if (this.cursor) {
+      this.cursor.style.display = "flex";
+      setTimeout(() => {
+        this.cursor.style.opacity = "1";
+      }, 0);
+      this.isCursorVisible = true;
+    }
   }
-}
-    
-fadeCursorOpacity() {
-  if (this.cursor) {
-    this.cursor.style.opacity = '0.3';  // You can adjust this value
-  }
-}
-restoreCursorOpacity() {
-  if (this.cursor) {
-    this.cursor.style.opacity = '1';
-  }
-}
-hideCursor() {
-  if (this.cursor) {
-    this.cursor.style.display = 'none';
-    this.cursor.style.opacity = '0';
-    this.isCursorVisible = false;
-  }
-}
 
-    
+  fadeCursorOpacity() {
+    if (this.cursor) {
+      this.cursor.style.opacity = "0.3"; // You can adjust this value
+    }
+  }
+  restoreCursorOpacity() {
+    if (this.cursor) {
+      this.cursor.style.opacity = "1";
+    }
+  }
+  hideCursor() {
+    if (this.cursor) {
+      this.cursor.style.display = "none";
+      this.cursor.style.opacity = "0";
+      this.isCursorVisible = false;
+    }
+  }
+
   fadeCursor() {
     if (this.cursor && this.isCursorVisible) {
       this.cursor.style.opacity = "0";
@@ -295,24 +295,24 @@ hideCursor() {
     this.cursorTimeoutId = setTimeout(() => this.fadeCursor(), 1500);
   }
 
-handleButtonClear(e) {
-  e.preventDefault();
-  this.clearCanvas();
-  this.hideCursor();
-}
+  handleButtonClear(e) {
+    e.preventDefault();
+    this.clearCanvas();
+    this.hideCursor();
+  }
 
-handlePointerDown(e) {
-  e.preventDefault();
-  const rect = this.canvas.interface.getBoundingClientRect();
-  const x = e.clientX || e.touches[0].clientX - rect.left;
-  const y = e.clientY || e.touches[0].clientY - rect.top;
-  this.lazy.update({ x: x, y: y }, { both: true });
-  this.isPressing = true;
-  this.cursorPressed = true;
-  this.updateCursorPosition(x, y);
-  this.fadeCursorText(); // Fade out the cursor text when drawing starts
-  this.removeBgStarActiveClass(); // Remove 'active' class from background star
-}
+  handlePointerDown(e) {
+    e.preventDefault();
+    const rect = this.canvas.interface.getBoundingClientRect();
+    const x = e.clientX || e.touches[0].clientX - rect.left;
+    const y = e.clientY || e.touches[0].clientY - rect.top;
+    this.lazy.update({ x: x, y: y }, { both: true });
+    this.isPressing = true;
+    this.cursorPressed = true;
+    this.updateCursorPosition(x, y);
+    this.fadeCursorText(); // Fade out the cursor text when drawing starts
+    this.removeBgStarActiveClass(); // Remove 'active' class from background star
+  }
 
   handlePointerUp(e) {
     e.preventDefault();
@@ -328,21 +328,31 @@ handlePointerDown(e) {
 
     // Clear the temporary canvas
     this.context.temp.clearRect(0, 0, width, height);
-      // Save the current canvas state
+    // Save the current canvas state
     this.saveDrawingState();
-    } 
+  }
 
-      saveDrawingState() {
-    const imageData = this.context.drawing.getImageData(0, 0, this.canvas.drawing.width, this.canvas.drawing.height);
+  saveDrawingState() {
+    const imageData = this.context.drawing.getImageData(
+      0,
+      0,
+      this.canvas.drawing.width,
+      this.canvas.drawing.height
+    );
     this.drawingHistory.push(imageData);
-      }
-    
-      undo() {
+  }
+
+  undo() {
     if (this.drawingHistory.length > 1) {
       this.drawingHistory.pop(); // Remove the last state
       const previousState = this.drawingHistory[this.drawingHistory.length - 1];
       this.context.drawing.putImageData(previousState, 0, 0);
-      this.context.temp.clearRect(0, 0, this.canvas.temp.width, this.canvas.temp.height);
+      this.context.temp.clearRect(
+        0,
+        0,
+        this.canvas.temp.width,
+        this.canvas.temp.height
+      );
     } else if (this.drawingHistory.length === 1) {
       // If only one state left, clear the canvas
       this.clearCanvas();
@@ -370,15 +380,15 @@ handlePointerDown(e) {
       ? this.eraserRadius * 2 * scaleX
       : this.brushRadius * 2 * scaleX; // Scale the brush size
 
-  const isOverButton = document.querySelectorAll('#sidebar button:hover').length > 0;
-  
-  if (!isOverButton) {
-    this.updateCursorPosition(x, y);
-    this.showCursor();
-  } else {
-    this.hideCursor();
-  }
+    const isOverButton =
+      document.querySelectorAll("#sidebar button:hover").length > 0;
 
+    if (!isOverButton) {
+      this.updateCursorPosition(x, y);
+      this.showCursor();
+    } else {
+      this.hideCursor();
+    }
 
     if (
       (this.isPressing && hasChanged && !this.isDrawing) ||
@@ -416,47 +426,45 @@ handlePointerDown(e) {
   }
 
   handleCanvasResize(entries, observer) {
-  for (const entry of entries) {
-    const rect = this.canvasContainer.getBoundingClientRect();
-    this.displayWidth = rect.width;
-    this.displayHeight = rect.height;
-    this.dpi = this.setCanvasSize(
-      this.canvas.interface,
-      this.displayWidth,
-      this.displayHeight,
-      1.25
-    );
-    this.setCanvasSize(
-      this.canvas.drawing,
-      this.displayWidth,
-      this.displayHeight,
-      1
-    );
-    this.setCanvasSize(
-      this.canvas.temp,
-      this.displayWidth,
-      this.displayHeight,
-      1
-    );
-    this.loop({ once: true });
-    this.restoreCursorOpacity();  // Add this line
+    for (const entry of entries) {
+      const rect = this.canvasContainer.getBoundingClientRect();
+      this.displayWidth = rect.width;
+      this.displayHeight = rect.height;
+      this.dpi = this.setCanvasSize(
+        this.canvas.interface,
+        this.displayWidth,
+        this.displayHeight,
+        1.25
+      );
+      this.setCanvasSize(
+        this.canvas.drawing,
+        this.displayWidth,
+        this.displayHeight,
+        1
+      );
+      this.setCanvasSize(
+        this.canvas.temp,
+        this.displayWidth,
+        this.displayHeight,
+        1
+      );
+      this.loop({ once: true });
+      this.restoreCursorOpacity(); // Add this line
+    }
   }
-}
 
   handleSidebarResize(entries, observer) {
     for (const entry of entries) {
       this.loop({ once: true });
     }
   }
-removeBgStarActiveClass() {
-    const bgStar = document.querySelector('.bg-star');
-    console.log(bgStar)
-  if (bgStar) {
-    bgStar.classList.remove('active');
+  removeBgStarActiveClass() {
+    const bgStar = document.querySelector(".bg-star");
+    if (bgStar) {
+      bgStar.classList.remove("active");
+    }
   }
-}
-    
-    
+
   setCanvasSize(canvas, width, height, maxDpi = 4) {
     this.dpi = window.devicePixelRatio;
     if (window.innerWidth > 1024) {

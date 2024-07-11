@@ -149,6 +149,8 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     z-index: 20;
     margin-top: 2rem;
     display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   #canvas_interface {
@@ -196,6 +198,9 @@ import doodleStar2 from "../../assets/doodle-star2.png";
   }
 
   @media (max-width: 992px) {
+    #sidebar {
+      opacity: 1;
+    }
     .bg-star {
       width: 80%;
     }
@@ -239,6 +244,25 @@ import doodleStar2 from "../../assets/doodle-star2.png";
   //   // Toggle visibility of canvas elements based on active tool
   //   const isEraserActive = eraserToolIcon.classList.contains("active");
   // });
+
+  const sidebar = document.getElementById("sidebar");
+  const canvasContainer = document.getElementById("canvas_container");
+
+  if (window.innerWidth > 576) {
+    sidebar.addEventListener("mouseenter", () => {
+      sidebar.style.opacity = 1;
+    });
+    sidebar.addEventListener("mouseleave", () => {
+      sidebar.style.opacity = 0;
+    });
+
+    canvasContainer.addEventListener("mouseenter", () => {
+      sidebar.style.opacity = 1;
+    });
+    canvasContainer.addEventListener("mouseleave", () => {
+      sidebar.style.opacity = 0;
+    });
+  }
 
   const undoButton = document.getElementById("button_undo");
   undoButton.addEventListener("click", () => {

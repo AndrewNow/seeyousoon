@@ -563,9 +563,12 @@ const fallbackWordData = `[
         );
         wordBoxArr.push({ wordBoxData, wordEntry });
 
-        setTimeout(() => {
-          Matter.Composite.add(engine.world, wordBoxData);
-        }, 750 * (i + 1));
+        setTimeout(
+          () => {
+            Matter.Composite.add(engine.world, wordBoxData);
+          },
+          750 * (i + 1)
+        );
       }
     });
 
@@ -578,7 +581,7 @@ const fallbackWordData = `[
 
         let randomAngle;
         if (window.innerWidth > 576) {
-          randomAngle = isPositive ? 3.0 + Math.random() : -3.0 - Math.random();
+          randomAngle = isPositive ? 4.0 + Math.random() : -4.0 - Math.random();
         } else {
           randomAngle = isPositive ? 5.0 + Math.random() : 5.0 - Math.random();
         }
@@ -608,9 +611,12 @@ const fallbackWordData = `[
         );
         boxArr.push({ boxData, cmsEntry });
 
-        setTimeout(() => {
-          Matter.Composite.add(engine.world, boxData);
-        }, 1250 * (i + 1));
+        setTimeout(
+          () => {
+            Matter.Composite.add(engine.world, boxData);
+          },
+          1250 * (i + 1)
+        );
       }
     });
 
