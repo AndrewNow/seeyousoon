@@ -22,6 +22,10 @@ import doodleStar2 from "../../assets/doodle-star2.png";
       <p>Pencil</p>
     </div>
   </button>
+  <button class="button-undo" id="button_undo">
+    <Image src={trash} alt="" width="30" height="38" quality={100} />
+    <p>Undo</p>
+  </button>
 </div>
 <div class="canvas-container" id="canvas_container">
   <canvas class="lazy-canvas" id="canvas_interface"></canvas>
@@ -216,8 +220,41 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     -ms-user-select: none;
     user-select: none;
   }
+  
+  .button-undo {
+  margin-top: 2rem;
+  margin-left: 2rem;
+  color: var(--beige-300);
+  border: none;
+  cursor: pointer;
+  transition: 0.35s all ease;
+  background: none;
+  display: flex;
+  align-items: center;
+}
 
-  @media (max-width: 992px) {
+.button-undo p {
+  opacity: 0;
+  transition: 0.3s all ease;
+  transform: translateY(10px);
+  margin-left: 0.75rem;
+  font-family: "Denim-regular";
+}
+
+.button-undo:hover {
+  transition: 0.35s all ease;
+}
+
+.button-undo:hover p {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+@media (max-width: 992px) {
+    .button-undo {
+      margin-top: 1rem;
+      margin-left: 1.5rem;
+    }
     .bg-star {
       width: 80%;
     }
@@ -261,5 +298,10 @@ import doodleStar2 from "../../assets/doodle-star2.png";
 
     // Toggle visibility of canvas elements based on active tool
     const isEraserActive = eraserToolIcon.classList.contains("active");
+  });
+
+  const undoButton = document.getElementById("button_undo");
+  undoButton.addEventListener("click", () => {
+    scene.undo();
   });
 </script>

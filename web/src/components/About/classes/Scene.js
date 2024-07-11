@@ -89,6 +89,7 @@ export default class Scene {
     });
 
     this.points = [];
+    this.drawingHistory = [];
     this.mouseHasMoved = true;
     this.valuesChanged = true;
     this.isDrawing = false;
@@ -96,7 +97,7 @@ export default class Scene {
     this.brushRadius = BRUSH_RADIUS;
     this.chainLength = LAZY_RADIUS;
     this.eraserRadius = ERASER_RADIUS;
-    this.dpi = 1;
+      this.dpi = 1;
   }
 
   init() {
@@ -338,6 +339,26 @@ handlePointerDown(e) {
 
     // Clear the temporary canvas
     this.context.temp.clearRect(0, 0, width, height);
+      // Save the current canvas state
+    this.saveDrawingState();
+    } 
+
+      saveDrawingState() {
+    const imageData = this.context.drawing.getImageData(0, 0, this.canvas.drawing.width, this.canvas.drawing.height);
+    this.drawingHistory.push(imageData);
+      }
+    
+      undo() {
+    if (this.drawingHistory.length > 1) {
+      this.drawingHistory.pop(); // Remove the last state
+      const previousState = this.drawingHistory[this.drawingHistory.length - 1];
+      this.context.drawing.putImageData(previousState, 0, 0);
+      this.context.temp.clearRect(0, 0, this.canvas.temp.width, this.canvas.temp.height);
+    } else if (this.drawingHistory.length === 1) {
+      // If only one state left, clear the canvas
+      this.clearCanvas();
+      this.drawingHistory = [];
+    }
   }
 
   handlePointerMove(x, y) {
