@@ -10,11 +10,11 @@ import doodleStar2 from "../../assets/doodle-star2.png";
 
 <div id="sidebar">
   <button class="tool-wrapper" id="button_clear">
-    <Image src={trash} alt="" width="30" height="38" quality={100} />
+    <Image src={trash} alt="" width="60" height="78" quality={100} class="tool-icon"/>
     <p>Clear</p>
   </button>
   <button class="tool-wrapper" id="button_undo">
-    <Image src={undo2} alt="" width="30" height="38" quality={100} />
+    <Image src={undo2} alt="" width="60" height="78" quality={100} class="tool-icon" />
     <p>Undo</p>
   </button>
   <!-- <button class="tool-wrapper" id="button_erase">
@@ -111,6 +111,10 @@ import doodleStar2 from "../../assets/doodle-star2.png";
   }
 
   .tool-icon {
+    width: 30px;
+    height: 38px;
+  }
+  /* .tool-icon {
     opacity: 0;
     transition: all 0.15s ease;
     display: flex;
@@ -126,7 +130,7 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     opacity: 1;
     transition: all 0.35s ease;
     transform: translateY(0px);
-  }
+  } */
 
   #mobileConsole {
     position: fixed;
