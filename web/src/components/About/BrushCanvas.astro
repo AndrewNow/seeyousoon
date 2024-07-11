@@ -3,29 +3,30 @@ import Image from "astro/components/Image.astro";
 import trash from "../../assets/trash.png";
 import pencil from "../../assets/pencil.png";
 import pencil2 from "../../assets/pencil2.png";
+import undo2 from "../../assets/undo2.png";
 // import doodleStar from "../../assets/doodle-star.png";
 import doodleStar2 from "../../assets/doodle-star2.png";
 ---
 
 <div id="sidebar">
-  <button class="button-clear" id="button_clear">
+  <button class="tool-wrapper" id="button_clear">
     <Image src={trash} alt="" width="30" height="38" quality={100} />
     <p>Clear</p>
   </button>
-  <button class="tool-wrapper" id="button_erase">
-    <div class="tool-icon active" id="eraserTool">
-      <Image src={pencil2} alt="" width="30" height="38" quality={100} />
-      <p>Eraser</p>
-    </div>
-    <div class="tool-icon" id="pencilTool">
-      <Image src={trash} alt="" width="30" height="38" quality={100} />
-      <p>Pencil</p>
-    </div>
-  </button>
-  <button class="button-undo" id="button_undo">
-    <Image src={trash} alt="" width="30" height="38" quality={100} />
+  <button class="tool-wrapper" id="button_undo">
+    <Image src={undo2} alt="" width="30" height="38" quality={100} />
     <p>Undo</p>
   </button>
+  <!-- <button class="tool-wrapper" id="button_erase">
+      <div class="tool-icon active" id="eraserTool">
+        <Image src={pencil2} alt="" width="30" height="38" quality={100} />
+        <p>Eraser</p>
+      </div>
+      <div class="tool-icon" id="pencilTool">
+        <Image src={trash} alt="" width="30" height="38" quality={100} />
+        <p>Pencil</p>
+      </div>
+    </button> -->
 </div>
 <div class="canvas-container" id="canvas_container">
   <canvas class="lazy-canvas" id="canvas_interface"></canvas>
@@ -47,12 +48,9 @@ import doodleStar2 from "../../assets/doodle-star2.png";
 </div>
 
 <style is:global>
-  .bg-star.active {
-    opacity: .6;
-  }
   .bg-star {
     opacity: 0;
-    transition: .5s all ease;
+    transition: 0.5s all ease;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -61,6 +59,11 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     width: 60%;
     height: auto;
   }
+
+  .bg-star.active {
+    opacity: 0.6;
+  }
+
   .drawing-cursor {
     position: absolute;
     top: 0;
@@ -71,47 +74,44 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     pointer-events: none;
     display: flex;
     align-items: flex-start;
-    flex-direction: row;
     color: var(--beige-300);
-    h5 {
-      margin-left: 0.75rem;
-      transform: translateY(-10px);
-      font-family: "Bradford-Light-Italic";
-    }
   }
-  .button-clear,
+
+  .drawing-cursor h5 {
+    margin-left: 0.75rem;
+    transform: translateY(-10px);
+    font-family: "Bradford-Light-Italic";
+  }
+
   .tool-wrapper {
-    margin-top: 2rem;
     margin-left: 2rem;
     color: var(--beige-300);
     border: none;
     cursor: pointer;
-    transition: 0.35 all ease;
+    transition: 0.35s all ease;
     background: none;
-
-    p {
-      opacity: 0;
-      transition: 0.3s all ease;
-      transform: translateY(10px);
-      margin-left: 0.75rem;
-      font-family: "Denim-regular";
-    }
-  }
-  .button-clear {
     display: flex;
     align-items: center;
   }
-
-  .button-clear:hover {
-    transition: 0.35 all ease;
-
-    p {
-      opacity: 1;
-      transform: translateY(0px);
-    }
+  .tool-wrapper:not(:first-child) {
+    padding-top: 2rem;
   }
+
+  .tool-wrapper p {
+    opacity: 0;
+    transition: 0.3s all ease;
+    transform: translateY(10px);
+    margin-left: 0.75rem;
+    font-family: "Denim-regular";
+  }
+
+  .tool-wrapper:hover p {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
   .tool-icon {
-    opacity: 0; /* Start with all tool icons hidden */
+    opacity: 0;
     transition: all 0.15s ease;
     display: flex;
     align-items: center;
@@ -119,39 +119,13 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     top: 0;
     left: 0;
     transform: translateY(10px);
-    margin-left: .25rem;
+    margin-left: 0.25rem;
   }
-  
+
   .tool-icon.active {
+    opacity: 1;
     transition: all 0.35s ease;
-    opacity: 1; /* Show the active tool icon */
     transform: translateY(0px);
-  }
-  .tool-wrapper {
-    position: relative;
-    width: 100%;
-    background: none;
-    color: var(--beige-300);
-    border: none;
-    cursor: pointer;
-    transition: 0.35 all ease;
-
-    p {
-      opacity: 0;
-      transition: 0.3s all ease;
-      transform: translateY(10px);
-      margin-left: 0.75rem;
-      font-family: "Denim-regular";
-    }
-  }
-
-  .tool-wrapper:hover {
-    transition: 0.35 all ease;
-
-    p {
-      opacity: 1;
-      transform: translateY(0px);
-    }
   }
 
   #mobileConsole {
@@ -173,17 +147,23 @@ import doodleStar2 from "../../assets/doodle-star2.png";
   #sidebar {
     position: absolute;
     z-index: 20;
+    margin-top: 2rem;
+    display: block;
   }
+
   #canvas_interface {
     z-index: 15;
     cursor: none;
   }
+
   #canvas_grid {
     z-index: 14;
   }
+
   #canvas_temp {
     z-index: 12;
   }
+
   #canvas_drawing {
     z-index: 10;
   }
@@ -197,6 +177,7 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     width: 100%;
     height: 100%;
   }
+
   #slider_lazy,
   #slider_brush {
     width: 100px;
@@ -210,56 +191,15 @@ import doodleStar2 from "../../assets/doodle-star2.png";
     width: 100%;
     height: 100%;
     z-index: 10;
-  }
-  .lazy-canvas {
     touch-action: none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
   }
-  
-  .button-undo {
-  margin-top: 2rem;
-  margin-left: 2rem;
-  color: var(--beige-300);
-  border: none;
-  cursor: pointer;
-  transition: 0.35s all ease;
-  background: none;
-  display: flex;
-  align-items: center;
-}
 
-.button-undo p {
-  opacity: 0;
-  transition: 0.3s all ease;
-  transform: translateY(10px);
-  margin-left: 0.75rem;
-  font-family: "Denim-regular";
-}
-
-.button-undo:hover {
-  transition: 0.35s all ease;
-}
-
-.button-undo:hover p {
-  opacity: 1;
-  transform: translateY(0px);
-}
-
-@media (max-width: 992px) {
-    .button-undo {
-      margin-top: 1rem;
-      margin-left: 1.5rem;
-    }
+  @media (max-width: 992px) {
     .bg-star {
       width: 80%;
     }
 
-    .button-clear,
     .tool-wrapper {
       margin-top: 1rem;
       margin-left: 1.5rem;
@@ -287,18 +227,18 @@ import doodleStar2 from "../../assets/doodle-star2.png";
   });
   scene.init();
 
-  // Toggle between eraser and pencil tools
-  const eraserButton = document.getElementById("button_erase");
-  const eraserToolIcon = document.getElementById("eraserTool");
-  const pencilToolIcon = document.getElementById("pencilTool");
+  // // Toggle between eraser and pencil tools
+  // const eraserButton = document.getElementById("button_erase");
+  // const eraserToolIcon = document.getElementById("eraserTool");
+  // const pencilToolIcon = document.getElementById("pencilTool");
 
-  eraserButton.addEventListener("click", () => {
-    eraserToolIcon.classList.toggle("active");
-    pencilToolIcon.classList.toggle("active");
+  // eraserButton.addEventListener("click", () => {
+  //   eraserToolIcon.classList.toggle("active");
+  //   pencilToolIcon.classList.toggle("active");
 
-    // Toggle visibility of canvas elements based on active tool
-    const isEraserActive = eraserToolIcon.classList.contains("active");
-  });
+  //   // Toggle visibility of canvas elements based on active tool
+  //   const isEraserActive = eraserToolIcon.classList.contains("active");
+  // });
 
   const undoButton = document.getElementById("button_undo");
   undoButton.addEventListener("click", () => {

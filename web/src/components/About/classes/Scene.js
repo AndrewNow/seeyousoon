@@ -65,7 +65,7 @@ export default class Scene {
     this.sidebar = document.getElementById(sidebar);
     this.canvas = {};
     this.context = {};
-
+    
       
     Object.keys(canvas).forEach((c) => {
       const el = document.getElementById(canvas[c]);
@@ -97,7 +97,7 @@ export default class Scene {
     this.brushRadius = BRUSH_RADIUS;
     this.chainLength = LAZY_RADIUS;
     this.eraserRadius = ERASER_RADIUS;
-      this.dpi = 1;
+    this.dpi = 1;
   }
 
   init() {
@@ -139,9 +139,9 @@ export default class Scene {
     });
 
     // Set eraser event
-    this.button.erase.addEventListener("click", (e) =>
-      this.handleButtonErase(e)
-    );
+    // this.button.erase.addEventListener("click", (e) =>
+    //   this.handleButtonErase(e)
+    // );
 
     // Initialize ResizeObserver for canvas and sidebar
     const observeCanvas = new ResizeObserver((entries, observer) =>
@@ -298,17 +298,6 @@ hideCursor() {
 handleButtonClear(e) {
   e.preventDefault();
   this.clearCanvas();
-  this.hideCursor();
-}
-
- handleButtonErase(e) {
-  e.preventDefault();
-  this.isErasing = !this.isErasing;
-  if (this.isErasing) {
-    this.button.erase.classList.add("active");
-  } else {
-    this.button.erase.classList.remove("active");
-  }
   this.hideCursor();
 }
 
