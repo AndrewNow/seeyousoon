@@ -311,17 +311,18 @@ handleButtonClear(e) {
   this.hideCursor();
 }
 
-  handlePointerDown(e) {
-    e.preventDefault();
-    const rect = this.canvas.interface.getBoundingClientRect();
-    const x = e.clientX || e.touches[0].clientX - rect.left;
-    const y = e.clientY || e.touches[0].clientY - rect.top;
-    this.lazy.update({ x: x, y: y }, { both: true });
-    this.isPressing = true;
-    this.cursorPressed = true;
-    this.updateCursorPosition(x, y);
-    this.fadeCursorText(); // Fade out the cursor text when drawing starts
-  }
+handlePointerDown(e) {
+  e.preventDefault();
+  const rect = this.canvas.interface.getBoundingClientRect();
+  const x = e.clientX || e.touches[0].clientX - rect.left;
+  const y = e.clientY || e.touches[0].clientY - rect.top;
+  this.lazy.update({ x: x, y: y }, { both: true });
+  this.isPressing = true;
+  this.cursorPressed = true;
+  this.updateCursorPosition(x, y);
+  this.fadeCursorText(); // Fade out the cursor text when drawing starts
+  this.removeBgStarActiveClass(); // Remove 'active' class from background star
+}
 
   handlePointerUp(e) {
     e.preventDefault();
@@ -437,7 +438,15 @@ handleButtonClear(e) {
       this.loop({ once: true });
     }
   }
-
+removeBgStarActiveClass() {
+    const bgStar = document.querySelector('.bg-star');
+    console.log(bgStar)
+  if (bgStar) {
+    bgStar.classList.remove('active');
+  }
+}
+    
+    
   setCanvasSize(canvas, width, height, maxDpi = 4) {
     this.dpi = window.devicePixelRatio;
     if (window.innerWidth > 1024) {
