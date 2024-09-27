@@ -4,59 +4,59 @@ import { Image } from "astro:assets";
 const { eventData, index } = Astro.props;
 
 function formatDate(inputDate) {
-      const dateObject = new Date(inputDate);
-      const options = { month: "long", day: "numeric" };
+  const dateObject = new Date(inputDate);
+  const options = { month: "long", day: "numeric" };
 
-      const monthAndDay = dateObject.toLocaleDateString("en-US", options);
-      const day = dateObject.getDate();
-      let suffix = "th";
+  const monthAndDay = dateObject.toLocaleDateString("en-US", options);
+  const day = dateObject.getDate();
+  let suffix = "th";
 
-      if (day >= 11 && day <= 13) {
-        suffix = "th";
-      } else {
-        switch (day % 10) {
-          case 1:
-            suffix = "st";
-            break;
-          case 2:
-            suffix = "nd";
-            break;
-          case 3:
-            suffix = "rd";
-            break;
-        }
-      }
-
-      return `${monthAndDay}${suffix}`;
+  if (day >= 11 && day <= 13) {
+    suffix = "th";
+  } else {
+    switch (day % 10) {
+      case 1:
+        suffix = "st";
+        break;
+      case 2:
+        suffix = "nd";
+        break;
+      case 3:
+        suffix = "rd";
+        break;
     }
+  }
 
-    function formatRange(startDate, endDate) {
-      const formattedStartDate = formatDate(startDate);
-      const formattedEndDate = endDate ? formatDate(endDate) : null;
+  return `${monthAndDay}${suffix}`;
+}
 
-      // Compare the start and end dates
-      if (
-        endDate &&
-        new Date(startDate).toDateString() === new Date(endDate).toDateString()
-      ) {
-        return formattedStartDate;
-      }
+function formatRange(startDate, endDate) {
+  const formattedStartDate = formatDate(startDate);
+  const formattedEndDate = endDate ? formatDate(endDate) : null;
 
-      const startMonth = new Date(startDate).getMonth();
-      const endMonth = endDate ? new Date(endDate).getMonth() : null;
+  // Compare the start and end dates
+  if (
+    endDate &&
+    new Date(startDate).toDateString() === new Date(endDate).toDateString()
+  ) {
+    return formattedStartDate;
+  }
 
-      if (endMonth !== null && startMonth === endMonth) {
-        return `${formattedStartDate} to ${formattedEndDate.substr(
-          formattedEndDate.indexOf(" ") + 1
-        )}`;
-      } else {
-        return `${formattedStartDate} to ${formattedEndDate}`;
-      }
-    }
+  const startMonth = new Date(startDate).getMonth();
+  const endMonth = endDate ? new Date(endDate).getMonth() : null;
 
-    const startDate = eventData.date;
-    const endDate = eventData.date;
-    const formattedDateRange = formatRange(startDate, endDate);
+  if (endMonth !== null && startMonth === endMonth) {
+    return `${formattedStartDate} to ${formattedEndDate.substr(
+      formattedEndDate.indexOf(" ") + 1
+    )}`;
+  } else {
+    return `${formattedStartDate} to ${formattedEndDate}`;
+  }
+}
+
+const startDate = eventData.date;
+const endDate = eventData.date;
+const formattedDateRange = formatRange(startDate, endDate);
 ---
 
 <div class="event-entry-wrapper">
@@ -137,8 +137,8 @@ function formatDate(inputDate) {
           </h6>
         </div>
       </div>
-      <div class="accordion-caret"
-        ><svg
+      <div class="accordion-caret">
+        <svg
           id="accordionSVG"
           viewBox="0 0 40 40"
           fill="none"
@@ -156,66 +156,54 @@ function formatDate(inputDate) {
   </div>
 
   <script>
-import { animate } from "motion";
+    import { animate } from "motion";
 
-const wrappers = document.querySelectorAll("#pastEvent");
+    const wrappers = document.querySelectorAll("#pastEvent");
 
-wrappers.forEach((item, i) => {
-  const btn = item.querySelector("#toggleAccordion");
-  const svg = item.querySelector("#accordionSVG");
-  const carousel = item.querySelector("#eventCarousel");
-  const details = item.querySelector(".upcomingEvents-details");
-  let isOpen = i === 0; // Set initial state based on index
+    wrappers.forEach((item, i) => {
+      const btn = item.querySelector("#toggleAccordion");
+      const svg = item.querySelector("#accordionSVG");
+      const carousel = item.querySelector("#eventCarousel");
+      const details = item.querySelector(".upcomingEvents-details");
+      let isOpen = i === 0; // Set initial state based on index
 
-  // Set initial styles
-  if (isOpen) {
-    carousel.style.height = `${carousel.scrollHeight}px`;
-    carousel.style.marginBottom = "1rem";
-    svg.style.transform = "rotate(180deg)"; // Use transform instead of rotate
-    details.style.opacity = "1";
-    details.style.height = `${details.scrollHeight}px`;
-  } else {
-    carousel.style.height = "0";
-    carousel.style.marginBottom = "0";
-    svg.style.transform = "rotate(0deg)";
-    details.style.opacity = "0";
-    details.style.height = "0";
-  }
+      // Set initial styles
+      if (isOpen) {
+        carousel.style.height = `${carousel.scrollHeight}px`;
+        carousel.style.marginBottom = "1rem";
+        svg.style.transform = "rotate(180deg)"; // Use transform instead of rotate
+        details.style.opacity = "1";
+        details.style.height = `${details.scrollHeight}px`;
+      } else {
+        carousel.style.height = "0";
+        carousel.style.marginBottom = "0";
+        svg.style.transform = "rotate(0deg)";
+        details.style.opacity = "0";
+        details.style.height = "0";
+      }
 
-  btn.addEventListener("click", () => {
-    isOpen = !isOpen;
-    animate(
-      carousel,
-      {
-        height: isOpen ? `${carousel.scrollHeight}px` : "0",
-        marginBottom: isOpen ? "1rem" : "0",
-      },
-    );
-    animate(
-      svg,
-      {
-        rotate: isOpen ? 180 : 0,
-      },
-    );
-    if (window.innerWidth < 769) {
-      animate(
-        details,
-        {
-          height: isOpen ? `${details.scrollHeight}px` : "0",
-          opacity: isOpen ? 1 : 0,
-        },
-      );
-    } else {
-      animate(
-        details,
-        {
-          height: "100%",
-          opacity: isOpen ? 1 : 0,
-        },
-      );
-    }
-  });
-});
+      btn.addEventListener("click", () => {
+        isOpen = !isOpen;
+        animate(carousel, {
+          height: isOpen ? `${carousel.scrollHeight}px` : "0",
+          marginBottom: isOpen ? "1rem" : "0",
+        });
+        animate(svg, {
+          rotate: isOpen ? 180 : 0,
+        });
+        if (window.innerWidth < 769) {
+          animate(details, {
+            height: isOpen ? `${details.scrollHeight}px` : "0",
+            opacity: isOpen ? 1 : 0,
+          });
+        } else {
+          animate(details, {
+            height: "100%",
+            opacity: isOpen ? 1 : 0,
+          });
+        }
+      });
+    });
   </script>
 
   <style lang="scss">
@@ -317,6 +305,9 @@ wrappers.forEach((item, i) => {
       align-items: center;
       flex: 1.5;
       max-width: 55%;
+      h4 {
+        font-size: 48px;
+      }
       p {
         width: 65%;
       }
@@ -365,10 +356,19 @@ wrappers.forEach((item, i) => {
       // flex: 0 0 100%;
       // min-width: 0;
     }
-
+    @media (max-width: 1280px) {
+      .event-title-area {
+        h4 {
+          font-size: 36px;
+        }
+      }
+    }
     @media (max-width: 992px) {
       .event-title-area {
         max-width: 67%;
+        h4 {
+          font-size: 36px;
+        }
       }
       .accordion-caret {
         width: 65px;
@@ -384,6 +384,11 @@ wrappers.forEach((item, i) => {
       }
     }
     @media (max-width: 768px) {
+      .event-title-area {
+        h4 {
+          font-size: 22px;
+        }
+      }
       .pastEvents-image-wrapper {
         img {
           margin-right: 0.5rem;
