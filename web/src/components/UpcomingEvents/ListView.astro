@@ -2,6 +2,7 @@
 const { cmsData } = Astro.props;
 import Image from "astro/components/Image.astro";
 import dancing from "../../assets/dancing.png";
+import star from "../../assets/sys-star.png";
 
 let formattedDates = [];
 
@@ -116,9 +117,9 @@ cmsData.forEach((post) => {
     })
   }
   <Image
-    class="dancing-img"
-    src={dancing}
-    alt="Two dancing SYS stars, each with a glass of wine in their hand"
+    class="star-img"
+    src={star}
+    alt="Seeyousoon star logo"
     widths={[85, 160, dancing.width]}
     sizes={`(max-width: 576px) 85px, (max-width: 720px) 160, (max-width: 1500px) 110, 160px`}
   />
@@ -246,10 +247,12 @@ cmsData.forEach((post) => {
   .reserve-link.no-link:hover:after {
     transform: none;
   }
-  .dancing-img {
+  .star-img {
+    aspect-ratio: 1/1;
+    width: 80px;
+    height: auto;
     padding-top: 3rem;
     margin: 0 auto;
-    opacity: 0.5;
     transform: rotate(1deg);
   }
   @media (max-width: 1500px) {
@@ -257,10 +260,9 @@ cmsData.forEach((post) => {
       padding: 2rem 1.5rem;
       max-width: min(550px, 98vw);
     }
-    .dancing-img {
-      padding-top: 0rem;
+    .star-img {
+      padding-top: 2rem;
       padding-bottom: 1rem;
-      scale: 0.85;
     }
   }
   @media (max-width: 992px) {
@@ -322,10 +324,10 @@ cmsData.forEach((post) => {
       }
     }
 
-    .dancing-img {
-      padding-top: 0rem;
-      padding-bottom: 1rem;
-      scale: 0.67;
+    .star-img {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      width: 60px;
     }
   }
 </style>
