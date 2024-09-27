@@ -1,12 +1,17 @@
 ---
 import PastEventEntry from "./PastEventEntry.astro";
 const { data } = Astro.props;
+import Image from "astro/components/Image.astro";
+import pastevents1 from "../../../assets/pastevents1.png";
+import pastevents2 from "../../../assets/pastevents2.png";
 ---
 
 <div class="wrapper">
-  <h1>Past Events</h1>
-  <img src="https://i.imgur.com/7QCvE7b.png" class="star1" />
-  <img src="https://i.imgur.com/o44hbTS.png" class="star2" />
+  <!-- <h1>Past Events</h1> -->
+  <Image src={pastevents1} width="303" height="268" quality={80} alt="" class="star1" />
+  <Image src={pastevents2} width="176" height="137" quality={80} alt="" class="star2" />
+  <!-- <img src="https://i.imgur.com/7QCvE7b.png" class="star1" /> -->
+  <!-- <img src="https://i.imgur.com/o44hbTS.png" class="star2" /> -->
   {
     data.map((event, i) => {
       return (
@@ -25,18 +30,28 @@ const { data } = Astro.props;
     z-index: 0;
   }
   .star1 {
-    top: 7rem;
-    left: 3rem;
+    top: 0rem;
+    left: 20vw;
   }
   .star2 {
-    right: 2rem;
-    top: 5rem;
-    rotate: 10deg;
+    right: 20vw;
+    top: 7.5rem;
+    // rotate: 10deg;
   }
+  // .star1 {
+  //   top: 7rem;
+  //   left: 3rem;
+  // }
+  // .star2 {
+  //   right: 2rem;
+  //   top: 5rem;
+  //   rotate: 10deg;
+  // }
   .wrapper {
     width: 98%;
     margin: 0 auto;
     margin-top: 1rem;
+    padding-top: 15rem; // remove if not using sign illustration
     // background: var(--brown-400);
     border-radius: 20px; // was 8
     overflow: hidden;
@@ -62,32 +77,38 @@ const { data } = Astro.props;
 
   @media (max-width: 1500px) {
     .star1 {
-    top: 5.25rem;
-    left: 3rem;
-  }
-  .star2 {
-    right: 2rem;
-    top: 3.5rem;
-    rotate: 5deg;
-  }
+      // top: 5.25rem;
+      // left: 3rem;
+      left: 10vw;
+      }
+      .star2 {
+        right: 10vw;
+        // right: 2rem;
+      // top: 3.5rem;
+      rotate: 5deg;
+    }
   }
   @media (max-width: 768px) {
     .wrapper {
       // width: 100%;
       // border-radius: 0;
+      padding-top: 10rem;
       h1 {
         margin: 2rem auto;
       }
     }
     .star1 {
-      top: 3.5rem;
-      left: 0rem;
-      width: 100px;
-    }
-    .star2 {
-      right: 0.5rem;
-      top: 4rem;
-      rotate: 10deg;
+      // top: 0rem;
+      // left: 0rem;
+      height: auto;
+      width: 200px;
+      }
+      .star2 {
+        // right: 0.5rem;
+        // top: 0rem;
+        // rotate: 10deg;
+        top: 6rem;
+        height: auto;
       width: 100px;
     }
     .pastevent-entry-wrapper {
@@ -97,21 +118,24 @@ const { data } = Astro.props;
 
   @media (max-width: 576px) {
     .star1 {
-      top: 5.5rem;
-      left: 0rem;
-      width: 100px;
+      top: 1.85rem;
+      // top: 5.5rem;
+      left: 2rem;
+      width: 125px;
+      // width: 100px;
     }
     .star2 {
-      right: 0.5rem;
-      top: 4rem;
-      rotate: 10deg;
-      width: 100px;
+      right: 1.5rem;
+      top: 5rem;
+      // rotate: 10deg;
+      width: 75px;
     }
     .wrapper {
+      padding-top: 8rem;
       border-radius: 8px;
       margin-top: 0;
       transform: translateY(-4rem);
-      width: var(--mobile-width); 
+      width: var(--mobile-width);
       h1 {
         margin: 3rem 0;
       }
