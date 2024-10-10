@@ -67,14 +67,26 @@ const { data } = Astro.props;
 
   const footerTrack = document.getElementById("footerTrack");
   const video = document.getElementById("footerVideo");
+  const videoMedia = document.querySelector(".video-media");
 
-  if (footerTrack && video) {
+  if (footerTrack && video && videoMedia) {
     scroll(
       animate(video, {
         clipPath: [
           "inset(35% 0% 0% 0% round 20px)",
           "inset(0% 0% 0% 0% round 20px)",
         ],
+      }),
+      {
+        target: footerTrack,
+        offset: ["start end", "end end"],
+      }
+    );
+
+    scroll(
+      animate(videoMedia, {
+        scale: [1.4, 1],
+        filter: "brightness(1) blur(0px)",
       }),
       {
         target: footerTrack,
@@ -120,9 +132,12 @@ const { data } = Astro.props;
     .video-media {
       max-width: 100%;
       width: 100%;
+      height: 100%;
       object-fit: cover;
-      object-position: top;
-      // filter: brightness(0.7);
+      object-position: center; // Changed from 'top' to 'center'
+      transform-origin: center; // Add this line
+      filter: brightness(0.15) blur(15px); // Set initial brightness
+      will-change: filter, transform; // Optimize for animations
     }
 
     .video-text {
