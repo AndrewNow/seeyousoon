@@ -63,13 +63,30 @@ const { data } = Astro.props;
 </footer>
 
 <script>
-  import { scroll, animate } from "motion";
+  import { scroll, animate, spring } from "motion";
 
   const footerTrack = document.getElementById("footerTrack");
   const video = document.getElementById("footerVideo");
   const videoMedia = document.querySelector(".video-media");
+  const textLogo = document.getElementById("footer-written-logo");
 
-  if (footerTrack && video && videoMedia) {
+  if (footerTrack && video && videoMedia && textLogo) {
+    const wiggle = () => {
+      animate(
+        textLogo,
+        { rotate: [-2, 2, -1] },
+        {
+          duration: 0.3,
+          repeat: 2,
+          delay: 0.5,
+          direction: "alternate",
+          easing: "linear",
+        }
+      );
+    };
+
+    let hasWiggled = false;
+
     scroll(
       animate(video, {
         clipPath: [
@@ -84,9 +101,21 @@ const { data } = Astro.props;
     );
 
     scroll(
+      (info) => {
+        if (info.y.progress >= 1 && !hasWiggled) {
+          wiggle();
+          hasWiggled = true;
+        } else if (info.y.progress < 1) {
+          hasWiggled = false;
+        }
+      },
       animate(videoMedia, {
         scale: [1.4, 1],
-        filter: "brightness(1) blur(0px)",
+        filter: ["brightness(0.15) blur(15px)", "brightness(1) blur(0px)"],
+        webkitFilter: [
+          "brightness(0.15) blur(15px)",
+          "brightness(1) blur(0px)",
+        ],
       }),
       {
         target: footerTrack,
@@ -126,7 +155,7 @@ const { data } = Astro.props;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    clip-path: inset(35% 0% 0% 0% round 20px);
+    // clip-path: inset(35% 0% 0% 0% round 20px);
     overflow: hidden;
 
     .video-media {
