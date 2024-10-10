@@ -87,11 +87,14 @@ const { data } = Astro.props;
 
     let hasWiggled = false;
 
+    const isMobile = window.innerWidth <= 576;
+    const borderRadius = isMobile ? "8px" : "20px";
+
     scroll(
       animate(video, {
         clipPath: [
-          "inset(35% 0% 0% 0% round 20px)",
-          "inset(0% 0% 0% 0% round 20px)",
+          `inset(35% 0% 0% 0% round ${borderRadius})`,
+          `inset(0% 0% 0% 0% round ${borderRadius})`,
         ],
       }),
       {
@@ -144,6 +147,12 @@ const { data } = Astro.props;
     height: 92.5vh;
     border-radius: 20px;
     overflow: hidden;
+  }
+
+  @media (max-width: 576px) {
+    .video-wrapper {
+      border-radius: 8px;
+    }
   }
 
   .video {
