@@ -270,6 +270,7 @@ import BrushCanvas from "./BrushCanvas.astro";
   const bios = document.querySelectorAll(".bio");
   const dots = document.querySelectorAll(".dot");
   let currentIndex = 0;
+  let animationInterval;
 
   function activateNext() {
     // Remove the active class from current elements
@@ -288,9 +289,49 @@ import BrushCanvas from "./BrushCanvas.astro";
   }
 
   function startAnimation() {
-    activateNext();
-    setTimeout(startAnimation, 5000);
+    // Reset the index to 0 and update classes
+    currentIndex = 0;
+    bios.forEach((bio, index) => {
+      bio.classList.toggle("active", index === 0);
+    });
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === 0);
+    });
+
+    // Force a reflow to ensure the animation starts
+    dots[0].offsetWidth;
+
+    // Start the interval
+    animationInterval = setInterval(activateNext, 5000);
   }
 
-  startAnimation();
+  function stopAnimation() {
+    clearInterval(animationInterval);
+    
+    // Remove active class from all dots and bios
+    dots.forEach(dot => dot.classList.remove("active"));
+    bios.forEach(bio => bio.classList.remove("active"));
+  }
+
+  // Create an Intersection Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        startAnimation();
+      } else {
+        stopAnimation();
+      }
+    });
+  }, {
+    threshold: 0.5 // Trigger when 50% of the target is visible
+  });
+
+  // Observe the container element
+  const container = document.querySelector('.container');
+  if (container) {
+    observer.observe(container);
+  }
+
+  // Initially remove active class from all dots and bios
+  stopAnimation();
 </script>

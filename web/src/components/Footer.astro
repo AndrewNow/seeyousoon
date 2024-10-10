@@ -104,14 +104,21 @@ const { data } = Astro.props;
     );
 
     scroll(
-      (info) => {
-        if (info.y.progress >= 1 && !hasWiggled) {
+      ({ y }) => {
+        if (y.progress >= 0.9 && !hasWiggled) {
           wiggle();
           hasWiggled = true;
-        } else if (info.y.progress < 1) {
+        } else if (y.progress < 1) {
           hasWiggled = false;
         }
       },
+      {
+        target: footerTrack,
+        offset: ["start end", "end end"],
+      }
+    );
+
+    scroll(
       animate(videoMedia, {
         scale: [1.4, 1],
         filter: ["brightness(0.15) blur(15px)", "brightness(1) blur(0px)"],
@@ -122,7 +129,7 @@ const { data } = Astro.props;
       }),
       {
         target: footerTrack,
-        offset: ["start end", "end end"],
+        offset: ["start end", "90% end"],
       }
     );
   }

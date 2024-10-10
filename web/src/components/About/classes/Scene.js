@@ -2,7 +2,7 @@ import { LazyBrush } from "lazy-brush";
 import { Catenary } from "catenary-curve";
 import ResizeObserver from "resize-observer-polyfill";
 
-const LAZY_RADIUS = 7;
+const LAZY_RADIUS = 3;
 const BRUSH_RADIUS = 6;
 const ERASER_RADIUS = 18;
 const STROKE_COLOR = "#F9F8F3";
