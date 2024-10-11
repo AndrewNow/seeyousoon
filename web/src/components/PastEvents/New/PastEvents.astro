@@ -8,8 +8,22 @@ import pastevents2 from "../../../assets/pastevents2.png";
 
 <div class="wrapper">
   <!-- <h1>Past Events</h1> -->
-  <Image src={pastevents1} width="303" height="268" quality={80} alt="" class="star1" />
-  <Image src={pastevents2} width="176" height="137" quality={80} alt="" class="star2" />
+  <Image
+    src={pastevents1}
+    width="303"
+    height="268"
+    quality={80}
+    alt=""
+    class="star1"
+  />
+  <Image
+    src={pastevents2}
+    width="176"
+    height="137"
+    quality={80}
+    alt=""
+    class="star2"
+  />
   <!-- <img src="https://i.imgur.com/7QCvE7b.png" class="star1" /> -->
   <!-- <img src="https://i.imgur.com/o44hbTS.png" class="star2" /> -->
   {
@@ -74,16 +88,24 @@ import pastevents2 from "../../../assets/pastevents2.png";
     position: relative;
     z-index: 2;
   }
+  .pastevent-entry-wrapper:hover {
+    background: #191411;
+  }
+  @media (max-width: 576px) {
+    .pastevent-entry-wrapper:hover {
+      background: var(--brown-400);
+    }
+  }
 
   @media (max-width: 1500px) {
     .star1 {
       // top: 5.25rem;
       // left: 3rem;
       left: 10vw;
-      }
-      .star2 {
-        right: 10vw;
-        // right: 2rem;
+    }
+    .star2 {
+      right: 10vw;
+      // right: 2rem;
       // top: 3.5rem;
       rotate: 5deg;
     }
@@ -102,13 +124,13 @@ import pastevents2 from "../../../assets/pastevents2.png";
       // left: 0rem;
       height: auto;
       width: 200px;
-      }
-      .star2 {
-        // right: 0.5rem;
-        // top: 0rem;
-        // rotate: 10deg;
-        top: 6rem;
-        height: auto;
+    }
+    .star2 {
+      // right: 0.5rem;
+      // top: 0rem;
+      // rotate: 10deg;
+      top: 6rem;
+      height: auto;
       width: 100px;
     }
     .pastevent-entry-wrapper {

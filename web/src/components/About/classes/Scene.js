@@ -201,22 +201,22 @@ export default class Scene {
     this.loop();
   }
 
-handleTouchStart(e) {
-  e.preventDefault();
-  const rect = this.canvas.interface.getBoundingClientRect();
-  const x = e.changedTouches[0].clientX - rect.left;
-  const y = e.changedTouches[0].clientY - rect.top;
+  handleTouchStart(e) {
+    e.preventDefault();
+    const rect = this.canvas.interface.getBoundingClientRect();
+    const x = e.changedTouches[0].clientX - rect.left;
+    const y = e.changedTouches[0].clientY - rect.top;
 
-  const scaleX = this.canvas.temp.width / rect.width;
-  const scaleY = this.canvas.temp.height / rect.height;
+    const scaleX = this.canvas.temp.width / rect.width;
+    const scaleY = this.canvas.temp.height / rect.height;
 
-  const scaledX = x * scaleX;
-  const scaledY = y * scaleY;
+    const scaledX = x * scaleX;
+    const scaledY = y * scaleY;
 
-  this.lazy.update({ x: scaledX, y: scaledY }, { both: true });
-  this.handlePointerDown(e);
-  this.mouseHasMoved = true;
-}
+    this.lazy.update({ x: scaledX, y: scaledY }, { both: true });
+    this.handlePointerDown(e);
+    this.mouseHasMoved = true;
+  }
 
   handleTouchMove(x, y) {
     this.handlePointerMove(x, y);
@@ -237,27 +237,27 @@ handleTouchStart(e) {
     }
   }
 
-updateCursorPosition(x, y) {
-  if (this.cursor) {
-    const rect = this.canvas.interface.getBoundingClientRect();
-    const scaleX = this.canvas.temp.width / rect.width;
-    const scaleY = this.canvas.temp.height / rect.height;
+  updateCursorPosition(x, y) {
+    if (this.cursor) {
+      const rect = this.canvas.interface.getBoundingClientRect();
+      const scaleX = this.canvas.temp.width / rect.width;
+      const scaleY = this.canvas.temp.height / rect.height;
 
-    const cursorRect = this.cursor.getBoundingClientRect();
-    const cursorHeight = cursorRect.height;
+      const cursorRect = this.cursor.getBoundingClientRect();
+      const cursorHeight = cursorRect.height;
 
-    const offsetX = -7;
-    const offsetY = 4;
+      const offsetX = -7;
+      const offsetY = 4;
 
-    let adjustedX = (x * scaleX) / this.dpi + offsetX;
-    let adjustedY = (y * scaleY) / this.dpi - cursorHeight + offsetY;
+      let adjustedX = (x * scaleX) / this.dpi + offsetX;
+      let adjustedY = (y * scaleY) / this.dpi - cursorHeight + offsetY;
 
-    this.cursor.style.transform = `translate(${adjustedX}px, ${adjustedY}px)`;
+      this.cursor.style.transform = `translate(${adjustedX}px, ${adjustedY}px)`;
 
-    this.showCursor();
-    this.resetCursorTimeout();
+      this.showCursor();
+      this.resetCursorTimeout();
+    }
   }
-}
 
   showCursor() {
     if (this.cursor) {
@@ -312,25 +312,25 @@ updateCursorPosition(x, y) {
     this.hideCursor();
   }
 
-handlePointerDown(e) {
-  e.preventDefault();
-  const rect = this.canvas.interface.getBoundingClientRect();
-  const x = e.clientX || e.touches[0].clientX - rect.left;
-  const y = e.clientY || e.touches[0].clientY - rect.top;
+  handlePointerDown(e) {
+    e.preventDefault();
+    const rect = this.canvas.interface.getBoundingClientRect();
+    const x = e.clientX || e.touches[0].clientX - rect.left;
+    const y = e.clientY || e.touches[0].clientY - rect.top;
 
-  const scaleX = this.canvas.temp.width / rect.width;
-  const scaleY = this.canvas.temp.height / rect.height;
+    const scaleX = this.canvas.temp.width / rect.width;
+    const scaleY = this.canvas.temp.height / rect.height;
 
-  const scaledX = x * scaleX;
-  const scaledY = y * scaleY;
+    const scaledX = x * scaleX;
+    const scaledY = y * scaleY;
 
-  this.lazy.update({ x: scaledX, y: scaledY }, { both: true });
-  this.isPressing = true;
-  this.cursorPressed = true;
-  this.updateCursorPosition(x, y);
-  this.fadeCursorText();
-  this.removeActiveClass();
-}
+    this.lazy.update({ x: scaledX, y: scaledY }, { both: true });
+    this.isPressing = true;
+    this.cursorPressed = true;
+    this.updateCursorPosition(x, y);
+    this.fadeCursorText();
+    this.removeActiveClass();
+  }
 
   handlePointerUp(e) {
     e.preventDefault();
@@ -378,69 +378,69 @@ handlePointerDown(e) {
     }
   }
 
-handlePointerMove(x, y) {
-  const rect = this.canvas.interface.getBoundingClientRect();
-  const scaleX = this.canvas.temp.width / rect.width;
-  const scaleY = this.canvas.temp.height / rect.height;
+  handlePointerMove(x, y) {
+    const rect = this.canvas.interface.getBoundingClientRect();
+    const scaleX = this.canvas.temp.width / rect.width;
+    const scaleY = this.canvas.temp.height / rect.height;
 
-  const scaledX = x * scaleX;
-  const scaledY = y * scaleY;
+    const scaledX = x * scaleX;
+    const scaledY = y * scaleY;
 
-  this.updateCursorPosition(x, y);
+    this.updateCursorPosition(x, y);
 
-  const hasChanged = this.lazy.update({ x: scaledX, y: scaledY });
-  const isDisabled = !this.lazy.isEnabled();
+    const hasChanged = this.lazy.update({ x: scaledX, y: scaledY });
+    const isDisabled = !this.lazy.isEnabled();
 
-  this.context.temp.lineJoin = "round";
-  this.context.temp.lineCap = "round";
-  this.context.temp.strokeStyle = this.isErasing ? BG_COLOR : STROKE_COLOR;
-  this.context.temp.lineWidth = this.isErasing
-    ? this.eraserRadius * 2
-    : this.brushRadius * 2;
+    this.context.temp.lineJoin = "round";
+    this.context.temp.lineCap = "round";
+    this.context.temp.strokeStyle = this.isErasing ? BG_COLOR : STROKE_COLOR;
+    this.context.temp.lineWidth = this.isErasing
+      ? this.eraserRadius * 2
+      : this.brushRadius * 2;
 
-  const isOverButton =
-    document.querySelectorAll("#sidebar button:hover").length > 0;
+    const isOverButton =
+      document.querySelectorAll("#sidebar button:hover").length > 0;
 
-  if (!isOverButton) {
-    this.showCursor();
-  } else {
-    this.hideCursor();
-  }
-
-  if (
-    (this.isPressing && hasChanged && !this.isDrawing) ||
-    (isDisabled && this.isPressing)
-  ) {
-    this.isDrawing = true;
-    this.points.push(this.lazy.brush.toObject());
-  }
-
-  if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
-    this.context.temp.clearRect(
-      0,
-      0,
-      this.canvas.temp.width,
-      this.canvas.temp.height
-    );
-    this.points.push(this.lazy.brush.toObject());
-
-    var p1 = this.points[0];
-    var p2 = this.points[1];
-
-    this.context.temp.moveTo(p2.x, p2.y);
-    this.context.temp.beginPath();
-    for (var i = 1, len = this.points.length; i < len; i++) {
-      var midPoint = midPointBtw(p1, p2);
-      this.context.temp.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
-      p1 = this.points[i];
-      p2 = this.points[i + 1];
+    if (!isOverButton) {
+      this.showCursor();
+    } else {
+      this.hideCursor();
     }
-    this.context.temp.lineTo(p1.x, p1.y);
-    this.context.temp.stroke();
-  }
 
-  this.mouseHasMoved = true;
-}
+    if (
+      (this.isPressing && hasChanged && !this.isDrawing) ||
+      (isDisabled && this.isPressing)
+    ) {
+      this.isDrawing = true;
+      this.points.push(this.lazy.brush.toObject());
+    }
+
+    if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
+      this.context.temp.clearRect(
+        0,
+        0,
+        this.canvas.temp.width,
+        this.canvas.temp.height
+      );
+      this.points.push(this.lazy.brush.toObject());
+
+      var p1 = this.points[0];
+      var p2 = this.points[1];
+
+      this.context.temp.moveTo(p2.x, p2.y);
+      this.context.temp.beginPath();
+      for (var i = 1, len = this.points.length; i < len; i++) {
+        var midPoint = midPointBtw(p1, p2);
+        this.context.temp.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+        p1 = this.points[i];
+        p2 = this.points[i + 1];
+      }
+      this.context.temp.lineTo(p1.x, p1.y);
+      this.context.temp.stroke();
+    }
+
+    this.mouseHasMoved = true;
+  }
   handleCanvasResize(entries, observer) {
     for (const entry of entries) {
       const rect = this.canvasContainer.getBoundingClientRect();
