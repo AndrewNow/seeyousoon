@@ -137,21 +137,33 @@ const fallbackWordData = `[
   }
   .box {
     position: absolute;
-    // overflow: hidden;
     border-radius: 8px;
     background: var(--beige-300);
     border: 1px solid var(--grey-200);
     box-sizing: border-box;
-    position: relative;
-    height: 235px;
-    width: 525px;
+    padding: 1.5rem 0;
+    width: 525px; // This will be overridden by inline styles
+    // Remove fixed height
     display: grid;
     place-items: center;
   }
 
-  .box.residency {
-    height: 325px;
+  @media (max-width: 1500px) {
+    .box {
+      width: 475px;
+      // Remove fixed height
+    }
+    // Remove .box.residency
   }
+
+  @media (max-width: 576px) {
+    .box {
+      width: 250px;
+      // Remove fixed height
+    }
+    // Remove .box.residency
+  }
+
   .upcomingEvents-inner {
     height: 100%;
     width: 92.5%;
@@ -159,6 +171,16 @@ const fallbackWordData = `[
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-evenly;
+  }
+  .upcomingEvents-location-link {
+    // text-decoration: none;
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // max-width: 80%;
+    // display: inline-block;
+    // max-width: 80%;
+    // overflow: hidden;
   }
   .upcomingEvents-location-link:hover {
     opacity: 0.7;
@@ -251,6 +273,7 @@ const fallbackWordData = `[
     }
   }
   .upcomingEvents-details {
+    padding-bottom: 1rem;
     h6 {
       display: flex;
       align-items: center;
@@ -277,18 +300,6 @@ const fallbackWordData = `[
     }
   }
 
-  @media (max-width: 1500px) {
-    .box {
-      width: 475px;
-      height: 235px;
-    }
-    .box.residency {
-      height: 325px;
-    }
-    .upcomingEvents-reserve-link:after {
-      font-size: 18px;
-    }
-  }
   @media (max-width: 1280px) {
     .upcomingEvents-header {
       h3 {
@@ -323,11 +334,10 @@ const fallbackWordData = `[
 
   @media (max-width: 576px) {
     .box {
-      width: 250px;
-      height: 190px;
+      padding: 1rem 0;
     }
-    .box.residency {
-      height: 240px;
+    .upcomingEvents-details {
+      padding-bottom: 0.5rem;
     }
     .upcomingEvents-residency-badge {
       height: 40px;
@@ -399,10 +409,8 @@ const fallbackWordData = `[
     wordData = JSON.parse(containerEl.getAttribute("data-words-fallback"));
   }
 
-  // declare box height/widths
+  // declare box width
   let BOX_WIDTH = 525;
-  let BOX_HEIGHT = 235;
-  let RESIDENCY_BOX_HEIGHT = 325;
   // declare word height/widths
   let WORD_HEIGHT;
   let WORD_WIDTH;
@@ -447,21 +455,14 @@ const fallbackWordData = `[
   const init = () => {
     if (window.innerWidth >= 1440) {
       BOX_WIDTH = 525;
-      BOX_HEIGHT = 235;
-      RESIDENCY_BOX_HEIGHT = 325;
-
       WORD_HEIGHT = WORD_HEIGHT_ARR_L;
       WORD_WIDTH = WORD_WIDTH_ARR_L;
     } else if (window.innerWidth >= 576) {
       BOX_WIDTH = 475;
-      BOX_HEIGHT = 235;
-      RESIDENCY_BOX_HEIGHT = 325;
       WORD_HEIGHT = WORD_HEIGHT_ARR_M;
       WORD_WIDTH = WORD_WIDTH_ARR_M;
     } else {
       BOX_WIDTH = 250;
-      BOX_HEIGHT = 190;
-      RESIDENCY_BOX_HEIGHT = 240;
       WORD_HEIGHT = WORD_HEIGHT_ARR_S;
       WORD_WIDTH = WORD_WIDTH_ARR_S;
     }
@@ -533,49 +534,52 @@ const fallbackWordData = `[
     // ===============================================================
     // ===============================================================
     // ===============================================================
-    wordData.forEach((wordEntry, i) => {
-      const existingWordBox = wordBoxArr.find(
-        (wordBox) => wordBox.wordBoxData.label === `wordBox${i}`
-      );
+    // Only create word boxes if there are fewer than 3 event boxes
+    if (data.length < 3) {
+      wordData.forEach((wordEntry, i) => {
+        const existingWordBox = wordBoxArr.find(
+          (wordBox) => wordBox.wordBoxData.label === `wordBox${i}`
+        );
 
-      if (!existingWordBox) {
-        const randomX = 1.75 + Math.random() * 0.5;
-        const isPositive = Math.random() < 0.5;
+        if (!existingWordBox) {
+          const randomX = 1.75 + Math.random() * 0.5;
+          const isPositive = Math.random() < 0.5;
 
-        let randomAngle;
-        if (window.innerWidth > 576) {
-          randomAngle = isPositive ? 3.0 + Math.random() : -3.0 - Math.random();
-        } else {
-          randomAngle = isPositive ? 5.0 + Math.random() : 5.0 - Math.random();
-        }
-
-        const wordBoxData = Matter.Bodies.rectangle(
-          containerEl.offsetWidth / randomX,
-          -containerEl.offsetHeight / 2,
-          WORD_WIDTH[wordEntry.word],
-          WORD_HEIGHT[wordEntry.word],
-          {
-            angle: Math.PI / randomAngle,
-            label: `wordBox${i}`,
-            restitution: 0.5,
-            mass: 50,
-            // torque: 0.5,
-            friction: 0.0125,
-            density: 0.05,
-            // frictionAir: 0.02,
-            render: { fillStyle: "transparent" },
+          let randomAngle;
+          if (window.innerWidth > 576) {
+            randomAngle = isPositive ? 3.0 + Math.random() : -3.0 - Math.random();
+          } else {
+            randomAngle = isPositive ? 5.0 + Math.random() : 5.0 - Math.random();
           }
-        );
-        wordBoxArr.push({ wordBoxData, wordEntry });
 
-        setTimeout(
-          () => {
-            Matter.Composite.add(engine.world, wordBoxData);
-          },
-          750 * (i + 1)
-        );
-      }
-    });
+          const wordBoxData = Matter.Bodies.rectangle(
+            containerEl.offsetWidth / randomX,
+            -containerEl.offsetHeight / 2,
+            WORD_WIDTH[wordEntry.word],
+            WORD_HEIGHT[wordEntry.word],
+            {
+              angle: Math.PI / randomAngle,
+              label: `wordBox${i}`,
+              restitution: 0.5,
+              mass: 50,
+              // torque: 0.5,
+              friction: 0.0125,
+              density: 0.05,
+              // frictionAir: 0.02,
+              render: { fillStyle: "transparent" },
+            }
+          );
+          wordBoxArr.push({ wordBoxData, wordEntry });
+
+          setTimeout(
+            () => {
+              Matter.Composite.add(engine.world, wordBoxData);
+            },
+            750 * (i + 1)
+          );
+        }
+      });
+    }
 
     data.forEach((cmsEntry, i) => {
       const existingBox = boxArr.find((box) => box.boxData.label === `box${i}`);
@@ -591,11 +595,20 @@ const fallbackWordData = `[
           randomAngle = isPositive ? 5.0 + Math.random() : 5.0 - Math.random();
         }
 
-        let calculatedBoxHeight = BOX_HEIGHT;
+        // Create a temporary div to calculate the height
+        const tempDiv = document.createElement("div");
+        tempDiv.className = cmsEntry.isResidency ? "box residency" : "box";
+        tempDiv.style.width = `${BOX_WIDTH}px`;
+        tempDiv.style.position = "absolute";
+        tempDiv.style.visibility = "hidden";
+        tempDiv.innerHTML = createBoxContent(cmsEntry);
+        document.body.appendChild(tempDiv);
 
-        if (cmsEntry.isResidency) {
-          calculatedBoxHeight = RESIDENCY_BOX_HEIGHT;
-        }
+        // Get the calculated height
+        const calculatedBoxHeight = tempDiv.offsetHeight;
+
+        // Remove the temporary div
+        document.body.removeChild(tempDiv);
 
         const boxData = Matter.Bodies.rectangle(
           containerEl.offsetWidth / randomX,
@@ -607,14 +620,12 @@ const fallbackWordData = `[
             label: `box${i}`,
             restitution: 0.25,
             mass: 200,
-            // torque: 0.5,
             friction: 0.125,
             slop: 1,
-            // frictionAir: 0.02,
             render: { fillStyle: "transparent" },
           }
         );
-        boxArr.push({ boxData, cmsEntry });
+        boxArr.push({ boxData, cmsEntry, calculatedBoxHeight });
 
         setTimeout(
           () => {
@@ -659,24 +670,26 @@ const fallbackWordData = `[
     // ===============================================================
     // ===============================================================
 
-    // create and update word boxes
-    wordBoxArr.forEach((word, i) => {
-      createHtmlWordBox(
-        `wordBox${i}`,
-        word.wordBoxData.position.x,
-        word.wordBoxData.position.y,
-        word.wordEntry
-      );
-
-      Matter.Events.on(runner, "afterUpdate", function () {
-        updateHtmlWordBox(
+    // Only create and update word boxes if there are fewer than 3 event boxes
+    if (data.length < 3) {
+      wordBoxArr.forEach((word, i) => {
+        createHtmlWordBox(
           `wordBox${i}`,
-          word.wordBoxData.position,
-          word.wordBoxData.angle,
+          word.wordBoxData.position.x,
+          word.wordBoxData.position.y,
           word.wordEntry
         );
+
+        Matter.Events.on(runner, "afterUpdate", function () {
+          updateHtmlWordBox(
+            `wordBox${i}`,
+            word.wordBoxData.position,
+            word.wordBoxData.angle,
+            word.wordEntry
+          );
+        });
       });
-    });
+    }
 
     // create and update boxes
     boxArr.forEach((box, i) => {
@@ -684,19 +697,16 @@ const fallbackWordData = `[
         `box${i}`,
         box.boxData.position.x,
         box.boxData.position.y,
-        box.cmsEntry
+        box.cmsEntry,
+        box.calculatedBoxHeight
       );
 
       Matter.Events.on(runner, "afterUpdate", function () {
-        let calculatedBoxHeight = BOX_HEIGHT;
-        if (box.cmsEntry.isResidency) {
-          calculatedBoxHeight = RESIDENCY_BOX_HEIGHT;
-        }
         updateHtmlBox(
           `box${i}`,
           box.boxData.position,
           box.boxData.angle,
-          calculatedBoxHeight
+          box.calculatedBoxHeight
         );
       });
     });
@@ -744,10 +754,13 @@ const fallbackWordData = `[
       box.remove();
     });
 
-    const htmlWordBoxes = document.querySelectorAll(".wordBox");
-    htmlWordBoxes.forEach((word) => {
-      word.remove();
-    });
+    // Only remove word boxes if there were fewer than 3 event boxes
+    if (data.length < 3) {
+      const htmlWordBoxes = document.querySelectorAll(".wordBox");
+      htmlWordBoxes.forEach((word) => {
+        word.remove();
+      });
+    }
 
     const canvas = containerEl.querySelector("canvas");
     if (canvas) {
@@ -781,19 +794,22 @@ const fallbackWordData = `[
     containerEl.appendChild(htmlWordBox);
   }
 
-  function createHtmlBox(id, x, y, cmsEntry) {
+  function createHtmlBox(id, x, y, cmsEntry, calculatedBoxHeight) {
     const htmlBox = document.createElement("div");
     htmlBox.id = id;
     htmlBox.className = cmsEntry.isResidency ? "box residency" : "box";
     htmlBox.style.width = `${BOX_WIDTH}px`;
-    htmlBox.style.height = cmsEntry.isResidency
-      ? `${RESIDENCY_BOX_HEIGHT}px`
-      : `${BOX_HEIGHT}px`;
+    htmlBox.style.height = `${calculatedBoxHeight}px`;
     htmlBox.style.left = `${x - BOX_WIDTH / 2}px`;
-    htmlBox.style.top = `${y - BOX_HEIGHT / 2}px`;
+    htmlBox.style.top = `${y - calculatedBoxHeight / 2}px`;
     htmlBox.style.position = "absolute";
     htmlBox.style.zIndex = "1";
 
+    htmlBox.innerHTML = createBoxContent(cmsEntry);
+    containerEl.appendChild(htmlBox);
+  }
+
+  function createBoxContent(cmsEntry) {
     function formatDate(inputDate) {
       const dateObject = new Date(inputDate);
       const options = { month: "long", day: "numeric" };
@@ -861,17 +877,18 @@ const fallbackWordData = `[
         <p>Coming soon!</p>
       </a>`;
 
-    htmlBox.innerHTML = `
-    <div class='upcomingEvents-inner'>
-      <div class='upcomingEvents-header'>
-        ${
-          cmsEntry.isResidency
-            ? `<p class="upcomingEvents-residency-badge">
-                Residency
-              </p>`
-            : ""
-        }
-        <h3>${cmsEntry.title}</h3>
+    return `
+      <div class='upcomingEvents-inner'>
+        <div class='upcomingEvents-header'>
+          ${
+            cmsEntry.isResidency
+              ? `<p class="upcomingEvents-residency-badge">
+                  Residency
+                </p>`
+              : ""
+          }
+          <h3>${cmsEntry.title}</h3>
+        </div>
         <div class='upcomingEvents-details'>
           <h6>
             <span class='svg-wrapper'>
@@ -894,11 +911,9 @@ const fallbackWordData = `[
             </a>
           </h6>
         </div>
+        ${upcomingEventsReserveLink}
       </div>
-      ${upcomingEventsReserveLink}
-    </div>
-  `;
-    containerEl.appendChild(htmlBox);
+    `;
   }
 
   function updateHtmlWordBox(id, position, angle, wordEntry) {
