@@ -157,53 +157,146 @@ const formattedDateRange = formatRange(startDate, endDate);
 
   <script>
     import { animate } from "motion";
+    import EmblaCarousel from "embla-carousel";
+    import AutoScroll from "embla-carousel-auto-scroll";
 
-    const wrappers = document.querySelectorAll("#pastEvent");
-
-    wrappers.forEach((item, i) => {
-      const btn = item.querySelector("#toggleAccordion");
-      const svg = item.querySelector("#accordionSVG");
-      const carousel = item.querySelector("#eventCarousel");
-      const details = item.querySelector(".upcomingEvents-details");
-      let isOpen = i === 0; // Set initial state based on index
-
-      // Set initial styles
-      if (isOpen) {
+    // Find all past event entries
+    const pastEvents = document.querySelectorAll("#pastEvent");
+    
+    // Track which event is currently open (first by default)
+    let openEventIndex = 0;
+    
+    pastEvents.forEach((event, index) => {
+      const toggleBtn = event.querySelector("#toggleAccordion");
+      const carousel = event.querySelector("#eventCarousel");
+      const svg = event.querySelector("#accordionSVG");
+      const details = event.querySelector(".upcomingEvents-details");
+      const emblaElement = event.querySelector(".embla");
+      
+      // Set up initial state
+      if (index === openEventIndex) {
+        // Open the first accordion by default
         carousel.style.height = `${carousel.scrollHeight}px`;
         carousel.style.marginBottom = "1rem";
-        svg.style.transform = "rotate(180deg)"; // Use transform instead of rotate
+        svg.style.transform = "rotate(180deg)";
         details.style.opacity = "1";
         details.style.height = `${details.scrollHeight}px`;
+        
+        // Only initialize Embla for the open accordion
+        initializeEmbla(emblaElement);
       } else {
+        // Keep others closed
         carousel.style.height = "0";
         carousel.style.marginBottom = "0";
         svg.style.transform = "rotate(0deg)";
         details.style.opacity = "0";
         details.style.height = "0";
+        // Don't initialize Embla for closed accordions
       }
-
-      btn.addEventListener("click", () => {
-        isOpen = !isOpen;
+      
+      // Add click event listener
+      toggleBtn.addEventListener("click", () => {
+        // If already open, do nothing (keep it open)
+        if (index === openEventIndex) return;
+        
+        // Otherwise, close current open accordion
+        const currentOpenEvent = pastEvents[openEventIndex];
+        const currentCarousel = currentOpenEvent.querySelector("#eventCarousel");
+        const currentSvg = currentOpenEvent.querySelector("#accordionSVG");
+        const currentDetails = currentOpenEvent.querySelector(".upcomingEvents-details");
+        const currentEmbla = currentOpenEvent.querySelector(".embla");
+        
+        // Close current open accordion
+        animate(currentCarousel, {
+          height: "0",
+          marginBottom: "0"
+        });
+        animate(currentSvg, {
+          rotate: 0
+        });
+        animate(currentDetails, {
+          height: "0",
+          opacity: 0
+        });
+        
+        // Stop current Embla if running
+        stopEmbla(currentEmbla);
+        
+        // Open clicked accordion
         animate(carousel, {
-          height: isOpen ? `${carousel.scrollHeight}px` : "0",
-          marginBottom: isOpen ? "1rem" : "0",
+          height: `${carousel.scrollHeight}px`,
+          marginBottom: "1rem"
         });
         animate(svg, {
-          rotate: isOpen ? 180 : 0,
+          rotate: 180
         });
+        
         if (window.innerWidth < 769) {
           animate(details, {
-            height: isOpen ? `${details.scrollHeight}px` : "0",
-            opacity: isOpen ? 1 : 0,
+            height: `${details.scrollHeight}px`,
+            opacity: 1
           });
         } else {
           animate(details, {
             height: "100%",
-            opacity: isOpen ? 1 : 0,
+            opacity: 1
           });
         }
+        
+        // Start Embla for this accordion
+        initializeEmbla(emblaElement);
+        
+        // Update which accordion is open
+        openEventIndex = index;
       });
     });
+    
+    // Helper function to initialize or restart Embla
+    function initializeEmbla(emblaElement) {
+      if (!emblaElement) return;
+      
+      // Define options
+      const globalOptions = {
+        loop: true,
+        dragFree: true,
+        skipSnaps: true,
+      };
+      
+      let SPEED_VALUE = 2;
+      if (window.innerWidth <= 576) {
+        SPEED_VALUE = 0.5;
+      }
+      
+      const autoScrollOptions = {
+        stopOnInteraction: true,
+        jump: false,
+        startDelay: 10,
+        speed: SPEED_VALUE,
+      };
+      
+      // Initialize or restart Embla
+      if (!emblaElement.emblaApi) {
+        const plugins = [AutoScroll(autoScrollOptions)];
+        emblaElement.emblaApi = EmblaCarousel(emblaElement, globalOptions, plugins);
+        
+        emblaElement.addEventListener("mousedown", () => {
+          emblaElement.classList.add("is-dragging");
+        });
+
+        emblaElement.addEventListener("mouseup", () => {
+          emblaElement.classList.remove("is-dragging");
+        });
+      } else {
+        // If already initialized, just restart autoScroll
+        emblaElement.emblaApi.plugins().autoScroll.play();
+      }
+    }
+    
+    // Helper function to stop Embla
+    function stopEmbla(emblaElement) {
+      if (!emblaElement || !emblaElement.emblaApi) return;
+      emblaElement.emblaApi.plugins().autoScroll.stop();
+    }
   </script>
 
   <style lang="scss">
@@ -487,45 +580,4 @@ const formattedDateRange = formatRange(startDate, endDate);
       }
     }
   </style>
-
-  <script>
-    import EmblaCarousel from "embla-carousel";
-    import AutoScroll from "embla-carousel-auto-scroll";
-
-    let SPEED_VALUE = 2;
-    if (window.innerWidth <= 576) {
-      SPEED_VALUE = 0.5;
-    }
-
-    // Define global options for EmblaCarousel and AutoScroll
-    const globalOptions = {
-      loop: true,
-      dragFree: true,
-      skipSnaps: true,
-    };
-    const autoScrollOptions = {
-      stopOnInteraction: true,
-      jump: false,
-      startDelay: 10,
-      speed: SPEED_VALUE,
-    };
-
-    // Using querySelectorAll to select all elements with the class .embla
-    const emblaNodes = document.querySelectorAll(".embla");
-
-    // Iterate through each .embla element and initialize EmblaCarousel
-    emblaNodes.forEach((emblaNode) => {
-      // Initialize EmblaCarousel with global options and AutoScroll plugin
-      const plugins = [AutoScroll(autoScrollOptions)];
-      const emblaApi = EmblaCarousel(emblaNode, globalOptions, plugins);
-
-      emblaNode.addEventListener("mousedown", () => {
-        emblaNode.classList.add("is-dragging");
-      });
-
-      emblaNode.addEventListener("mouseup", () => {
-        emblaNode.classList.remove("is-dragging");
-      });
-    });
-  </script>
 </div>
