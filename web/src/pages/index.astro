@@ -12,8 +12,7 @@ import {
   getCurrentLocation,
 } from "../sanity/api";
 import Newsletter from "../components/Newsletter.astro";
-// import About from "../components/About/About.astro";
-import NewAbout from "../components/About/NewAbout.astro";
+import About from "../components/About/About.astro";
 
 const heroImageData = await getHeroImages();
 const pastEventsData = await getPastEvents();
@@ -65,8 +64,7 @@ const currentLocationData = await getCurrentLocation();
     <UpcomingEvents data={upcomingEventsData} />
   </section>
   <section class="about">
-    <!-- <About /> -->
-    <NewAbout />
+    <About />
   </section>
   <section class="past-events">
     {pastEventsData.length && <PastEvents data={pastEventsData} />}
