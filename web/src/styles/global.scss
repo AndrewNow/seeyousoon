@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6, p, small {
 }
 
 h1 {
-  font-size: 3.333vw;
+  font-size: 2.333vw;
   line-height: 130%;
   letter-spacing: -0.02rem;
   font-family: "Bradford-Light";
@@ -125,17 +125,17 @@ small, label {
 
 @media (max-width: 1500px) {
   h1 {
-    font-size: 50px;
+    font-size: 42px;
   }
   h3 {
     font-size: 28px;
   }
- h4 {
+  h4 {
   // font-size: 32px;
- }
- h5 {
-  font-size: 26px;
- }
+  }
+  h5 {
+    font-size: 26px;
+  }
   h6 {
     font-size: 18px;
   }
@@ -145,7 +145,7 @@ small, label {
 }
 @media (max-width: 1280px) {
   h1 {
-    font-size: 42px;
+    font-size: 38px;
   }
   h3 {
     font-size: 20px;
@@ -159,7 +159,7 @@ small, label {
 }
 @media (max-width: 992px) {
   h1 {
-    font-size: 38px;
+    font-size: 32px;
   }
   h4 {
     font-size: 36px;
@@ -176,7 +176,7 @@ small, label {
 }
 @media (max-width: 576px) {
   h1 {
-    font-size: 32px;
+    font-size: 26px;
     letter-spacing: -0.02rem;
   }
   h2 {
