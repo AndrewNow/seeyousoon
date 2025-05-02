@@ -6,14 +6,19 @@ import BrushCanvas from "./BrushCanvas.astro";
   <div class="card">
     <div class="text">
       <h3 class="about-title">About us</h3>
-      <h5 class="bio active about-description max-w">
-        seeyousoon was born with the ambition to explore innovative ways of creating culinary events: from strategy and concept, to design and production.
+      <h5 class="bio active about-description">
+        seeyousoon was born with the ambition to explore innovative ways of
+        creating culinary events: from strategy and concept, to design and
+        production.
       </h5>
       <h5 class="bio about-description">
-        Alongside our creative partners and talents, we design tailor-made experiences that reinforce the emotional connection between brands and audiences.
+        Alongside our creative partners and talents, we design tailor-made
+        experiences that reinforce the emotional connection between brands and
+        audiences.
       </h5>
-      <h5 class="bio about-description max-w">
-        Inspired by fashion, art, and contemporary environments, we imagine exclusive moments to engage around our client's brand narrative.
+      <h5 class="bio about-description">
+        Inspired by fashion, art, and contemporary environments, we imagine
+        exclusive moments to engage around our client's brand narrative.
       </h5>
     </div>
     <div class="dots">
@@ -107,6 +112,7 @@ import BrushCanvas from "./BrushCanvas.astro";
     bottom: 1.5rem;
     left: 2rem;
     width: 100%;
+    max-width: calc(100vw - 4rem);
     height: 150px;
   }
   .about-title {
@@ -118,14 +124,12 @@ import BrushCanvas from "./BrushCanvas.astro";
   .about-description {
     font-size: 20px;
     line-height: 140%;
+    width: 100%;
     color: var(--beige-100);
     letter-spacing: 0.02rem;
     font-family: "Denim-regular";
   }
 
-  .max-w {
-    /* max-width: 600px; */
-  }
   .dots {
     z-index: 10;
     position: absolute;
@@ -255,7 +259,7 @@ import BrushCanvas from "./BrushCanvas.astro";
       line-height: 150%;
     }
     .bio {
-      width: 90%;
+      width: 100%;
     }
     .bio:last-of-type {
       width: 100%;
